@@ -29,37 +29,33 @@
             </div>
 
             <!-- User Menu Starts -->
-            {{--            @can('view',\App\Models\User::class)--}}
-            {{--                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">--}}
-            {{--    <span class="menu-link {{current_page('users') ? 'active' : '' }}">--}}
-            {{--        <span class="menu-icon">--}}
-            {{--            <i class="fas fa-users"></i>--}}
-            {{--        </span>--}}
-            {{--        <span class="menu-title">Users</span>--}}
-            {{--        <span class="menu-arrow"></span>--}}
-            {{--    </span>--}}
-            {{--                    <div class="menu-sub menu-sub-accordion">--}}
-            {{--                        @can('create',\App\Models\User::class)--}}
-            {{--                            <div class="menu-item">--}}
-            {{--                                <a class="menu-link" href="{{ route('users.create') }}">--}}
-            {{--                <span class="menu-bullet">--}}
-            {{--                    <span class="bullet bullet-dot"></span>--}}
-            {{--                </span>--}}
-            {{--                                    <span class="menu-title">Add User</span>--}}
-            {{--                                </a>--}}
-            {{--                            </div>--}}
-            {{--                        @endcan--}}
-            {{--                        <div class="menu-item">--}}
-            {{--                            <a class="menu-link " href="{{ route('users.index') }}">--}}
-            {{--                <span class="menu-bullet">--}}
-            {{--                    <span class="bullet bullet-dot"></span>--}}
-            {{--                </span>--}}
-            {{--                                <span class="menu-title">User Listing</span>--}}
-            {{--                            </a>--}}
-            {{--                        </div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            @endcan--}}
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <span class="menu-link {{current_page('users') ? 'active' : '' }}">
+                    <span class="menu-icon">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span class="menu-title">Users</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Add User</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link " href="{{ route('users.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">User Listing</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <!-- User Menu Ends -->
 
             <div class="menu-item">

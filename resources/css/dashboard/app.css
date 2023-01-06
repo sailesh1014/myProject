@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table td:first-child, .table th:first-child, .table tr:first-child {
+    padding-left: 7px;
+}
+
+.dataTables_wrapper #bottom {
+    justify-content: space-between;
+}
+
+
+/*Genre Selection*/
+.genre-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 30px;
+}
+
+.single-genre {
+    outline: 1px dashed #E1E3EA;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s linear;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.single-genre.active {
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    outline: 1px dashed #009ef7;
+}
+
+.single-genre.disabled {
+    pointer-events: none;
+    cursor: pointer;
+    box-shadow: none;
+    outline-color: #E1E3EA;
+}
+
+.single-genre.disabled span {
+    color: #E1E3EA !important;
+    font-weight: normal !important;
+}
+.single-genre.disabled img{
+    opacity: .4;
+}

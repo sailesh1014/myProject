@@ -6,4 +6,5 @@
 <!-- common script ends -->
 
 <script src="{{asset('assets/plugin/tinymce/tinymce.bundle.js')}}"></script>
+<script src="{{asset('assets/plugin/datatables/datatables.bundle.js')}}"></script>
 @vite('resources/js/dashboard/app.js')
