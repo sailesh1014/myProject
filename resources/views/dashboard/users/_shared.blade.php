@@ -14,7 +14,6 @@
                 if (redirect) {
                     alertifySuccessAndRedirect(resp.message, "{{route('users.index')}}");
                 } else {
-                    console.log('done');
                     alertifySuccess(resp.message);
                 }
             },

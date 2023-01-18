@@ -29,7 +29,21 @@ class RolesSeeder extends Seeder
             [
                 'name' => 'basicUser',
                 'label' => 'Basic User',
-                'description' => 'User level authorization can basic tasks',
+                'description' => 'User level authorization can perform basic tasks',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'artist',
+                'label' => 'Artist',
+                'description' => 'User level authorization can perform basic tasks',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'organizer',
+                'label' => 'Organizer',
+                'description' => 'User level authorization perform can basic tasks',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

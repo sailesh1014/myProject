@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Interfaces\GenreRepositoryInterface;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Support\Collection;
 
 
@@ -22,9 +23,9 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
         return is_array($nameList) ? $this->model->whereIn('name', $nameList)->get() : $this->model->where('name', $nameList)->first();
     }
 
-    public function addGenreToUser(array|Collection $ids)
+    public function assignGenreToUser(array|Collection $ids, User $user)
     {
-        auth()->user()->genres()->sync($ids);
+        $user->genres()->sync($ids);
     }
 
 }

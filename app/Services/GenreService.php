@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Interfaces\GenreRepositoryInterface;
+use App\Models\User;
 use Illuminate\Support\Collection;
 
 class GenreService {
@@ -21,7 +22,8 @@ class GenreService {
         return $this->genreRepository->getGenreByName($nameList);
     }
 
-    public function addGenreToUser(Collection|array $ids){
-        return $this->genreRepository->addGenreToUser($ids);
+    public function assignGenreToUser(Collection|array $ids, User $user = null){
+        if(!$user) $user = auth()->user();
+        return $this->genreRepository->assignGenreToUser($ids, $user);
     }
 }

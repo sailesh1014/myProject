@@ -23,7 +23,7 @@ class GenreController extends Controller {
     {
         $selectedGenres = $request->input('genres');
         $genreIds = $this->genreService->getGenreByName($selectedGenres)->pluck('id');
-        $this->genreService->addGenreToUser($genreIds);
+        $this->genreService->assignGenreToUser($genreIds);
 
         return response()->json(['url' => route('front.index')]);
     }
