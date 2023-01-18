@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [IndexController::class, 'index'])->name('dashboard.index');
         Route::resource('users', UserController::class);
+        Route::put('users/update-password/{user}', [UserController::class, 'updatePassword'])->name('users.update-password');
+
     });
 });
 

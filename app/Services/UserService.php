@@ -69,6 +69,15 @@ class UserService {
     }
 
 
+    public function updatePassword(array $input, $user = null): void
+    {
+        if(!$user) $user = auth()->user();
+        $input['password'] = Hash::make($input['password']);;
+        $this->userRepository->update($input, $user);
+    }
+
+
+
     public function delete(User $user): void
     {
         $this->userRepository->delete($user);

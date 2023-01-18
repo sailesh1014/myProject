@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\GenreService;
@@ -82,6 +83,13 @@ class UserController extends Controller {
         $input = $request->only(['first_name', 'last_name', 'email', 'role', 'genres']);
         $this->userService->updateUser($input, $user);
         return view('dashboard.users.show', compact('user'))->with('toast.success', 'User updated successfully');
+    }
+
+    public function updatePassword(UserPasswordRequest $request, User $user): JsonResponse
+    {
+        $input = $request->only('password');
+        $this->userService->updatePassword($input, $user);
+        return response()->json(['message' => 'Password updated successfully']);
     }
 
     public function destroy(User $user): JsonResponse

@@ -34,6 +34,9 @@
                                     class="btn btn-light-danger btn-sm ms-2">
                                 Delete
                             </button>
+                            <button type="button" class="btn btn-light-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#password-modal">
+                                Update Password
+                            </button>
                         </div>
                         <!--end::Toolbar-->
                     </div>
@@ -116,6 +119,7 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    @include('dashboard.users.partials.password-modal')
 
 @endsection
 @section('page_level_script')
