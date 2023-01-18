@@ -27,7 +27,7 @@
                             <a href="{{route('users.index')}}" class="btn btn-light-dark btn-sm">
                                 Back
                             </a>
-                            <a href="#" class="btn btn-light-primary btn-sm ms-2">
+                            <a href="{{route('users.edit', $user->id)}}" class="btn btn-light-primary btn-sm ms-2">
                                 Edit
                             </a>
                             <button type="button" onclick="confirmDelete(() => {deleteUser({{$user->id}},true)})"
@@ -80,20 +80,6 @@
                         </tr>
                         <tr>
                             <th>
-                                Selected Genres
-                            </th>
-                            <td>
-                                <ul class="list-disc pl-5">
-                                    @forelse($user->genres as $genre)
-                                        <li>{{$genre->name}}</li>
-                                    @empty
-                                        <li class="font-bold">No Genre Selected</li>
-                                    @endforelse
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
                                 Created At
                             </th>
                             <td>
@@ -103,11 +89,29 @@
                         </tbody>
                     </table>
                     <!--end::Table-->
+                    <h3 class="mb-4 pl-[7px]">User Selected Genre</h3>
+                    <div class="bg-white rounded shadow-sm p-10 mx-auto w-full">
+                        <div class="genre-list w-full">
+                            <!-- TODO: Replace env variable with config or pull it from settings -->
+                            <?php
+                                $userGenres = $user->genres->pluck('name');
+                            ?>
+                            @foreach($genres as $genre)
+                                <div data-val="{{$genre->name}}"
+                                     class="single-genre {{$userGenres->contains($genre->name) ? 'active'  : 'disabled'}}"
+                                     title="{{$genre->excerpt}}">
+                                    <img src="{{Vite::asset('resources/img/front/church.png')}}" class="h-[30px] w-[30px]"
+                                         alt="{{$genre->name}}">
+                                    <span
+                                        class="inline-block text-gray-800 fw-bold fs-6 lh-1 pointer-events-none overflow-hidden overflow-ellipsis w-full text-center">{{ucwords($genre->name)}}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <!--end::Card body-->
             </div>
             <!--end::Card-->
-
         </div>
         <!--end::Container-->
     </div>

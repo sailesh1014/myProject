@@ -22,7 +22,7 @@ class GenreService {
         return $this->genreRepository->getGenreByName($nameList);
     }
 
-    public function assignGenreToUser(Collection|array $ids, User $user = null){
+    public function assignGenreToUser(Collection|array $ids, $user = null){
         if(!$user) $user = auth()->user();
         return $this->genreRepository->assignGenreToUser($ids, $user);
     }

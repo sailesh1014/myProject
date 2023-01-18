@@ -10,7 +10,6 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="him_content_container" class="container">
-
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->

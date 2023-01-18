@@ -30,7 +30,7 @@
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                         <!--begin::Add user-->
-                        <a href="#" class="btn btn-sm btn-primary">Add</a>
+                        <a href="{{route('users.create')}}" class="btn btn-sm btn-primary">Add</a>
                         <!--end::Add user-->
                     </div>
                     <!--end::Toolbar-->

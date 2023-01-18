@@ -54,7 +54,7 @@ class UserController extends Controller {
     }
 
 
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): \Illuminate\Http\RedirectResponse
     {
         $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres']);
         $user = $this->userService->createNewUser($input);
@@ -63,21 +63,25 @@ class UserController extends Controller {
 
     public function show(User $user): View
     {
-        $user->load('genres');
-
-        return view('dashboard.users.show', compact('user'));
+        $user->load('genres', 'role');
+        $genres = $this->genreService->allGenre();
+        return view('dashboard.users.show', compact('user', 'genres'));
     }
 
 
-    public function edit($id)
+    public function edit(User $user): View
     {
-        //
+        $roles = $this->roleService->allRoles()->pluck('label', 'name');
+        $genres = $this->genreService->allGenre();
+        return view('dashboard.users.edit', compact('user', 'roles', 'genres'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        $input = $request->only(['first_name', 'last_name', 'email', 'role', 'genres']);
+        $this->userService->updateUser($input, $user);
+        return view('dashboard.users.show', compact('user'))->with('toast.success', 'User updated successfully');
     }
 
     public function destroy(User $user): JsonResponse

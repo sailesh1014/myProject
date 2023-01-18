@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Hash;
 class UserService {
 
     private UserRepositoryInterface $userRepository;
+    private RoleService $roleService;
+    private GenreService $genreService;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roleService = resolve(RoleService::class);
+        $this->genreService = resolve(GenreService::class);
     }
 
     public function paginateWithQuery(array $input): array
@@ -42,19 +46,28 @@ class UserService {
 
     public function createNewUser(array $input): object
     {
-        $roleService  = resolve(RoleService::class);
-        $genreService = resolve(GenreService::class);
-
-        $role = $roleService->getRoleByName($input['role']);
-        $genreIds = $genreService->getGenreByName($input['genres'])->pluck('id');
+        $role = $this->roleService->getRoleByName($input['role']);
+        $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
 
         $input['password'] = Hash::make($input['password']);
         $input['role_id'] = $role->id;
 
         $user = $this->userRepository->store($input);
-        $genreService->assignGenreToUser($genreIds, $user);
+        $this->genreService->assignGenreToUser($genreIds, $user);
         return $user;
     }
+
+    public function updateUser(array $input, User $user): void
+    {
+        $role = $this->roleService->getRoleByName($input['role']);
+        $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
+
+        $input['role_id'] = $role->id;
+
+        $this->userRepository->update($input, $user);
+        $this->genreService->assignGenreToUser($genreIds, $user);
+    }
+
 
     public function delete(User $user): void
     {

@@ -57,7 +57,7 @@
             <option value="">{{ __('-- Select Role --') }}</option>
             @foreach($roles as $key => $value)
                 <?php
-                if (old('role_id', $user->role_id) == $key ? 'selected' : '')
+                if (old('role', $user->role?->name) == $key ? 'selected' : '')
                 {
                     $selected = "selected";
                 } else
@@ -112,7 +112,7 @@
     <div class="bg-white rounded shadow-sm p-10 mx-auto w-full @error('genres') is-invalid @enderror">
         <div class="genre-list w-full">
             <?php
-            $oldGenre = old('genres') ?? [];
+            $oldGenre = old('genres', $user->genres?->pluck('name')->toArray());
             ?>
             <!-- TODO: Replace env variable with config or pull it from settings -->
             @foreach($genres as $genre)

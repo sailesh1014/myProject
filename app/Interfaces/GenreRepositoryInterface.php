@@ -10,5 +10,5 @@ use Illuminate\Support\Collection;
 interface GenreRepositoryInterface {
 
     public function getGenreByName(array|string $nameList);
-    public function assignGenreToUser(Collection|array $ids, User $user);
+    public function assignGenreToUser(Collection|array $ids, $user);
 }

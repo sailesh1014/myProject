@@ -23,7 +23,7 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
         return is_array($nameList) ? $this->model->whereIn('name', $nameList)->get() : $this->model->where('name', $nameList)->first();
     }
 
-    public function assignGenreToUser(array|Collection $ids, User $user)
+    public function assignGenreToUser(array|Collection $ids, $user)
     {
         $user->genres()->sync($ids);
     }
