@@ -29,7 +29,7 @@
                     @foreach($genres as $genre)
                         <div data-val="{{$genre->name}}" class="single-genre"
                              title="{{$genre->excerpt}}">
-                            <img src="{{Vite::asset('resources/img/front/church.png')}}" class="h-[30px] w-[30px]"
+                            <img src="{{asset('storage/uploads/'.$genre->symbol)}}" class="h-[30px] w-[30px]"
                                  alt="{{$genre->name}}">
                             <span
                                 class="inline-block text-gray-800 fw-bold fs-6 lh-1 pointer-events-none overflow-hidden overflow-ellipsis w-full text-center">{{ucwords($genre->name)}}</span>

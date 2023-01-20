@@ -1,13 +1,11 @@
 import.meta.glob([
     '../../img/dashboard/**',
 ]);
-// import '../../css/dashboard/app.css';
 
 $(function () {
     /** toggle password starts **/
     $('.btn-toggle-password').on('click', function () {
         let eyeSlashedIcon = $(this).find('.bi-eye-slash');
-        // console.log(eyeSlashedIcon);
         let eyeIcon = $(this).find('.bi-eye');
         if (eyeSlashedIcon.hasClass('d-none')) {
             //hide password (text to password)
@@ -22,11 +20,22 @@ $(function () {
         }
     });
     /** toggle password ends **/
+
+    /** Image close */
+    $('.hi_preview_image_close').on('click',function (e) {
+        e.preventDefault();
+        let parent_container = $(this).parent('.hi_preview_image_container');
+        parent_container.addClass('d-none');
+        parent_container.siblings("input[type='file']").val('');
+        parent_container.siblings("input[type='hidden']").val('');
+    });
+    /** Image close ends */
+
+
     window.confirmDelete = confirmDelete;
     window.removeRowFromTable = removeRowFromTable;
     window.showRowFromTable = showRowFromTable;
-
-
+    window.loadPreview = loadPreview;
 
 })
 
@@ -64,5 +73,18 @@ function removeRowFromTable(table, id) {
 function showRowFromTable(table, id) {
     $('#' + table + ' tr#' + id).show();
 }
-
 /** remove and show row ends here **/
+
+/** preview currently uploaded images on form**/
+function loadPreview(input, id) {
+    id = id || '#hi_preview_img';
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            $(id).attr('src', e.target.result);
+        };
+        input.previousElementSibling.value = 'yes';
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+

@@ -58,6 +58,36 @@
             </div>
             <!-- User Menu Ends -->
 
+            <!-- Genre Menu Starts -->
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <span class="menu-link {{current_page('genres') ? 'active' : '' }}">
+                    <span class="menu-icon">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span class="menu-title">Genres</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{route('genres.create')}}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Add Genre</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link " href="{{ route('genres.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Genre Listing</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Genre Menu Ends -->
+
             <div class="menu-item">
                 <div class="menu-content pt-8 pb-2">
                     <span class="menu-section text-muted text-uppercase fs-8 ls-1">Admin Options</span>

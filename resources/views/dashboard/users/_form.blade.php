@@ -3,7 +3,7 @@
 <div class="row g-9 mb-8">
     <!--begin::Col-->
     <div class="col-md-6 fv-row">
-        <label class="fs-6 fw-bold mb-2" for="first_name">
+        <label class="required fs-6 fw-bold mb-2" for="first_name">
             First Name
         </label>
         <input type="text" name="first_name"

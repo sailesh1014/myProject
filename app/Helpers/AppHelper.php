@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class AppHelper {
@@ -11,7 +12,7 @@ class AppHelper {
     {
         $length = $input['length'] ?? "-1";
         $start = $input['start'] ?? 0;
-        $order = $input['order'][0]['column'] ?? $columns[4];
+        $order = $input['order'][0]['column'] ?? 0;
         $dir = $input['order'][0]['dir'] ?? 'desc';
         $search = $input['search'] ? $input['search']['value'] : '';
 
@@ -79,6 +80,13 @@ class AppHelper {
         }
 
         return $query;
+    }
+
+    public static function prepareFileStoragePath(): string
+    {
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+        return "{$currentYear}/{$currentMonth}";
     }
 
 }

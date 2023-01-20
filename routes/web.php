@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\Dashboard\GenreController;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Front\GenreController;
+use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
 
 use Illuminate\Support\Facades\Route;
@@ -22,8 +23,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () { return view('welcome'); });
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/email-verified', [FrontController::class, 'emailVerified']);
-    Route::get('/select-genre', [GenreController::class, 'index'])->name('front.select-genre');
-    Route::post('/select-genre', [GenreController::class, 'store'])->name('front.store-genre');
+    Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
+    Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
@@ -31,6 +32,9 @@ Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
         Route::get('/', [IndexController::class, 'index'])->name('dashboard.index');
         Route::resource('users', UserController::class);
         Route::put('users/update-password/{user}', [UserController::class, 'updatePassword'])->name('users.update-password');
+
+        Route::resource('genres', GenreController::class);
+
 
     });
 });

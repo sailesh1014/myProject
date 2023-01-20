@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 use App\Interfaces\GenreRepositoryInterface;
 use App\Models\Genre;
-use App\Models\User;
 use Illuminate\Support\Collection;
 
 
@@ -16,6 +15,22 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
     public function __construct(Genre $model)
     {
         parent::__construct($model);
+    }
+
+    public function paginatedWithQuery($meta, $query = null ): array
+    {
+        $query = \DB::table('genres as g')
+            ->select(
+                'g.id',
+                'g.name',
+                'g.symbol',
+                'g.created_at',
+            );
+        $query->where(function($q) use($meta){
+            $q->orWhere('g.name', 'like', $meta['search'] . '%')
+                ->orWhere('g.created_at', 'like', $meta['search'] . '%');
+        });
+        return $this->offsetAndSort($query, $meta);
     }
 
     public function getGenreByName(array|string $nameList)

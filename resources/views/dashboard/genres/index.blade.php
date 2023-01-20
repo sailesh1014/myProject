@@ -30,7 +30,7 @@
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                         <!--begin::Add user-->
-                        <a href="{{route('users.create')}}" class="btn btn-sm btn-primary">Add</a>
+                        <a href="{{route('genres.create')}}" class="btn btn-sm btn-primary">Add</a>
                         <!--end::Add user-->
                     </div>
                     <!--end::Toolbar-->
@@ -41,15 +41,13 @@
             <!--begin::Card body-->
             <div class="card-body table-responsive pt-0">
                 <!--begin::Table-->
-                <table id="userDatatable" class="table w-100 align-middle table-bordered fs-6 gy-5">
+                <table id="genreDatatable" class="table w-100 align-middle table-bordered fs-6 gy-5">
                     <!--begin::Table head-->
                     <thead class="bg-light-primary text-dark">
                         <!--begin::Table row-->
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="">First Name</th>
-                            <th class="">Last Name</th>
-                            <th class="">Email</th>
-                            <th class="">Role</th>
+                            <th class="">Title</th>
+                            <th class="">Symbol</th>
                             <th class="">Created Date</th>
                             <th class="min-w-70px">Actions</th>
                         </tr>
@@ -73,13 +71,13 @@
 
 @endsection
 @section('page_level_script')
-@include('dashboard.users._shared')
+@include('dashboard.genres._shared')
 <script>
     $(document).ready(function($) {
-        let table = $('#userDatatable').DataTable({
+        let table = $('#genreDatatable').DataTable({
             "serverSide": true,
             "ajax": {
-                "url": BASE_URL + '/dashboard/users',
+                "url": BASE_URL + '/dashboard/genres',
                 "dataType": "json",
                 "type": "GET",
                 "data": {
@@ -103,16 +101,12 @@
                 }
             },
             "columns": [{
-                    "data": "first_name",
+                    "data": "title",
                 },
                 {
-                    "data": "last_name"
-                },
-                {
-                    "data": "email"
-                },
-                {
-                    "data": "role"
+                    "data": "symbol",
+                    "searchable": false,
+                    "orderable": false
                 },
                 {
                     "data": "created_at"
@@ -137,7 +131,7 @@
             "searchable": false,
             "dom": '<"top">rt<" bottom.d-md-flex.justify-content-between"lip><"clear">',
             "language": {
-                "emptyTable": "No User Found"
+                "emptyTable": "No Genre Found"
             },
         });
 
