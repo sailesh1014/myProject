@@ -55,9 +55,9 @@
         <select class="form-control form-control-solid @error('role') is-invalid @enderror"
                 name="role">
             <option value="">{{ __('-- Select Role --') }}</option>
-            @foreach($roles as $key => $value)
+            @foreach($roles as $key => $name)
                 <?php
-                if (old('role', $user->role?->name) == $key ? 'selected' : '')
+                if (old('role', $user->role?->key) == $key ? 'selected' : '')
                 {
                     $selected = "selected";
                 } else
@@ -65,7 +65,7 @@
                     $selected = '';
                 }
                 ?>
-                <option value="{{$key}}" {{ $selected }}>{{ $value }}</option>
+                <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
             @endforeach
         </select>
         @error('role')

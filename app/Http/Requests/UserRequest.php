@@ -28,7 +28,7 @@ class UserRequest extends FormRequest {
             'first_name' => ['required', 'string', 'max:191'],
             'last_name'  => ['required', 'string', 'max:191'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
-            'role'       => ['required', 'string', 'exists:roles,name'],
+            'role'       => ['required', 'string', 'exists:roles,key'],
             'genres'     => ['required', 'array', "min:$minGenreCount", "max:$maxGenreCount"],
             'genres.*'   => ['string', 'exists:genres,name'],
         ];

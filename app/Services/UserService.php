@@ -46,7 +46,7 @@ class UserService {
 
     public function createNewUser(array $input): object
     {
-        $role = $this->roleService->getRoleByName($input['role']);
+        $role = $this->roleService->getRoleByKey($input['role']);
         $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
 
         $input['password'] = Hash::make($input['password']);
@@ -59,7 +59,7 @@ class UserService {
 
     public function updateUser(array $input, User $user): void
     {
-        $role = $this->roleService->getRoleByName($input['role']);
+        $role = $this->roleService->getRoleByKey($input['role']);
         $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
 
         $input['role_id'] = $role->id;
@@ -92,7 +92,7 @@ class UserService {
     public function isAdmin(): bool
     {
         $userRole = self::getUserRole();
-        return in_array($userRole->name, [UserRole::SUPER_ADMIN, UserRole::ADMIN]);
+        return in_array($userRole->key,UserRole::ADMIN_LIST);
     }
 
 

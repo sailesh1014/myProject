@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Dashboard\GenreController;
 use App\Http\Controllers\Dashboard\IndexController;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [IndexController::class, 'index'])->name('dashboard.index');
+        Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
         Route::put('users/update-password/{user}', [UserController::class, 'updatePassword'])->name('users.update-password');
 

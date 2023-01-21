@@ -141,10 +141,10 @@
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6 capitalize">Select account type</label>
                             <div class="sm:flex flex-wrap justify-between items-center">
-                                @foreach($roles as $name => $label)
+                                @foreach($roles as $key => $name)
                                 <label class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="role" value="{{$name}}">
-                                    <span >{{$label}}</span>
+                                    <input type="radio" name="role" value="{{$key}}">
+                                    <span >{{$name}}</span>
                                 </label>
                                 @endforeach
                             </div>

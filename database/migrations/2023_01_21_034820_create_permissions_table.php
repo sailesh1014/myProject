@@ -9,17 +9,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('key',30)->unique();
-            $table->string('name',30);
-            $table->text('description')->nullable();
+            $table->string('key')->unique();
+            $table->string('name');
+            $table->text('description');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('permissions');
     }
 };

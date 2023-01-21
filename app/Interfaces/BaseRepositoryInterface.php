@@ -15,6 +15,8 @@ interface BaseRepositoryInterface
 
     public function update($input, $modelObj);
 
+    public function firstOrCreate(array $condition, array $data);
+
     public function delete(Model $modelObj): ?bool;
 
 }

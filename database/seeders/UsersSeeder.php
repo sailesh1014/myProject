@@ -5,6 +5,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Services\RoleService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,8 @@ class UsersSeeder extends Seeder {
 
     public function run(): void
     {
-        $role = Role::where('name', 'superAdmin')->first();
+        $roleService = resolve(RoleService::class);
+        $role = $roleService->getRoleByKey('superAdmin');
         User::upsert([
             [
                 'first_name'           => 'Suman',

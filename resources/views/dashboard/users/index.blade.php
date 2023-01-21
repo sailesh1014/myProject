@@ -91,7 +91,6 @@
                     if (xhr.status === 500) {
                         this.tryCount++;
                         if (this.tryCount <= this.retryLimit) {
-                            //try again
                             $.ajax(this);
                             return;
                         }

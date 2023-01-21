@@ -23,7 +23,7 @@ class CreateNewUser implements CreatesNewUsers {
             'email'                => [ 'required', 'string', 'email', 'max:255', Rule::unique(User::class)],
             'password'             => $this->passwordRules(),
             'terms_and_conditions' => ['required'],
-            'role'                 => ['required', 'string', 'exists:roles,name'],
+            'role'                 => ['required', 'string', 'exists:roles,key'],
         ], ['terms_and_conditions' => 'The :attribute must be accepted.',
             'role.required'        => 'Select least one role.'])->validate();
 

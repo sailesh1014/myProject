@@ -94,6 +94,35 @@
                 </div>
             </div>
 
+            <!-- Role Menu Starts -->
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <span class="menu-link {{current_page('roles') ? 'active' : '' }}">
+                    <span class="menu-icon">
+                        <i class="fas fa-user-tag"></i>
+                    </span>
+                    <span class="menu-title">Roles</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('roles.create') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Add Role</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('roles.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Role Listing</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Role Menu Ends -->
 
             <!-- Settings Menu Starts -->
             <div class="menu-item">

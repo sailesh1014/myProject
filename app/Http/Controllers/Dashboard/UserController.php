@@ -48,7 +48,7 @@ class UserController extends Controller {
     public function create(): View
     {
         $user = new User();
-        $roles = $this->roleService->allRoles()->pluck('label', 'name');
+        $roles = $this->roleService->allRoles()->pluck('name', 'key');
         $genres = $this->genreService->allGenre();
 
         return view('dashboard.users.create', compact('user', 'roles', 'genres'));

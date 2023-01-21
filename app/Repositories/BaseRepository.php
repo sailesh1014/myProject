@@ -51,6 +51,11 @@ class BaseRepository implements BaseRepositoryInterface
         return $modelObj->delete();
     }
 
+    public function firstOrCreate(array $condition, array $data)
+    {
+        return $this->model->firstOrCreate($condition, $data);
+    }
+
 
     public function offsetAndSort($query, $meta): array
     {

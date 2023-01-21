@@ -2,8 +2,8 @@
 
 namespace App\Constants;
 
-class UserRole
-{
+class UserRole {
+
     const ADMIN = 'admin';
 
     const BASIC_USER = 'basicUser';
@@ -14,26 +14,28 @@ class UserRole
 
     const ORGANIZER = 'organizer';
 
+    const ADMIN_LIST = [self::SUPER_ADMIN, self::ADMIN];
+
     public const LIST = [
-        self::ADMIN => [
+        self::ADMIN       => [
             'name' => 'Admin',
-            'key' => self::ADMIN,
+            'key'  => self::ADMIN,
         ],
-        self::BASIC_USER => [
+        self::BASIC_USER  => [
             'name' => 'Basic User',
-            'key' => self::BASIC_USER,
+            'key'  => self::BASIC_USER,
         ],
         self::SUPER_ADMIN => [
             'name' => 'Super Admin',
-            'key' => self::SUPER_ADMIN,
+            'key'  => self::SUPER_ADMIN,
         ],
-        self::ARTIST => [
+        self::ARTIST      => [
             'name' => 'artist',
-            'key' => self::ARTIST,
+            'key'  => self::ARTIST,
         ],
-        self::ORGANIZER => [
+        self::ORGANIZER   => [
             'name' => 'organizer',
-            'key' => self::ORGANIZER,
+            'key'  => self::ORGANIZER,
         ],
     ];
 }
