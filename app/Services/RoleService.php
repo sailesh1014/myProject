@@ -9,6 +9,8 @@ use App\Interfaces\PermissionRepositoryInterface;
 use App\Interfaces\RoleRepositoryInterface;
 use App\Repositories\PermissionRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class RoleService {
 
@@ -46,6 +48,23 @@ class RoleService {
     public function findRoleOrCreate(array $condition, array $data)
     {
         return $this->roleRepository->firstOrCreate($condition, $data);
+    }
+
+    public function createNewRole(array $input): object
+    {
+        $input['key'] = (string) Str::of(strtolower($input['name']))->camel();
+        $role = $this->roleRepository->store($input);
+        if(isset($input['permissions'])){
+            $permissionRepository = resolve(PermissionRepositoryInterface::class);
+            $permissionIds = $permissionRepository->getPermissionsIdByKey($input['permissions']);
+            self::syncPermission($role, $permissionIds);
+        }
+        return $role;
+    }
+
+    public function syncPermission($role, array $permissionIds): void
+    {
+        $this->roleRepository->syncPermissions($role, $permissionIds);
     }
 
     public function getRolePermissions(int|string $roleId): array

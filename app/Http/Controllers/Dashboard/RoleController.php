@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Services\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -38,20 +39,34 @@ class RoleController extends Controller
     public function create(): View
     {
         $role = new Role();
+        $role->load('permissions');
+        $rolePermissions = $role->permissions->pluck('key')->toArray();
         $groupedPermissions = $this->roleService->getGroupedPermissions();
-        $rolePermissions = $this->roleService->getRolePermissions("");
+
         return view('dashboard.roles.create', compact('role', 'groupedPermissions', 'rolePermissions'));
     }
 
-    public function store(RoleRequest $request): View
+    public function store(RoleRequest $request): RedirectResponse
     {
-        $role = Role::create([
-            'label' => $request->input('label'),
-            'name' => Str::of($request->input('label'))->camel(),
-            'description' => $request->input('description'),
-        ]);
-        $role->permissions()->sync($request->input('permissions'));
-        return redirect()->route('roles.show', compact('role'))->with('alert.success', 'Successfully Created !!');
+        $input = $request->only(['name', 'description', 'permissions']);
+        $role = $this->roleService->createNewRole($input);
+        return redirect()->route('roles.show', compact('role'))->with('alert.success', 'Role successfully created !!');
+    }
+
+    public function show(Role $role): View
+    {
+        $role->load('permissions');
+        $rolePermissions = $role->permissions->pluck('key')->toArray();
+        $groupedPermissions = $this->roleService->getGroupedPermissions();
+        return view('dashboard.roles.show', compact('role', 'groupedPermissions', 'rolePermissions'));
+    }
+
+    public function edit(Role $role): View
+    {
+        $role->load('permissions');
+        $rolePermissions = $role->permissions->pluck('key')->toArray();
+        $groupedPermissions = $this->roleService->getGroupedPermissions();
+        return view('dashboard.roles.edit', compact('role', 'groupedPermissions', 'rolePermissions'));
     }
 
 }

@@ -1,19 +1,10 @@
 @csrf
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 <div class="row g-9 mb-8 xd-none">
     <label class="col-md-2 col-form-label" for="label">{{ __('Name') }}</label>
     <div class="col-md-10">
-        <input type="text" name="label" class="form-control @error('label') is-invalid @enderror"
-            value="{{ old('label', $role->label) }}">
-        @error('label')
+        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            value="{{ old('name', $role->name) }}">
+        @error('name')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>
@@ -48,11 +39,11 @@
                 </div>
                 <div class="card-body pb-0 bg-soft-primary rounded">
                     <div class="row">
-                        @foreach($permissions as $key => $permission)
+                        @foreach($permissions as $permission)
                         <div class="col-md-3 {{ (count($permissions) === 1)?'':'mx-auto' }}">
                             <div class="form-group">
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input name="permissions[]" type="checkbox" value="{{$permission['key']}}" id="{{$permission['key']}}"  {{(in_array($permission['id'],$rolePermissions))?'checked':''}}"/>
+                                    <input name="permissions[]" type="checkbox" value="{{$permission['key']}}" id="{{$permission['key']}}" {{in_array($permission['key'], $rolePermissions) ?  'checked' : ''}}/>
                                     <label class="form-check-label" for="{{$permission['key']}}">
                                         {{$permission['name']}}
                                     </label>

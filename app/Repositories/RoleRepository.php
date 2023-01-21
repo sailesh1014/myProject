@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Interfaces\PermissionRepositoryInterface;
 use App\Interfaces\RoleRepositoryInterface;
+use App\Models\Permission;
 use App\Models\Role;
 
 
@@ -38,11 +40,21 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface {
     {
         if ($roleId == "") return [];
 
-        return \DB::table('permission_role')->where('role_id', $roleId)->pluck('permission_id')->toArray();
+        $permissions = \DB::table('permission_role')
+            ->select('key')
+            ->join('permissions', 'permissions.id', 'permission_role.permission_id')
+            ->where('permission_role.role_id', $roleId)->get()->toArray();
+
+        return array_column($permissions, 'key');
     }
 
     public function getRoleByKey(string $key)
     {
         return $this->model->where('key', $key)->first();
+    }
+
+    public function syncPermissions(Role $role, array $permissionIds)
+    {
+        $role->permissions()->sync($permissionIds);
     }
 }
