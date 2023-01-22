@@ -13,7 +13,8 @@ class UniqueRoleKey implements InvokableRule
     {
         $key = (string) Str::of(strtolower($value))->camel();
         $roleService = resolve(RoleService::class);
-        if($roleService->getRoleByKey($key)){
+        $role = $roleService->getRoleByKey($key);
+        if($role && $key !== $role->key){
             $fail('The :attribute has already been taken.');
         }
     }

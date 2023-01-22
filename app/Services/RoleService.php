@@ -7,6 +7,7 @@ use App\Helpers\AppHelper;
 use App\Http\Resources\RoleResource;
 use App\Interfaces\PermissionRepositoryInterface;
 use App\Interfaces\RoleRepositoryInterface;
+use App\Models\Role;
 use App\Repositories\PermissionRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -60,6 +61,31 @@ class RoleService {
             self::syncPermission($role, $permissionIds);
         }
         return $role;
+    }
+
+    public function updateRole(array $input,$role): void
+    {
+        $input['key'] = (string) Str::of(strtolower($input['name']))->camel();
+        $role = $this->roleRepository->update($input,$role);
+        if(isset($input['permissions'])){
+            $permissionRepository = resolve(PermissionRepositoryInterface::class);
+            $permissionIds = $permissionRepository->getPermissionsIdByKey($input['permissions']);
+            self::syncPermission($role, $permissionIds);
+        }
+    }
+
+    public function deleteRole(Role $role): void{
+        $this->roleRepository->delete($role);
+        //if ($role->preserved == 'yes') {
+        //    return response()->json([
+        //        'message' => 'This Role cannot be deleted',
+        //    ], 403);
+        //} else {
+        //    $role->delete();
+        //    return response()->json([
+        //        'message' => 'User Successfully Deleted',
+        //    ], 200);
+        //}
     }
 
     public function syncPermission($role, array $permissionIds): void

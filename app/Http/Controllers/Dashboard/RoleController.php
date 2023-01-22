@@ -69,4 +69,17 @@ class RoleController extends Controller
         return view('dashboard.roles.edit', compact('role', 'groupedPermissions', 'rolePermissions'));
     }
 
+    public function update(RoleRequest $request, Role $role): RedirectResponse
+    {
+        $input = $request->only(['name', 'description', 'permissions']);
+        $this->roleService->updateRole($input,$role);
+        return redirect()->route('roles.show', $role->id)->with('alert.success', 'Role Successfully Updated !!');
+    }
+
+    public function destroy(Role $role): JsonResponse
+    {
+        $this->roleService->deleteRole($role);
+        return response()->json(['message' => 'Role successfully deleted']);
+    }
+
 }
