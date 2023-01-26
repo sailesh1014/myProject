@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('key',30)->unique();
             $table->string('name',30);
+            $table->boolean('preserved')->default(0);
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -8,71 +8,30 @@ use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder {
 
+    protected static array $permissionList = ['view', 'create', 'update', 'destroy'];
+
     public function run(): void
     {
-        Permission::upsert([
-            /**
-             * User Model Related Permissions
-             */
-            [
-                'key'         => 'user-view',
-                'name'        => 'User View',
-                'description' => 'Allows to view users',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'user-create',
-                'name'        => 'User Create',
-                'description' => 'Allows to create user',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'user-update',
-                'name'        => 'User Update',
-                'description' => 'Allows to update user',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'user-destroy',
-                'name'        => 'User Destroy',
-                'description' => 'Allows to destroy user',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            /**
-             * Genre Model Related Permissions
-             */
-            [
-                'key'         => 'genre-view',
-                'name'        => 'Genre View',
-                'description' => 'Allows to view genres',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'genre-create',
-                'name'        => 'Genre Create',
-                'description' => 'Allows to create user',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'genre-update',
-                'name'        => 'Genre Update',
-                'description' => 'Allows to update genre',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'key'         => 'genre-destroy',
-                'name'        => 'Genre Destroy',
-                'description' => 'Allows to destroy user',
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-        ], ['key'], ['name', 'description', 'updated_at']);
+        $modelArr = ['user', 'genre'];
+        $modelArrLength = count($modelArr);
+        $start = 0;
+        $create  = function () use(&$create, &$start,$modelArr,$modelArrLength){
+            if($start === $modelArrLength){
+                return;
+            }
+            array_walk(self::$permissionList, function ($el) use($modelArr,$start){
+                $modal = $modelArr[$start];
+                Permission::updateOrCreate(
+                    ['key'         => "{$modal}-{$el}"],
+                    [
+                        'name'        => ucwords($modal)." ".ucwords($el),
+                        'description' => "Allows to {$el} {$modal}s",
+                    ]
+                );
+            });
+            $start++;
+            $create();
+        };
+        $create();
     }
 }

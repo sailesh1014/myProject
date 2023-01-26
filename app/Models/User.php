@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Constants\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,7 +41,19 @@ class User extends Authenticatable implements MustVerifyEmail {
 
     public function getRole()
     {
-        return $this->role->label;
+        return $this->role->name;
+    }
+
+    public function isAdmin(): bool
+    {
+        $role = $this->role->key;
+        return in_array($role, UserRole::ADMIN_LIST);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        $role = $this->role->key;
+        return $role === UserRole::SUPER_ADMIN;
     }
 
     /* Relationship */
@@ -53,4 +66,5 @@ class User extends Authenticatable implements MustVerifyEmail {
     {
         return $this->belongsToMany(Genre::class);
     }
+
 }

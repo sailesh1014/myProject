@@ -13,6 +13,6 @@ class EnsureUserHasGenre {
     {
         $user = auth()->user()->loadCount('genres');
         $userService = resolve(UserService::class);
-        return $user->genres_count || $userService->isAdmin() ? $next($request): redirect(route('front.select-genre')) ;
+        return $user->genres_count || auth()->user()->isAdmin() ? $next($request): redirect(route('front.select-genre')) ;
     }
 }

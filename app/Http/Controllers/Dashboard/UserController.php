@@ -12,6 +12,7 @@ use App\Services\RoleService;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
@@ -48,14 +49,13 @@ class UserController extends Controller {
     public function create(): View
     {
         $user = new User();
-        $roles = $this->roleService->allRoles()->pluck('name', 'key');
+        $roles = $this->roleService->getPublicRoles(auth()->user()->isSuperAdmin());
         $genres = $this->genreService->allGenre();
-
         return view('dashboard.users.create', compact('user', 'roles', 'genres'));
     }
 
 
-    public function store(UserRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(UserRequest $request): RedirectResponse
     {
         $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres']);
         $user = $this->userService->createNewUser($input);
@@ -72,17 +72,17 @@ class UserController extends Controller {
 
     public function edit(User $user): View
     {
-        $roles = $this->roleService->allRoles()->pluck('label', 'name');
+        $roles = $this->roleService->getPublicRoles(auth()->user()->isSuperAdmin());
         $genres = $this->genreService->allGenre();
         return view('dashboard.users.edit', compact('user', 'roles', 'genres'));
     }
 
 
-    public function update(UserRequest $request, User $user)
+    public function update(UserRequest $request, User $user): RedirectResponse
     {
         $input = $request->only(['first_name', 'last_name', 'email', 'role', 'genres']);
         $this->userService->updateUser($input, $user);
-        return view('dashboard.users.show', compact('user'))->with('toast.success', 'User updated successfully');
+        return redirect(route('users.show',$user->id))->with('toast.success', 'User updated successfully');
     }
 
     public function updatePassword(UserPasswordRequest $request, User $user): JsonResponse

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\User;
+use App\Services\RoleService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +21,8 @@ class UserRequest extends FormRequest {
 
     public function rules(): array
     {
+        $roleService = resolve(RoleService::class);
+        $publicRoles = $roleService->getPublicRoles(auth()->user()->isSuperAdmin());
         /* TODO: Change max and min genre count from config or setting */
         $maxGenreCount = env('MAX_USER_GENRE_COUNT');
         $minGenreCount = env('MIN_USER_GENRE_COUNT');
@@ -28,7 +31,7 @@ class UserRequest extends FormRequest {
             'first_name' => ['required', 'string', 'max:191'],
             'last_name'  => ['required', 'string', 'max:191'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
-            'role'       => ['required', 'string', 'exists:roles,key'],
+            'role'       => ['required', 'string', 'exists:roles,key', Rule::in(array_keys($publicRoles))],
             'genres'     => ['required', 'array', "min:$minGenreCount", "max:$maxGenreCount"],
             'genres.*'   => ['string', 'exists:genres,name'],
         ];

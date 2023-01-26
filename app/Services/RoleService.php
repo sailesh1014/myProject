@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\RoleResource;
 use App\Interfaces\PermissionRepositoryInterface;
@@ -55,26 +56,30 @@ class RoleService {
     {
         $input['key'] = (string) Str::of(strtolower($input['name']))->camel();
         $role = $this->roleRepository->store($input);
-        if(isset($input['permissions'])){
+        if (isset($input['permissions']))
+        {
             $permissionRepository = resolve(PermissionRepositoryInterface::class);
             $permissionIds = $permissionRepository->getPermissionsIdByKey($input['permissions']);
             self::syncPermission($role, $permissionIds);
         }
+
         return $role;
     }
 
-    public function updateRole(array $input,$role): void
+    public function updateRole(array $input, $role): void
     {
         $input['key'] = (string) Str::of(strtolower($input['name']))->camel();
-        $role = $this->roleRepository->update($input,$role);
-        if(isset($input['permissions'])){
+        $role = $this->roleRepository->update($input, $role);
+        if (isset($input['permissions']))
+        {
             $permissionRepository = resolve(PermissionRepositoryInterface::class);
             $permissionIds = $permissionRepository->getPermissionsIdByKey($input['permissions']);
             self::syncPermission($role, $permissionIds);
         }
     }
 
-    public function deleteRole(Role $role): void{
+    public function deleteRole(Role $role): void
+    {
         $this->roleRepository->delete($role);
         //if ($role->preserved == 'yes') {
         //    return response()->json([
@@ -98,14 +103,39 @@ class RoleService {
         return $this->roleRepository->getRolePermissions($roleId);
     }
 
-    public function getRoleByKey(string $key)
+    public function getRoleByKey(string|array $key)
     {
         return $this->roleRepository->getRoleByKey($key);
     }
 
+
     public function allRoles(): Collection
     {
         return $this->roleRepository->all();
+    }
+
+    //public function getPreservedRoles(bool $includeAdminRoles = true): array
+    //{
+    //    $preservedRoles = $this->roleRepository->getPreservedRoles()->pluck('name', 'key')->toArray();
+    //    if ($includeAdminRoles)
+    //    {
+    //        $adminRoles = $this->roleRepository->getRoleByKey(UserRole::ADMIN_LIST)->pluck('name', 'key')->toArray();
+    //        return  array_merge($preservedRoles,$adminRoles);
+    //    }
+    //    return $preservedRoles;
+    //}
+
+    public function getPublicRoles(bool $includeAdmin = false)
+    {
+        $preservedRoles = $this->roleRepository->getPublicRoles()->pluck('name', 'key')->toArray();
+        if (!$includeAdmin)
+        {
+            $adminList = UserRole::ADMIN_LIST;
+            array_walk($adminList, function ($key, $value) use(&$preservedRoles){
+                unset($preservedRoles[$key]);
+            });
+        }
+        return $preservedRoles;
     }
 
 

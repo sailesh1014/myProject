@@ -42,7 +42,6 @@ class RoleController extends Controller
         $role->load('permissions');
         $rolePermissions = $role->permissions->pluck('key')->toArray();
         $groupedPermissions = $this->roleService->getGroupedPermissions();
-
         return view('dashboard.roles.create', compact('role', 'groupedPermissions', 'rolePermissions'));
     }
 

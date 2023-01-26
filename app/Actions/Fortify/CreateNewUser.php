@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
+use App\Constants\UserRole;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\RoleService;
@@ -17,18 +18,20 @@ class CreateNewUser implements CreatesNewUsers {
 
     public function create(array $input): User
     {
+        $roleService = resolve(RoleService::class);
+        $publicRoles = $roleService->getPublicRoles();
         Validator::make($input, [
             'first_name'           => ['required', 'string', 'max:191'],
             'last_name'            => ['required', 'string', 'max:191'],
             'email'                => [ 'required', 'string', 'email', 'max:255', Rule::unique(User::class)],
             'password'             => $this->passwordRules(),
             'terms_and_conditions' => ['required'],
-            'role'                 => ['required', 'string', 'exists:roles,key'],
+            'role'                 => ['required', 'string', 'exists:roles,key',  Rule::In(array_keys($publicRoles))],
         ], ['terms_and_conditions' => 'The :attribute must be accepted.',
             'role.required'        => 'Select least one role.'])->validate();
 
         $roleService = resolve(RoleService::class);
-        $role = $roleService->getRoleByName($input['role']);
+        $role = $roleService->getRoleByKey($input['role']);
 
         return User::create([
             'first_name' => $input['first_name'],

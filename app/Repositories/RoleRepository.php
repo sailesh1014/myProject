@@ -48,13 +48,23 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface {
         return array_column($permissions, 'key');
     }
 
-    public function getRoleByKey(string $key)
+    public function getRoleByKey(string|array $key)
     {
-        return $this->model->where('key', $key)->first();
+        return is_array($key) ? $this->model->whereIn('key', $key)->get() :$this->model->where('key', $key)->first();
     }
 
     public function syncPermissions(Role $role, array $permissionIds)
     {
         $role->permissions()->sync($permissionIds);
+    }
+
+    public function getPreservedRoles()
+    {
+       return $this->model->where('preserved', 1)->get();
+    }
+
+    public function getPublicRoles()
+    {
+        return $this->model->where('preserved', 0)->get();
     }
 }

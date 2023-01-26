@@ -46,7 +46,7 @@ class FortifyServiceProvider extends ServiceProvider {
 
         Fortify::registerView(function () {
             $roleService = resolve(RoleService::class);
-            $roles = $roleService->allRoles()->pluck('name','key')->except(UserRole::ADMIN_LIST);
+            $roles = $roleService->getPublicRoles();
             return view('auth.register', compact('roles'));
         });
         Fortify::verifyEmailView(function () {

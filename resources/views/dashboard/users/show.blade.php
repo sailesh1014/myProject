@@ -78,7 +78,7 @@
                                 Role
                             </th>
                             <td>
-                                {{$user->role->label}}
+                                {{$user->role->name}}
                             </td>
                         </tr>
                         <tr>

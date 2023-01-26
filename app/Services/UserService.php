@@ -88,13 +88,4 @@ class UserService {
         return auth()->user()->role;
     }
 
-
-    public function isAdmin(): bool
-    {
-        $userRole = self::getUserRole();
-        return in_array($userRole->key,UserRole::ADMIN_LIST);
-    }
-
-
-
 }

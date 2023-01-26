@@ -11,7 +11,12 @@ interface RoleRepositoryInterface {
 
     public function getRolePermissions(int|string $roleId): array;
 
-    public function getRoleByKey(string $key);
+    public function getRoleByKey(string|array $key);
 
     public function syncPermissions(Role $role, array $permissionIds);
+
+    public function getPreservedRoles();
+
+    public function getPublicRoles();
+
 }
