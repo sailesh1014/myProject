@@ -5,8 +5,6 @@ namespace App\Interfaces;
 
 interface PermissionRepositoryInterface {
 
-    public function getGroupedPermissions();
+    public function getRolesByPermissionKey(string $key): array;
 
-    public function getPermissionsIdByKey(string|array $key): array|string;
-
-    }
+}

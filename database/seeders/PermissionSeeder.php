@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder {
 
-    protected static array $permissionList = ['view', 'create', 'update', 'destroy'];
+    protected static array $permissionList = ['view', 'create', 'update', 'delete'];
 
     public function run(): void
     {

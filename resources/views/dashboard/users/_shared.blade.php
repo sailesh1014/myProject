@@ -19,7 +19,8 @@
             },
             error: function (xhr) {
                 showRowFromTable(table, id);
-                const message = xhr.responseText !== "" ? xhr.responseText : "Something went wrong!!!";
+                console.log(xhr);
+                const message = xhr.responseJSON?.message !== "" ? xhr.responseJSON?.message : "Something went wrong!!!";
                 toastError(message);
             }
         });

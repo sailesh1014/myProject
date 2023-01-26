@@ -72,6 +72,7 @@ class UserController extends Controller {
 
     public function edit(User $user): View
     {
+        $this->authorize('update',$user);
         $roles = $this->roleService->getPublicRoles(auth()->user()->isSuperAdmin());
         $genres = $this->genreService->allGenre();
         return view('dashboard.users.edit', compact('user', 'roles', 'genres'));
@@ -87,13 +88,14 @@ class UserController extends Controller {
 
     public function updatePassword(UserPasswordRequest $request, User $user): JsonResponse
     {
-        $input = $request->only('password');
+        $input = $request->only('passwords');
         $this->userService->updatePassword($input, $user);
         return response()->json(['message' => 'Password updated successfully']);
     }
 
     public function destroy(User $user): JsonResponse
     {
+        $this->authorize('delete',$user);
         $this->userService->delete($user);
         return response()->json(['message' => 'User successfully deleted']);
     }

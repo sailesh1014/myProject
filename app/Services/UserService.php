@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\UserResource;
-use App\Interfaces\RoleRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Role;
 use App\Models\User;
@@ -76,16 +74,10 @@ class UserService {
         $this->userRepository->update($input, $user);
     }
 
-
-
     public function delete(User $user): void
     {
+        abort_if(auth()->user()->id === $user->id, 401, 'This action is unauthorized.');
         $this->userRepository->delete($user);
-    }
-
-    public function getUserRole(): Role
-    {
-        return auth()->user()->role;
     }
 
 }
