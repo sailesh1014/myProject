@@ -3,8 +3,10 @@
 
 <a href="{{ route('users.edit', $r->id) }}" class="btn btn-icon btn-light-primary btn-sm ml-1p"
    title="{{ __('Update') }}"><i class="fas fa-pencil-alt"></i></a>
-
+@can('update', $r->id)
 <button class="btn btn-icon btn-light-youtube btn-sm ml-1p"
         onclick="confirmDelete(() => {deleteUser({{$r->id}})})"
         title="{{ __('Destroy') }}"><i class="fas fa-trash"></i></button>
+@endCan()
+
 
