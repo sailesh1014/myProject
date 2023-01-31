@@ -7,4 +7,6 @@ interface PermissionRepositoryInterface {
 
     public function getRolesByPermissionKey(string $key): array;
 
+    public function getGroupedPermissions(): array;
+
 }

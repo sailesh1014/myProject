@@ -21,6 +21,16 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
         return $permission->roles->pluck('key')->toArray();
     }
 
+    public function getGroupedPermissions(): array
+    {
+        $permissions = $this->model->all();
+        $search_arr = ['-view', '-create', '-update', '-delete','-'];
+        $permissions->each(function ($val, $key) use ($search_arr) {
+            return $val->labelGroup = ucwords(str_replace($search_arr, "", $val->key));
+        });
+        return $permissions->groupBy('labelGroup')->sortKeys()->toArray();
+    }
+
 
     public function getPermissionByKey(string|array $key): array|string {
         if(is_array($key)){

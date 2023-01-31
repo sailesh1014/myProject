@@ -29,9 +29,11 @@
                 <div class="card-toolbar">
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+                        @can('view', \App\Models\Genre::class)
                         <!--begin::Add user-->
                         <a href="{{route('genres.create')}}" class="btn btn-sm btn-primary">Add</a>
                         <!--end::Add user-->
+                        @endcan
                     </div>
                     <!--end::Toolbar-->
                 </div>

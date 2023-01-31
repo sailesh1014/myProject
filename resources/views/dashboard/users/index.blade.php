@@ -29,9 +29,11 @@
                 <div class="card-toolbar">
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+                        @can('create', \App\Models\User::class)
                         <!--begin::Add user-->
                         <a href="{{route('users.create')}}" class="btn btn-sm btn-primary">Add</a>
                         <!--end::Add user-->
+                        @endcan
                     </div>
                     <!--end::Toolbar-->
                 </div>

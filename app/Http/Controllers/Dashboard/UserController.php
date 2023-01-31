@@ -30,6 +30,7 @@ class UserController extends Controller {
 
     public function index(Request $request): View|JsonResponse
     {
+        $this->authorize('view', User::Class);
         if (! $request->ajax())
         {
             return view('dashboard.users.index');
@@ -48,6 +49,7 @@ class UserController extends Controller {
 
     public function create(): View
     {
+        $this->authorize('create', User::Class);
         $user = new User();
         $roles = $this->roleService->getPublicRoles(auth()->user()->isSuperAdmin());
         $genres = $this->genreService->allGenre();
@@ -57,6 +59,7 @@ class UserController extends Controller {
 
     public function store(UserRequest $request): RedirectResponse
     {
+        $this->authorize('create', User::Class);
         $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres']);
         $user = $this->userService->createNewUser($input);
         return redirect(route('users.show',$user->id))->with('toast.success', 'User created successfully');
@@ -81,6 +84,7 @@ class UserController extends Controller {
 
     public function update(UserRequest $request, User $user): RedirectResponse
     {
+        $this->authorize('update',$user);
         $input = $request->only(['first_name', 'last_name', 'email', 'role', 'genres']);
         $this->userService->updateUser($input, $user);
         return redirect(route('users.show',$user->id))->with('toast.success', 'User updated successfully');
@@ -88,6 +92,7 @@ class UserController extends Controller {
 
     public function updatePassword(UserPasswordRequest $request, User $user): JsonResponse
     {
+        $this->authorize('update',$user);
         $input = $request->only('passwords');
         $this->userService->updatePassword($input, $user);
         return response()->json(['message' => 'Password updated successfully']);

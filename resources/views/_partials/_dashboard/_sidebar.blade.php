@@ -86,6 +86,7 @@
                     </div>
                 </div>
             </div>
+            @if(auth()->user()->isAdmin())
             <!-- Genre Menu Ends -->
 
             <div class="menu-item">
@@ -134,7 +135,7 @@
                 </a>
             </div>
             <!-- Settings Menu Ends -->
-
+            @endif
         </div>
         <!--end::Menu-->
     </div>

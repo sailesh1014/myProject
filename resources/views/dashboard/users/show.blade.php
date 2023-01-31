@@ -27,16 +27,20 @@
                             <a href="{{route('users.index')}}" class="btn btn-light-dark btn-sm">
                                 Back
                             </a>
+                            @can('update', $user)
                             <a href="{{route('users.edit', $user->id)}}" class="btn btn-light-primary btn-sm ms-2">
                                 Edit
                             </a>
+                            <button type="button" class="btn btn-light-info btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#password-modal">
+                                Update Password
+                            </button>
+                            @endcan
+                            @can('delete', $user)
                             <button type="button" onclick="confirmDelete(() => {deleteUser({{$user->id}},true)})"
                                     class="btn btn-light-danger btn-sm ms-2">
                                 Delete
                             </button>
-                            <button type="button" class="btn btn-light-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#password-modal">
-                                Update Password
-                            </button>
+                            @endcan
                         </div>
                         <!--end::Toolbar-->
                     </div>

@@ -29,14 +29,16 @@ class UserPolicy
     }
 
 
-    public function view(User $user, User $model):bool
+    public function view(User $user):bool
     {
-        return true;
+        $authorizedRoles = $this->permissionService->getRolesByPermissionKey('user-view');
+        return in_array($user->role->key, $authorizedRoles);
     }
 
     public function create(User $user):bool
     {
-        return true;
+        $authorizedRoles = $this->permissionService->getRolesByPermissionKey('user-create');
+        return in_array($user->role->key, $authorizedRoles);
     }
 
 

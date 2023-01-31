@@ -21,6 +21,7 @@ class GenreController extends Controller
 
     public function index(Request $request): View|JsonResponse
     {
+        $this->authorize('view', Genre::Class);
         if (!$request->ajax())
         {
             return view('dashboard.genres.index');
@@ -38,6 +39,7 @@ class GenreController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create', Genre::Class);
         $genre = new Genre();
         return view('dashboard.genres.create', compact('genre'));
     }
@@ -45,6 +47,7 @@ class GenreController extends Controller
 
     public function store(GenreRequest $request): RedirectResponse
     {
+        $this->authorize('create', Genre::Class);
         $input = $request->only(['name', 'excerpt', 'image', 'image_hidden_value']);
         $genre = $this->genreService->createNewGenre($input);
         return redirect(route('genres.show',$genre->id))->with('toast.success', 'Genre created successfully');
@@ -53,18 +56,21 @@ class GenreController extends Controller
 
     public function show(Genre $genre): View
     {
+        $this->authorize('view', Genre::Class);
         return view('dashboard.genres.show', compact('genre'));
     }
 
 
     public function edit(Genre $genre): View
     {
+        $this->authorize('update', Genre::Class);
         return view('dashboard.genres.edit', compact('genre'));
     }
 
 
     public function update(GenreRequest $request, Genre $genre): RedirectResponse
     {
+        $this->authorize('update', Genre::Class);
         $input = $request->only(['name', 'excerpt', 'image', 'image_hidden_value']);
         $this->genreService->updateGenre($input, $genre);
         return redirect(route('genres.show',$genre->id))->with('toast.success', 'Genre updated successfully');
@@ -73,6 +79,7 @@ class GenreController extends Controller
 
     public function destroy(Genre $genre): JsonResponse
     {
+        $this->authorize('destroy', Genre::Class);
         $this->genreService->delete($genre);
         return response()->json(['message' => 'Genre successfully deleted']);
     }

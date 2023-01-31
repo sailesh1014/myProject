@@ -27,13 +27,18 @@
                             <a href="{{route('genres.index')}}" class="btn btn-light-dark btn-sm">
                                 Back
                             </a>
-                            <a href="{{route('genres.edit', $genre->id)}}" class="btn btn-light-primary btn-sm ms-2">
-                                Edit
-                            </a>
-                            <button type="button" onclick="confirmDelete(() => {deleteGenre({{$genre->id}},true)})"
-                                    class="btn btn-light-danger btn-sm ms-2">
-                                Delete
-                            </button>
+                            @can('update', \App\Models\Genre::class)
+                                <a href="{{route('genres.edit', $genre->id)}}"
+                                   class="btn btn-light-primary btn-sm ms-2">
+                                    Edit
+                                </a>
+                            @endcan
+                            @can('delete', \App\Models\Genre::class)
+                                <button type="button" onclick="confirmDelete(() => {deleteGenre({{$genre->id}},true)})"
+                                        class="btn btn-light-danger btn-sm ms-2">
+                                    Delete
+                                </button>
+                            @endcan
                         </div>
                         <!--end::Toolbar-->
                     </div>
@@ -48,7 +53,7 @@
                         <tbody>
                         <tr>
                             <th>
-                                 Title
+                                Title
                             </th>
                             <td>
                                 {{ucwords($genre->name)}}
@@ -56,7 +61,7 @@
                         </tr>
                         <tr>
                             <th>
-                               Excerpt
+                                Excerpt
                             </th>
                             <td>
                                 {{$genre->excerpt}}
@@ -75,7 +80,8 @@
                                 Symbol
                             </th>
                             <td>
-                                <img alt="{{$genre->name}}" class='img-fluid hi-mw-250' src='{{asset('storage/uploads/'.$genre->symbol)}}'/>
+                                <img alt="{{$genre->name}}" class='img-fluid hi-mw-250'
+                                     src='{{asset('storage/uploads/'.$genre->symbol)}}'/>
                             </td>
                         </tr>
                         </tbody>
