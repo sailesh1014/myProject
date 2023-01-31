@@ -42,7 +42,6 @@ class UserPolicy
 
     public function update(User $user, User $model):bool
     {
-        dd('test');
         if(!$this->initialCheck($user,$model)) return false;
         $authorizedRoles = $this->permissionService->getRolesByPermissionKey('user-update');
         return in_array($user->role->key, $authorizedRoles);

@@ -24,6 +24,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 'u.id',
                 'u.first_name',
                 'u.last_name',
+                'u.role_id',
                 'u.email',
                 'u.created_at',
                 'r.name as role'

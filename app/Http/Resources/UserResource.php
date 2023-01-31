@@ -16,6 +16,7 @@ class UserResource extends JsonResource {
             'last_name'  => $this->last_name,
             'email'      => $this->email,
             'role'       => $this->role,
+            'role_id'    => $this->role_id,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
             'action'     => \View::make('dashboard.users._action')->with('r',$this)->render(),
         ];
