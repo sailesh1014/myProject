@@ -32,10 +32,10 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
     }
 
 
-    public function getPermissionByKey(string|array $key): array|string {
+    public function getPermissionIdByKey(string|array $key): array|string {
         if(is_array($key)){
-            return $this->model->whereIn('key', $key)->pluck('key')->toArray();
+            return $this->model->whereIn('key', $key)->pluck('id')->toArray();
         }
-        return $this->model->where('key', $key)->first()->key;
+        return $this->model->where('key', $key)->first()->id;
     }
 }

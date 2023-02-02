@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
@@ -11,12 +12,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
     public function __construct(protected RoleService $roleService)
     {
+        $superAdmin = UserRole::SUPER_ADMIN;
+        $this->middleware("isAdmin:$superAdmin");
     }
 
     public function index(Request $request): View|JsonResponse

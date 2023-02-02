@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            @if(auth()->user()->isAdmin())
+            @if(auth()->user()->isSuperAdmin())
             <!-- Genre Menu Ends -->
 
             <div class="menu-item">
