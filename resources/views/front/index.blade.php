@@ -21,6 +21,18 @@
         </style>
     </head>
     <body class="antialiased">
+    <div class="menu-item px-5">
+        <a href="#" class="menu-link px-5" onclick="
+                    event.preventDefault();
+                    document.getElementById('dashboard-logout').submit();
+                    ">
+            <span>Logout</span>
+            <i class="fe-log-out"></i>
+        </a>
+        <form id="dashboard-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">

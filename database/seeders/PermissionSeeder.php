@@ -12,7 +12,7 @@ class PermissionSeeder extends Seeder {
 
     public function run(): void
     {
-        $modelArr = ['user', 'genre'];
+        $modelArr = ['user', 'genre', 'event'];
         $modelArrLength = count($modelArr);
         $start = 0;
         $create  = function () use(&$create, &$start,$modelArr,$modelArrLength){

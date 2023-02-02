@@ -59,7 +59,7 @@ class RoleService {
         if (isset($input['permissions']))
         {
             $permissionRepository = resolve(PermissionRepositoryInterface::class);
-            $permissionIds = $permissionRepository->getPermissionsIdByKey($input['permissions']);
+            $permissionIds = $permissionRepository->getPermissionIdByKey($input['permissions']);
             self::syncPermission($role, $permissionIds);
         }
 
