@@ -24,6 +24,6 @@ class GenreController extends Controller {
         $selectedGenres = $request->input('genres');
         $genreIds = $this->genreService->getGenreByName($selectedGenres)->pluck('id');
         $this->genreService->assignGenreToUser($genreIds);
-        return response()->json(['url' => route('front.index')]);
+        return response()->json(['url' => get_user_home_page()]);
     }
 }

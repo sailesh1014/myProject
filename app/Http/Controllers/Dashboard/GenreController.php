@@ -16,7 +16,6 @@ class GenreController extends Controller
 {
 
     public function __construct(protected GenreService $genreService){
-
     }
 
     public function index(Request $request): View|JsonResponse
