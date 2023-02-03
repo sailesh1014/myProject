@@ -28,11 +28,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
 });
 
-Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::group(['middleware' => 'canAccessDashboard'], function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-        });
+
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
         Route::group(['middleware' => 'isAdmin'], function () {
             Route::resource('roles', RoleController::class);
             Route::resource('users', UserController::class);
