@@ -1,6 +1,7 @@
 import.meta.glob([
     '../../img/dashboard/**',
 ]);
+import flatpickr from "flatpickr";
 
 $(function () {
     /** toggle password starts **/
@@ -31,11 +32,11 @@ $(function () {
     });
     /** Image close ends */
 
-
     window.confirmDelete = confirmDelete;
     window.removeRowFromTable = removeRowFromTable;
     window.showRowFromTable = showRowFromTable;
     window.loadPreview = loadPreview;
+
 
 })
 

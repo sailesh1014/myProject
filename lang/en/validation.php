@@ -171,6 +171,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'fee' => 'Entry fee',
+    ],
 
 ];

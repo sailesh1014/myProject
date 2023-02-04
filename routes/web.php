@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\Dashboard\EventController;
 use App\Http\Controllers\Dashboard\GenreController;
 use App\Http\Controllers\Dashboard\IndexController as DashboardController;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -32,6 +33,10 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
     Route::group(['prefix' => 'dashboard'], function () {
 
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('events/index', [EventController::class, 'index'])->name('events.index');
+        Route::get('events/create', [EventController::class, 'create'])->name('events.create');
+        Route::post('events/store', [EventController::class, 'store'])->name('events.store');
+
 
         Route::group(['middleware' => 'isAdmin'], function () {
             Route::resource('roles', RoleController::class);

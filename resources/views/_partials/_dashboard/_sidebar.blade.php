@@ -28,9 +28,10 @@
                 </div>
             </div>
 
+            @can('view', \App\Models\Event::class)
             <!-- Event Menu Starts -->
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                <span class="menu-link {{current_page('genres') ? 'active' : '' }}">
+                <span class="menu-link {{current_page('events') ? 'active' : '' }}">
                     <span class="menu-icon">
                         <i class="fas fa-theater-masks"></i>
                     </span>
@@ -39,7 +40,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link" href="{{route('genres.create')}}">
+                        <a class="menu-link" href="{{route('events.create')}}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -47,7 +48,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link " href="{{ route('genres.index') }}">
+                        <a class="menu-link " href="{{ route('events.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -57,8 +58,9 @@
                 </div>
             </div>
             <!-- Event Menu Ends -->
+            @endcan
 
-            @can('view', \App\Models\Genre::class)
+                @can('view', \App\Models\Genre::class)
                 <!-- Genre Menu Starts -->
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link {{current_page('genres') ? 'active' : '' }}">

@@ -1,5 +1,7 @@
 <?php
 
+use App\Constants\UserRole;
+
 if (!function_exists('p')) {
     function p($r): void
     {
@@ -41,7 +43,7 @@ if(!function_exists('get_homePage')){
     function get_user_home_page(): string{
         $user = auth()->user();
         if(!$user){abort('401');}
-        return in_array($user->role->key, [...\App\Constants\UserRole::ADMIN_LIST, \App\Constants\UserRole::ORGANIZER, \App\Constants\UserRole::ARTIST]) ? route('dashboard.index') : route('front.index');
+        return in_array($user->role->key, [...UserRole::ADMIN_LIST, UserRole::ORGANIZER,]) ? route('dashboard.index') : route('front.index');
     }
 }
 

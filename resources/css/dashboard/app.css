@@ -54,6 +54,7 @@
     color: #fff;
 }
 
+
 /* Genre Selection */
 .genre-list {
     display: grid;
@@ -105,4 +106,43 @@
 }
 .individual-permission.card > .card-body {
     padding: 0.5rem 0 0 0;
+}
+/*Dropzone css*/
+.dz-progress,
+.dz-details,
+.dz-error-mark,
+.dz-error-message{
+    display: none !important;
+}
+.dropzone .dz-preview:hover .dz-image img{
+    filter: blur(0);
+    transform: unset;
+}
+
+
+/*Invalid feedback*/
+.invalid-feedback.show{
+    display: block;
+}
+
+/*Event thumbnail image */
+.image-input-wrapper img{
+    opacity: 0;
+}
+
+.image-input-wrapper img.show{
+    opacity: 1;
+}
+
+.cancel-image.hidden{
+    display: none;
+}
+
+
+#event_thumbnail_input{
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
 }
