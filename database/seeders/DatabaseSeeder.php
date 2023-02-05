@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder {
             GenreSeeder::class,
             UsersSeeder::class,
             PermissionSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }
