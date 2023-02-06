@@ -18,7 +18,7 @@
                 <div class="image-input image-input-outline" id="event_thumbnail">
                     <!--begin::Image preview wrapper-->
                     <div class="image-input-wrapper hi_preview_image_container">
-                        <img src="{{ empty($event->thumbnail) ? '' : asset('storage/uploads/' . $event->thumbnail) }}"
+                        <img src="{{ empty($event->thumbnail) ? '' : asset('storage/uploads/'.$event->thumbnail) }}"
                              class="img-fluid {{$event->thumbnail ? 'show' : ''}} w-full h-full object-cover object-center" alt="image preview">
                         <!--begin::Remove button-->
                         <span
@@ -39,7 +39,7 @@
                         <i class="bi bi-pencil-fill fs-7"></i>
 
                         <!--begin::Inputs-->
-                        <input type="hidden" name="images_hidden_value" class="thumbnail_hidden_value" value="{{$event->thumbnail}}">
+                        <input type="hidden" name="thumbnail_hidden_value" class="thumbnail_hidden_value" value="{{$event->thumbnail}}">
                         <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" id="event_thumbnail_input" value="{{$event->thumbnail}}"/>
                         <!--end::Inputs-->
                     </label>
