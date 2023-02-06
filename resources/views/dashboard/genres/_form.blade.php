@@ -45,13 +45,18 @@
         <input type="hidden" name="image_hidden_value" class="image_hidden_value"
                value="{{ old('image', $genre->symbol) }}">
         <input type="file" name="image" onchange="loadPreview(this);"
-               class="form-control form-control-solid @error('image') is-invalid @enderror" id="image"
+               class="form-control form-control-solid mb-4 @error('image') is-invalid @enderror" id="image"
                value="{{ old('image', $genre->symbol) }}" />
         <div class="hi_preview_image_container {{ empty($genre->symbol) ? 'd-none' : '' }}">
             <img id="hi_preview_img"
                  src="{{ empty($genre->symbol) ? '' : asset('storage/uploads/' . $genre->symbol) }}"
-                 class="img-fluid " />
-            <a href="!#" class="hi_preview_image_close"><i class="fas fa-times"></i></a>
+                 class="img-fluid object-cover h-full w-full object-center" />
+            <span
+                class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary hi_preview_image_close w-25px h-25px bg-body shadow absolute"
+                data-bs-toggle="tooltip"
+                title="Remove image">
+                        <i class="bi bi-x fs-2"></i>
+            </span>
         </div>
         @error('image')
         <span class="invalid-feedback" role="alert">

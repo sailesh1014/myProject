@@ -1,6 +1,3 @@
-<!--begin::Form-->
-<form class="form d-flex flex-column flex-lg-row" action="{{route('events.store')}}" enctype="multipart/form-data"
-      method="POST" id="event_form">
     @csrf
     <!--begin::Aside column-->
     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
@@ -10,7 +7,7 @@
             <div class="card-header">
                 <!--begin::Card title-->
                 <div class="card-title">
-                    <h2>Thumbnail</h2>
+                    <h2 class="required">Thumbnail</h2>
                 </div>
                 <!--end::Card title-->
             </div>
@@ -20,11 +17,19 @@
                 <!--begin::Image input-->
                 <div class="image-input image-input-outline" id="event_thumbnail">
                     <!--begin::Image preview wrapper-->
-                    <div class="image-input-wrapper w-125px h-125px">
-                        <img src="" class="img-fluid w-full h-full object-cover object-center" alt="image preview">
+                    <div class="image-input-wrapper hi_preview_image_container">
+                        <img src="{{ empty($event->thumbnail) ? '' : asset('storage/uploads/' . $event->thumbnail) }}"
+                             class="img-fluid {{$event->thumbnail ? 'show' : ''}} w-full h-full object-cover object-center" alt="image preview">
+                        <!--begin::Remove button-->
+                        <span
+                            class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow cancel-image {{$event->thumbnail ? '' : 'hidden'}} absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2"
+                            data-bs-toggle="tooltip"
+                            title="Remove thumbnail">
+                        <i class="bi bi-x fs-2"></i>
+                    </span>
+                        <!--end::Remove button-->
                     </div>
                     <!--end::Image preview wrapper-->
-
                     <!--begin::Edit button-->
                     <label
                         class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow change-image absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
@@ -34,19 +39,11 @@
                         <i class="bi bi-pencil-fill fs-7"></i>
 
                         <!--begin::Inputs-->
-                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" id="event_thumbnail_input"/>
+                        <input type="hidden" name="images_hidden_value" class="thumbnail_hidden_value" value="{{$event->thumbnail}}">
+                        <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" id="event_thumbnail_input" value="{{$event->thumbnail}}"/>
                         <!--end::Inputs-->
                     </label>
                     <!--end::Edit button-->
-
-                    <!--begin::Remove button-->
-                    <span
-                        class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow cancel-image hidden absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2"
-                        data-bs-toggle="tooltip"
-                        title="Remove thumbnail">
-                        <i class="bi bi-x fs-2"></i>
-                    </span>
-                    <!--end::Remove button-->
                 </div>
                 <span class="invalid-feedback thumbnail" role="alert">
 
@@ -62,7 +59,7 @@
             <div class="card-header">
                 <!--begin::Card title-->
                 <div class="card-title">
-                    <h2>Status</h2>
+                    <h2 class="required">Status</h2>
                 </div>
                 <!--end::Card title-->
                 <!--begin::Card toolbar-->
@@ -96,13 +93,37 @@
             <!--end::Card body-->
         </div>
         <!--end::Status-->
+        <!--begin::Location-->
+        <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <h2 class="required">Location</h2>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+                <!--begin::location-->
+                <input type="text" name="location" class="form-control mb-2" placeholder="Event Location" id="location"
+                       value="{{$event->location}}"/>
+                <span class="invalid-feedback location" role="alert">
+
+                </span>
+                <!--end::location-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Location-->
         <!--begin::Weekly sales-->
         <div class="card card-flush py-4">
             <!--begin::Card header-->
             <div class="card-header">
                 <!--begin::Card title-->
                 <div class="card-title">
-                    <h2>Event Date</h2>
+                    <h2 class="required">Event Date</h2>
                 </div>
                 <!--end::Card title-->
             </div>
@@ -136,11 +157,11 @@
                         <!--begin::Input group-->
                         <div class="mb-10 fv-row">
                             <!--begin::Label-->
-                            <label class="required form-label">Event Title</label>
+                            <label for="event-title" class="required form-label">Event Title</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="title" class="form-control mb-2" placeholder="Event Title"
-                                   value="{{$event->title}}"/>
+                                   value="{{$event->title}}" id="event-title"/>
                             <span class="invalid-feedback title" role="alert">
                                 </span>
                             <!--end::Input-->
@@ -149,10 +170,10 @@
                         <!--begin::Input group-->
                         <div class="mb-10 fv-row">
                             <!--begin::Label-->
-                            <label class="required form-label">Excerpt</label>
+                            <label for="excerpt" class="required form-label">Excerpt</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="excerpt" class="form-control mb-2" placeholder="Excerpt"
+                            <input type="text" name="excerpt" class="form-control mb-2" placeholder="Excerpt" id="excerpt"
                                    value="{{$event->excerpt}}"/>
                             <span class="invalid-feedback excerpt" role="alert">
                                 </span>
@@ -162,11 +183,11 @@
                         <!--begin::Input group-->
                         <div>
                             <!--begin::Label-->
-                            <label class="form-label" for="event_description">Description</label>
+                            <label class="form-label required" for="event_description">Description</label>
                             <!--end::Label-->
                             <!--begin::Editor-->
                             <textarea id="event_description"
-                                      name="description">{{$event->decription}}</textarea>
+                                      name="description">{{$event->description}}</textarea>
                             <span class="invalid-feedback description" role="alert">
                                 </span>
                             <!--end::Editor-->
@@ -181,7 +202,7 @@
                     <!--begin::Card header-->
                     <div class="card-header">
                         <div class="card-title">
-                            <h2 class="required">Images</h2>
+                            <h2>Images</h2>
                         </div>
                     </div>
                     <!--end::Card header-->
@@ -228,7 +249,7 @@
                         <!--begin::Input group-->
                         <div class="mb-10 fv-row">
                             <!--begin::Label-->
-                            <label class="required form-label" for="fee">Entry Price</label>
+                            <label class="required form-label" for="fee">Entry Fee</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="fee" id="fee" class="form-control mb-2" placeholder="Entry Fee"
@@ -253,17 +274,13 @@
             <!--end::Button-->
             <!--begin::Button-->
             <button type="submit" id="event_submit" class="btn btn-primary">
-                <span class="indicator-label">Save Changes</span>
-                <span class="indicator-progress">Please wait...
-													<span
-                                                        class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                <span class="indicator-label">{{$buttonText}}</span>
+                <span class="indicator-progress">Please wait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
             </button>
             <!--end::Button-->
         </div>
     </div>
     <!--end::Main column-->
-</form>
-<!--end::Form-->
 @section('page_level_script')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -280,7 +297,7 @@
             const myDropzone = new Dropzone("#event_images", {
                 url: url,
                 autoProcessQueue: false,
-                paramName: "image",
+                paramName: "images",
                 maxFiles: 3,
                 maxFilesize: 3,
                 parallelUploads: 3,
@@ -305,7 +322,6 @@
                         $.each(_dropzone.files, function (i, file) {
                             file.status = Dropzone.QUEUED
                         });
-                        console.log(message);
                         if (errors) {
                             processEventFormError(errors)
                         }else{
@@ -315,6 +331,9 @@
                     this.on('complete', function (file) {
                         submitButton.attr("data-kt-indicator", "off");
                     });
+                    this.on('success', function (file) {
+                        toastSuccess('Success');
+                    });
                 }
             });
             myDropzone.on("maxfilesexceeded", function (file) {
@@ -323,9 +342,13 @@
             });
 
             /** Event date time */
+            const today = new Date();
+            let tomorrow =  new Date()
+            tomorrow.setDate(today.getDate() + 1)
             $("#event_date").flatpickr({
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
+                minDate: tomorrow,
             });
 
             /** Status indicator */
@@ -361,9 +384,11 @@
             });
 
             $('.cancel-image').on('click', function () {
-                const imageWrapper = $(this).siblings('.image-input-wrapper');
+                const imageWrapper = $(this).parent('.hi_preview_image_container');
                 imageWrapper.find('img').attr('src', "").removeClass('show');
                 thumbnailInputEl.val('');
+                imageWrapper.siblings("label").find("input[type='file']").val('');
+                imageWrapper.siblings("label").find("input[type='hidden']").val('');
                 $(this).addClass('hidden');
             });
 
@@ -390,6 +415,9 @@
                         } else {
                             toastError('something went wrong');
                         }
+                    },
+                    success: function (xhr){
+                        toastSuccess('success')
                     },
                     complete: function () {
                         submitButton.attr("data-kt-indicator", "off");

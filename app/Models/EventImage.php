@@ -10,6 +10,8 @@ class EventImage extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);

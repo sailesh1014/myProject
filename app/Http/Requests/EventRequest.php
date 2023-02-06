@@ -21,11 +21,19 @@ class EventRequest extends FormRequest {
             'title'       => ['required', 'string', 'max:191'],
             'excerpt'     => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'thumbnail'   => ['required', 'image', 'max:2048'],
+            'thumbnail'   => ['required_without:thumbnail_hidden_value', 'image', 'max:2048'],
+            'location'    => ['required', 'string', 'max:191'],
             'event_date'  => ['required', 'date', 'after_or_equal:tomorrow'],
             'fee'         => ['required', 'numeric'],
             'status'      => ['required', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
-            'image.*'     => ['nullable', 'image', 'max:2048'],
+            'images.*'     => ['nullable', 'image', 'max:2048'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'thumbnail.required_without'       => 'The thumbnail field is required.'
         ];
     }
 

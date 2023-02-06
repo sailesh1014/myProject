@@ -19,8 +19,7 @@ return new class extends Migration
             $table->float('fee')->default(0);
             $table->set('status', EventStatus::LIST)->default(EventStatus::DRAFT);
             $table->string('location');
-            $table->string('time');
-            $table->date('event_date');
+            $table->dateTime('event_date');
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });

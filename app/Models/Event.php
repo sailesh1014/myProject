@@ -13,6 +13,7 @@ class Event extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $date = ['created_at', 'updated_at', 'event_date'];
 
     public function eventImages(): HasMany
     {

@@ -31,9 +31,10 @@
 
 /* Form */
 .hi_preview_image_container {
-    max-width: 250px;
+    width: 150px;
+    height: 150px;
     position: relative;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .hi_preview_image_close {
@@ -43,8 +44,9 @@
     height: 20px;
     position: absolute;
     vertical-align: middle;
-    right: 5px;
-    top: 5px;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
 }
 
 .hi_preview_image_close .fas {
