@@ -17,11 +17,7 @@ class SettingController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $superAdmin = UserRole::SUPER_ADMIN;
-        $this->middleware("isAdmin:$superAdmin");
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -31,7 +27,7 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::all();
-        return view('dashboard.settings.index', compact('settings'));
+        return view('dashboard.settings.create', compact('settings'));
     }
 
     public function store(SettingRequest $request)

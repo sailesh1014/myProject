@@ -36,6 +36,8 @@ Route::group(['middleware' => ['auth', 'verified', 'genre']], function () {
             Route::resource('users', UserController::class);
             Route::put('users/update-password/{user}', [UserController::class, 'updatePassword'])->name('users.update-password');
             Route::resource('genres', GenreController::class);
+            Route::resource('settings', \App\Http\Controllers\Dashboard\SettingController::class)->only(['index','store']);
+
         });
     });
 });
