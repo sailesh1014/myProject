@@ -52,7 +52,7 @@ class EventController extends Controller {
 
     public function update(EventRequest $request, Event $event): View
     {
-        $this->authorize('update', Event::class);
+      //  $this->authorize('update', Event::class);
         dd($request->all());
 
         return view('dashboard.events.event', compact('event'));
