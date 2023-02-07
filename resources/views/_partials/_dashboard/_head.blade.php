@@ -7,6 +7,8 @@
     <link href="{{asset('assets/dashboard/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{asset('assets/plugin/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
     <link href="{{asset('assets/dashboard/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
     @vite('resources/css/dashboard/app.css')

@@ -109,18 +109,6 @@
 .individual-permission.card > .card-body {
     padding: 0.5rem 0 0 0;
 }
-/*Dropzone css*/
-.dz-progress,
-.dz-details,
-.dz-error-mark,
-.dz-error-message{
-    display: none !important;
-}
-.dropzone .dz-preview:hover .dz-image img{
-    filter: blur(0);
-    transform: unset;
-}
-
 
 /*Invalid feedback*/
 .invalid-feedback.show{
@@ -147,4 +135,20 @@
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
+}
+
+
+/* File pond */
+.filepond--panel-root {
+    background-color: #eef3f7;
+}
+.filepond--file{
+    font-size: 14px !important;
+}
+.filepond--file-status .filepond--file-status-main{
+    font-size: 12px;
+}
+
+.filepond--file-status .filepond--file-status-sub{
+    font-size: 10px;
 }

@@ -39,15 +39,17 @@
                         <i class="bi bi-pencil-fill fs-7"></i>
 
                         <!--begin::Inputs-->
-                        <input type="hidden" name="images_hidden_value" class="thumbnail_hidden_value" value="{{$event->thumbnail}}">
+                        <input type="hidden" name="thumbnail_hidden_value" class="thumbnail_hidden_value" value="{{$event->thumbnail}}">
                         <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" id="event_thumbnail_input" value="{{$event->thumbnail}}"/>
                         <!--end::Inputs-->
                     </label>
                     <!--end::Edit button-->
                 </div>
-                <span class="invalid-feedback thumbnail" role="alert">
-
+                @error('thumbnail')
+                <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
                 </span>
+                @enderror
                 <!--end::Image input-->
             </div>
             <!--end::Card body-->
@@ -85,9 +87,11 @@
                     <option
                         value="{{\App\Constants\EventStatus::PUBLISHED}}" {{$selectedStatus === \App\Constants\EventStatus::PUBLISHED ? 'selected' : ''}}>{{ucwords(\App\Constants\EventStatus::PUBLISHED)}}</option>
                 </select>
-                <span class="invalid-feedback status" role="alert">
-
+                @error('status')
+                <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
                 </span>
+                @enderror
                 <!--end::Select2-->
             </div>
             <!--end::Card body-->
@@ -109,9 +113,11 @@
                 <!--begin::location-->
                 <input type="text" name="location" class="form-control mb-2" placeholder="Event Location" id="location"
                        value="{{$event->location}}"/>
-                <span class="invalid-feedback location" role="alert">
-
+                @error('location')
+                <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
                 </span>
+                @enderror
                 <!--end::location-->
             </div>
             <!--end::Card body-->
@@ -134,9 +140,11 @@
                     <label for="" class="form-label">Select date and time</label>
                     <input name="event_date" class="form-control" placeholder="Pick date & time" id="event_date"
                            value="{{$event->event_date}}"/>
-                    <span class="invalid-feedback event_date" role="alert">
-
+                    @error('event_date')
+                    <span class="invalid-feedback show" role="alert">
+                        <strong>{{$message}}</strong>
                     </span>
+                    @enderror
                 </div>
             </div>
             <!--end::Card body-->
@@ -162,8 +170,11 @@
                             <!--begin::Input-->
                             <input type="text" name="title" class="form-control mb-2" placeholder="Event Title"
                                    value="{{$event->title}}" id="event-title"/>
-                            <span class="invalid-feedback title" role="alert">
-                                </span>
+                            @error('title')
+                            <span class="invalid-feedback show" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -175,8 +186,11 @@
                             <!--begin::Input-->
                             <input type="text" name="excerpt" class="form-control mb-2" placeholder="Excerpt" id="excerpt"
                                    value="{{$event->excerpt}}"/>
-                            <span class="invalid-feedback excerpt" role="alert">
-                                </span>
+                            @error('excerpt')
+                            <span class="invalid-feedback show" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -188,8 +202,11 @@
                             <!--begin::Editor-->
                             <textarea id="event_description"
                                       name="description">{{$event->description}}</textarea>
-                            <span class="invalid-feedback description" role="alert">
-                                </span>
+                            @error('description')
+                            <span class="invalid-feedback show" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
                             <!--end::Editor-->
                         </div>
                         <!--end::Input group-->
@@ -210,27 +227,14 @@
                     <div class="card-body pt-0">
                         <!--begin::Input group-->
                         <div class="fv-row mb-2">
-                            <!--begin::Dropzone-->
-                            <div class="dropzone" id="event_images">
-                                <!--begin::Message-->
-                                <div class="dz-message needsclick">
-                                    <!--begin::Icon-->
-                                    <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
-                                    <!--end::Icon-->
-                                    <!--begin::Info-->
-                                    <div class="ms-4">
-                                        <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop images here or click to
-                                            upload.</h3>
-                                        <span class="fs-7 fw-semibold text-gray-400">Upload up to 3 images</span>
-                                    </div>
-                                    <!--end::Info-->
-                                </div>
-                            </div>
-                            <!--end::Dropzone-->
+                            <input type="file" class="filepond" name="images[]">
                         </div>
                         <!--end::Input group-->
-                        <span class="invalid-feedback image" role="alert">
-                            </span>
+                        @error('images')
+                        <span class="invalid-feedback show" role="alert">
+                            <strong>{{$message}}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <!--end::Card header-->
                 </div>
@@ -254,8 +258,11 @@
                             <!--begin::Input-->
                             <input type="text" name="fee" id="fee" class="form-control mb-2" placeholder="Entry Fee"
                                    value="{{$event->fee}}">
-                            <span class="invalid-feedback fee" role="alert">
-                                </span>
+                            @error('fee')
+                            <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                            @enderror
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -294,52 +301,18 @@
             tinymce.init(descriptionOptions);
 
             /** Event image upload with dropzone*/
-            const myDropzone = new Dropzone("#event_images", {
-                url: url,
-                autoProcessQueue: false,
-                paramName: "images",
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+            FilePond.registerPlugin(FilePondPluginImageValidateSize);
+
+            FilePond.setOptions({
+                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+                maxFileSize: '2MB',
+                allowImageValidateSize: true,
                 maxFiles: 3,
-                maxFilesize: 3,
-                parallelUploads: 3,
-                addRemoveLinks: true,
-                uploadMultiple: true,
-                init: function () {
-                    const _dropzone = this;
-                    submitButton.on('click', function (e) {
-                        e.preventDefault();
-                        if (myDropzone.files.length) {
-                            _dropzone.processQueue(); // upload files and submit the form
-                        } else {
-                            eventFormEl.submit();
-                        }
-                    });
-                    this.on('sending', function (file, xhr, formData) {
-                        submitButton.attr("data-kt-indicator", "on");
-                        prepareFormBeforeEventFormSubmit(eventFormEl, formData);
-                    });
-                    this.on('error', function (file, message) {
-                        const errors = message.errors;
-                        $.each(_dropzone.files, function (i, file) {
-                            file.status = Dropzone.QUEUED
-                        });
-                        if (errors) {
-                            processEventFormError(errors)
-                        }else{
-                            toastError('something went wrong');
-                        }
-                    });
-                    this.on('complete', function (file) {
-                        submitButton.attr("data-kt-indicator", "off");
-                    });
-                    this.on('success', function (file) {
-                        toastSuccess('Success');
-                    });
-                }
+                storeAsFile: true,
+                allowMultiple: true,
             });
-            myDropzone.on("maxfilesexceeded", function (file) {
-                this.removeFile(file);
-                toastError('Maximum file upload limit exceeded.')
-            });
+            FilePond.parse(document.body);
 
             /** Event date time */
             const today = new Date();
@@ -392,38 +365,6 @@
                 $(this).addClass('hidden');
             });
 
-            /** Event form submit **/
-            eventFormEl.on('submit', function (e) {
-                e.preventDefault();
-                const data = prepareFormBeforeEventFormSubmit($(this));
-                $.ajax({
-                    url: url,
-                    contentType: false,
-                    processData: false,
-                    type: "POST",
-                    data: data,
-                    beforeSend: () => {
-                        submitButton.attr("data-kt-indicator", "on");
-                        $('.invalid-feedback').removeClass('show');
-                    },
-                    error: function (xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            if (errors) {
-                                processEventFormError(errors);
-                            }
-                        } else {
-                            toastError('something went wrong');
-                        }
-                    },
-                    success: function (xhr){
-                        toastSuccess('success')
-                    },
-                    complete: function () {
-                        submitButton.attr("data-kt-indicator", "off");
-                    }
-                });
-            });
         })
 
         const prepareFormBeforeEventFormSubmit = (formEl, formData = null) => {

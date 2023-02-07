@@ -17,7 +17,7 @@ class EventImageService {
         $pathPrefix = AppHelper::prepareFileStoragePath();
         $imageName = AppHelper::renameImageFileUpload($image);
         $image->storeAs("public/uploads/$pathPrefix", $imageName);
-        $this->eventImageRepository->store(['event_id' => $event->id, 'image' => $imageName]);
+        $this->eventImageRepository->store(['event_id' => $event->id, 'image' => "{$pathPrefix}/{$imageName}"]);
     }
 
 }

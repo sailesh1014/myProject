@@ -2,6 +2,9 @@ import.meta.glob([
     '../../img/dashboard/**',
 ]);
 import flatpickr from "flatpickr";
+// Import the plugin code
+import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
+
 
 $(function () {
     /** toggle password starts **/
@@ -36,7 +39,6 @@ $(function () {
     window.removeRowFromTable = removeRowFromTable;
     window.showRowFromTable = showRowFromTable;
     window.loadPreview = loadPreview;
-
 
 })
 
