@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title','User Listing')
+@section('title','Event Listing')
 
 @section('content')
 
@@ -29,9 +29,9 @@
                 <div class="card-toolbar">
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                        @can('create', \App\Models\User::class)
+                        @can('create', \App\Models\Event::class)
                         <!--begin::Add user-->
-                        <a href="{{route('users.create')}}" class="btn btn-sm btn-primary">Add</a>
+                        <a href="{{route('events.create')}}" class="btn btn-sm btn-primary">Add</a>
                         <!--end::Add user-->
                         @endcan
                     </div>
@@ -43,15 +43,15 @@
             <!--begin::Card body-->
             <div class="card-body table-responsive pt-0">
                 <!--begin::Table-->
-                <table id="userDatatable" class="table w-100 align-middle table-bordered fs-6 gy-5">
+                <table id="eventDatatable" class="table w-100 align-middle table-bordered fs-6 gy-5">
                     <!--begin::Table head-->
                     <thead class="bg-light-primary text-dark">
                         <!--begin::Table row-->
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="">First Name</th>
-                            <th class="">Last Name</th>
-                            <th class="">Email</th>
-                            <th class="">Role</th>
+                            <th class="">Title</th>
+                            <th class="">Thumbnail</th>
+                            <th class="">Status</th>
+                            <th class="">Event Date</th>
                             <th class="">Created Date</th>
                             <th class="min-w-70px">Actions</th>
                         </tr>
@@ -75,13 +75,13 @@
 
 @endsection
 @section('page_level_script')
-@include('dashboard.users._shared')
+@include('dashboard.events._shared')
 <script>
     $(document).ready(function($) {
-        let table = $('#userDatatable').DataTable({
+        let table = $('#eventDatatable').DataTable({
             "serverSide": true,
             "ajax": {
-                "url": BASE_URL + '/dashboard/users',
+                "url": BASE_URL + '/dashboard/events',
                 "dataType": "json",
                 "type": "GET",
                 "data": {
@@ -104,16 +104,18 @@
                 }
             },
             "columns": [{
-                    "data": "first_name",
+                    "data": "title",
                 },
                 {
-                    "data": "last_name"
+                    "data": "thumbnail",
+                    "searchable": false,
+                    "orderable": false
                 },
                 {
-                    "data": "email"
+                    "data": "status"
                 },
                 {
-                    "data": "role"
+                    "data": "event_date"
                 },
                 {
                     "data": "created_at"

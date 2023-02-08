@@ -70,6 +70,7 @@ class GenreService {
 
     public function delete(Genre $genre): void
     {
+        @unlink(public_path('storage/uploads/' . $genre->image));
         $this->genreRepository->delete($genre);
     }
 }

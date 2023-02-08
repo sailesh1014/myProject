@@ -29,24 +29,24 @@ class EventPolicy
     }
 
 
-    public function update(User $user, Event $event): bool
+    public function update(User $user): bool
     {
         return true;
 
     }
 
 
-    public function delete(User $user, Event $event): bool
+    public function delete(User $user): bool
     {
         return true;
     }
 
-    public function restore(User $user, Event $event): bool
+    public function restore(User $user): bool
     {
         return true;
     }
 
-    public function forceDelete(User $user, Event $event): bool
+    public function forceDelete(User $user): bool
     {
         return true;
 

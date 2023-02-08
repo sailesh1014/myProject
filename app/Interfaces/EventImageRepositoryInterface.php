@@ -6,4 +6,5 @@ namespace App\Interfaces;
 
 interface EventImageRepositoryInterface {
 
+
 }

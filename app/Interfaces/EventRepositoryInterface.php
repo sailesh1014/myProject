@@ -6,4 +6,6 @@ namespace App\Interfaces;
 
 interface EventRepositoryInterface {
 
+    public function paginatedWithQuery($meta, $query = null );
+
 }

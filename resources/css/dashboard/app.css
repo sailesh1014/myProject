@@ -12,6 +12,12 @@
 }
 
 /* width */
+.hi-index-img{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    object-position: center;
+}
 .hi-mw-150 {
     max-width: 150px;
 }

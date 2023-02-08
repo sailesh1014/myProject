@@ -47,3 +47,22 @@ if(!function_exists('get_homePage')){
     }
 }
 
+if(!function_exists('danger_pill')){
+    function danger_pill(string $pill): string{
+        return  "<span class='badge badge-danger'>{$pill}</span>";
+    }
+}
+
+if(!function_exists('success_pill')){
+    function success_pill(string $pill): string{
+        return  "<span class='badge badge-success'>{$pill}</span>";
+    }
+}
+
+if(!function_exists('info_pill')){
+    function info_pill(string $pill): string{
+        return  "<span class='badge badge-info'>{$pill}</span>";
+    }
+}
+
+

@@ -90,4 +90,9 @@ class AppHelper {
         return "{$currentYear}/{$currentMonth}";
     }
 
+    public static function formatDate(\DateTime|string $date, string $format="Y-m-d"): string
+    {
+            return Carbon::parse($date)->format($format);
+    }
+
 }

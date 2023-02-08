@@ -1,7 +1,7 @@
 <script>
-    function deleteUser(id, redirect = false) {
-        let table = 'userDatatable';
-        let action = BASE_URL + "/dashboard/users/" + id;
+    function deleteEvent(id, redirect = false) {
+        let table = 'eventDatatable';
+        let action = BASE_URL + "/dashboard/events/" + id;
         $.ajax({
             "url": action,
             "dataType": "json",
@@ -12,7 +12,7 @@
             },
             success: function (resp) {
                 if (redirect) {
-                    alertifySuccessAndRedirect(resp.message, "{{route('users.index')}}");
+                    alertifySuccessAndRedirect(resp.message, "{{route('events.index')}}");
                 } else {
                     alertifySuccess(resp.message);
                 }

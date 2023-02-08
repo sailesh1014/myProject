@@ -72,7 +72,7 @@
                                 Created At
                             </th>
                             <td>
-                                {{\Illuminate\Support\Carbon::parse($genre->created_at)->format('Y M d')}}
+                                {{\App\Helpers\AppHelper::formatDate($genre->created_at, 'd M, Y')}}
                             </td>
                         </tr>
                         <tr>
@@ -80,8 +80,22 @@
                                 Symbol
                             </th>
                             <td>
-                                <img alt="{{$genre->name}}" class='img-fluid hi-mw-250'
-                                     src='{{asset('storage/uploads/'.$genre->symbol)}}'/>
+                                <!--begin::Overlay-->
+                                <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="lightbox-basic"
+                                   href="{{asset('storage/uploads/'.$genre->symbol)}}">
+                                    <!--begin::Image-->
+                                    <div
+                                        class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                        style="background-image:url({{'/storage/uploads/'.$genre->symbol}})">
+                                    </div>
+                                    <!--end::Image-->
+                                    <!--begin::Action-->
+                                    <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                        <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                    </div>
+                                    <!--end::Action-->
+                                </a>
+                                <!--end::Overlay-->
                             </td>
                         </tr>
                         </tbody>

@@ -276,7 +276,7 @@
         <!--end::Tab content-->
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel"
+            <a href="{{route('events.index')}}"
                class="btn btn-light me-5">Cancel</a>
             <!--end::Button-->
             <!--begin::Button-->
@@ -300,7 +300,7 @@
             };
             tinymce.init(descriptionOptions);
 
-            /** Event image upload with dropzone*/
+            /** Event image upload with filepond*/
             FilePond.registerPlugin(FilePondPluginFileValidateType);
             FilePond.registerPlugin(FilePondPluginImageValidateSize);
 
@@ -312,7 +312,24 @@
                 storeAsFile: true,
                 allowMultiple: true,
             });
-            FilePond.parse(document.body);
+            const ImageElement = document.querySelector('.filepond');
+            const eventImages = @json($event->eventImages);
+            const assetPath = "{{asset('/storage/uploads')}}"
+            const eventImagesArr = eventImages.map(el => {
+                    return {source: `${assetPath}/${el.image}`}
+            })
+            FilePond.create(ImageElement, {
+                files: eventImagesArr
+            });
+            submitButton.on('click',function(e){
+                e.preventDefault();
+                const isError = $('.filepond').filepond('getFiles').filter(file => file.status !== 2).length !== 0;
+                if(isError){
+                    toastError('Image upload error');
+                    return;
+                }
+                eventFormEl.submit();
+            })
 
             /** Event date time */
             const today = new Date();

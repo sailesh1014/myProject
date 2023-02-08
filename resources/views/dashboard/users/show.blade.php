@@ -90,7 +90,7 @@
                                 Created At
                             </th>
                             <td>
-                                {{\Illuminate\Support\Carbon::parse($user->created_at)->format('Y M d')}}
+                                {{\App\Helpers\AppHelper::formatDate($user->created_at, 'd M, Y')}}
                             </td>
                         </tr>
                         </tbody>

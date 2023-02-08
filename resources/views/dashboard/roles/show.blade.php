@@ -68,7 +68,7 @@
                                 Created At
                             </th>
                             <td>
-                                {{\Illuminate\Support\Carbon::parse($role->created_at)->format('Y-m-d')}}
+                                {{\App\Helpers\AppHelper::formatDate($event->created_at, 'd M, Y')}}
                             </td>
                         </tr>
                         </tbody>

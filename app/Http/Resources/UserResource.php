@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
+use App\Helpers\AppHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource {
@@ -17,7 +17,7 @@ class UserResource extends JsonResource {
             'email'      => $this->email,
             'role'       => $this->role,
             'role_id'    => $this->role_id,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
+            'created_at' => AppHelper::formatDate($this->created_at),
             'action'     => \View::make('dashboard.users._action')->with('r',$this)->render(),
         ];
     }
