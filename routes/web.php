@@ -8,7 +8,6 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
-use "test";
 use Illuminate\Support\Facades\Route;
 use "testaskdf\asdfasdf\sdfasdfasdf";
 /*
