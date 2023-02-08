@@ -8,13 +8,8 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
-<<<<<<< HEAD
-use Illuminate\Support\Facadessssss\Route;
-use "testaskdf\asdfasdf\sdfasdfasdf";
-=======
-use Illuminate\Support\cades\Route;
+use Illuminate\Support\Facades\Route;
 
->>>>>>> 8ccefcd (Changes in route)
 /*
 |--------------------------------------------------------------------------
 | Web Routes
