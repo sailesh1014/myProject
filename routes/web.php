@@ -10,7 +10,7 @@ use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
 use "test";
 use Illuminate\Support\Facades\Route;
-
+use "testaskdf\asdfasdf\sdfasdfasdf";
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +43,5 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
         });
     });
 });
-
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
