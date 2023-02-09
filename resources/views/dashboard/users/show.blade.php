@@ -126,6 +126,6 @@
     @include('dashboard.users.partials.password-modal')
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.users._shared')
-@endsection
+@endpush

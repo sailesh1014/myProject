@@ -75,7 +75,7 @@
     <button type="submit" class="btn btn-sm btn-primary">{{$buttonText}}</button>
 </div>
 <!--end::Actions-->
-@section('page_level_script')
+@push('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
         $('#image').change(function(){
@@ -83,4 +83,4 @@
         });
     });
 </script>
-@endsection
+@endpush

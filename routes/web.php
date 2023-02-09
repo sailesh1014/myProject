@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\GenreController;
 use App\Http\Controllers\Dashboard\IndexController as DashboardController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Front\AuthController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome'); });
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/email-verified', [FrontController::class, 'emailVerified']);
     Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
@@ -44,3 +44,8 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
 });
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::group(['middleware' => 'guest'], function (){
+    Route::get('/register/user', [AuthController::class, 'createUser'])->name('register.user');
+    Route::post('/register/role', [AuthController::class, 'saveRole'])->name('register.role');
+});
+

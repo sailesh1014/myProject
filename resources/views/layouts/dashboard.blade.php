@@ -172,7 +172,7 @@
 @include('utils._toastify')
 @include('utils._alertify')
 <!-- start: page level script -->
-@yield('page_level_script')
+@stack('scripts')
 <!-- end: page level script -->
 
 </body>

@@ -52,7 +52,7 @@
     </div>
     <!--end::Select Genre-->
 @endsection
-@section('page_level_script')
+@push('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
             /** genre selection box begins*/
@@ -111,4 +111,4 @@
             /** genre selection ends*/
         });
     </script>
-@endsection
+@endpush

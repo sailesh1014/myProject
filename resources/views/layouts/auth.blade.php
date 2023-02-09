@@ -14,9 +14,9 @@
 <!--end::Main-->
 
 @include('_partials._dashboard._foot')
-
+@include('utils._toastify');
 <!-- start: page level script -->
-@yield('page_level_script')
+@stack('script')
 <!-- end: page level script -->
 </body>
 <!--end::Body-->

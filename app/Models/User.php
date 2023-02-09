@@ -20,7 +20,10 @@ class User extends Authenticatable implements MustVerifyEmail {
     protected $fillable = [
         'first_name',
         'last_name',
+        'user_name',
         'email',
+        'gender',
+        'dob',
         'role_id',
         'password',
     ];
@@ -30,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail {
         'remember_token',
     ];
 
+    protected $dates = ['dob' => 'datetime'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -48,12 +52,14 @@ class User extends Authenticatable implements MustVerifyEmail {
     public function isAdmin($restrictSuperAdmin = false): bool
     {
         $role = $this->role->key;
+
         return $restrictSuperAdmin ? $role === UserRole::ADMIN : in_array($role, UserRole::ADMIN_LIST);
     }
 
     public function isSuperAdmin(): bool
     {
         $role = $this->role->key;
+
         return $role === UserRole::SUPER_ADMIN;
     }
 
@@ -71,5 +77,10 @@ class User extends Authenticatable implements MustVerifyEmail {
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function club(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Club::class);
     }
 }

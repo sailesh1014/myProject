@@ -47,7 +47,7 @@ class FortifyServiceProvider extends ServiceProvider {
         Fortify::registerView(function () {
             $roleService = resolve(RoleService::class);
             $roles = $roleService->getPublicRoles();
-            return view('auth.register', compact('roles'));
+            return view('auth.select-role', compact('roles'));
         });
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');

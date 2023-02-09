@@ -138,20 +138,6 @@
                         <!--end::Input group-->
 
                         <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <label class="form-label fw-bolder text-dark fs-6 capitalize">Select account type</label>
-                            <div class="sm:flex flex-wrap justify-between items-center">
-                                @foreach($roles as $key => $name)
-                                <label class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="role" value="{{$key}}">
-                                    <span >{{$name}}</span>
-                                </label>
-                                @endforeach
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-
-                        <!--begin::Input group-->
                         <div class="fv-row mb-10">
                             <label class="form-check form-check-custom form-check-solid form-check-inline">
                                 <input class="form-check-input @error('terms_and_conditions') is-invalid @enderror"
@@ -162,6 +148,7 @@
                             </span>
                             </label>
                             @error('terms_and_conditions')
+
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

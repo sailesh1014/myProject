@@ -51,6 +51,6 @@
     <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.genres._shared')
-@endsection
+@endpush

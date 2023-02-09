@@ -12,7 +12,6 @@ class GenreFactory extends Factory {
         return [
             'name'        => $this->faker->unique()->word(),
             'excerpt'     => $this->faker->sentence(),
-            'symbol'      => null,
         ];
     }
 }

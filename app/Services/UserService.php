@@ -66,6 +66,10 @@ class UserService {
         $this->genreService->assignGenreToUser($genreIds, $user);
     }
 
+    public function findUserOrCreate(array $condition, array $data)
+    {
+        return $this->userRepository->firstOrCreate($condition, $data);
+    }
 
     public function updatePassword(array $input, $user = null): void
     {

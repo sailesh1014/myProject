@@ -288,7 +288,7 @@
         </div>
     </div>
     <!--end::Main column-->
-@section('page_level_script')
+@push('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
             const eventFormEl = $('#event_form');
@@ -412,4 +412,4 @@
             $("html, body").stop().animate({scrollTop: 0}, 500, 'swing');
         }
     </script>
-@endsection
+@endpush

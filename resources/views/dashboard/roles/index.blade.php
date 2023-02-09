@@ -70,7 +70,7 @@
     <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.roles._shared')
     <script>
         $( document ).ready(function( $ ) {
@@ -120,4 +120,4 @@
             } );
         });
     </script>
-@endsection
+@endpush
