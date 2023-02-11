@@ -137,7 +137,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <div class="mb-0">
-                    <label for="" class="form-label">Select date and time</label>
+                    <label for="event_date" class="form-label">Select date and time</label>
                     <input name="event_date" class="form-control" placeholder="Pick date & time" id="event_date"
                            value="{{$event->event_date}}"/>
                     @error('event_date')

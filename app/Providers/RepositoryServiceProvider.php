@@ -13,6 +13,7 @@ class RepositoryServiceProvider extends ServiceProvider {
             'User',
             'Genre',
             'Role',
+            'Club',
             'Permission',
             'Event',
             'EventImage'

@@ -26,6 +26,8 @@ class UsersSeeder extends Seeder {
                 'email'             => 'sumanbudathoki@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            =>  'male',
+                'address'            =>  'Nepal',
+                'phone'            =>  '9812345678',
                 'dob'               =>  now(),
                 'email_verified_at' => now(),
                 'role_id'           => $role->id,
@@ -38,6 +40,8 @@ class UsersSeeder extends Seeder {
                 'email'             => 'sumanbudathoki1@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            =>  'male',
+                'address'            =>  'Nepal',
+                'phone'            =>  '9812345678',
                 'dob'               =>  now(),
                 'email_verified_at' => now(),
                 'role_id'           => 2,  // admin
@@ -50,6 +54,8 @@ class UsersSeeder extends Seeder {
                 'email'             => 'sumanbudathoki2@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            =>  'male',
+                'address'            =>  'Nepal',
+                'phone'            =>  '9812345678',
                 'dob'               =>  now(),
                 'email_verified_at' => now(),
                 'role_id'           => 3,  // Basic User
@@ -62,6 +68,8 @@ class UsersSeeder extends Seeder {
                 'email'             => 'sumanbudathoki3@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            =>  'male',
+                'address'            =>  'Nepal',
+                'phone'            =>  '9812345678',
                 'dob'               =>  now(),
                 'email_verified_at' => now(),
                 'role_id'           => 4,  // Artist
@@ -74,12 +82,14 @@ class UsersSeeder extends Seeder {
                 'email'             => 'sumanbudathoki4@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            =>  'male',
+                'address'            =>  'Nepal',
+                'phone'            =>  '9812345678',
                 'dob'               =>  now(),
                 'email_verified_at' => now(),
                 'role_id'           => 5,  // Organizer
                 'remember_token'    => Str::random(10),
             ],
         ], ['email'], []);
-        User::factory(100)->create();
+        //User::factory(100)->create();
     }
 }

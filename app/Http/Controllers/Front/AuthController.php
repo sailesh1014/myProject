@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function createUser(): View|RedirectResponse
     {
-        if(!$this->authService->sessionHasSelectedRole()){
+        if(!$this->authService->selectedRole()){
             return redirect()->route('register')->with('toast.error', "Please select your role.");
         }
         return view('auth.register');

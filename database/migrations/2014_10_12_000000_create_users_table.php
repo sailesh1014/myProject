@@ -15,7 +15,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('user_name')->unique();
             $table->set('gender', ['male', 'female', 'others'])->default('others');
-            $table->string('number')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address');
             $table->date('dob')->nullable();
             $table->string('email')->unique();
             $table->string('password');
