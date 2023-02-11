@@ -18,7 +18,7 @@ foreach($keys_arr as $k => $v){
     <!--begin::Col-->
     <div class="col-md-6 fv-row">
         <label class="required fs-6 fw-bold mb-2" for="app_name">
-            Admin Email
+            App Name
         </label>
         <input type="text" name="app_name"
                class="form-control form-control-solid @error('app_name') is-invalid @enderror"
@@ -37,7 +37,7 @@ foreach($keys_arr as $k => $v){
     <!--begin::Col-->
     <div class="col-md-6 fv-row">
         <label class="required fs-6 fw-bold mb-2" for="admin_email">
-            App Name
+            Admin Email
         </label>
         <input type="text" name="admin_email"
                class="form-control form-control-solid @error('admin_email') is-invalid @enderror"
