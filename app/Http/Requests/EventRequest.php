@@ -17,7 +17,7 @@ class EventRequest extends FormRequest {
 
     public function rules(): array
     {
-        return [
+        $validationArr = [
             'title'       => ['required', 'string', 'max:191'],
             'excerpt'     => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
@@ -26,14 +26,19 @@ class EventRequest extends FormRequest {
             'event_date'  => ['required', 'date', 'after_or_equal:tomorrow'],
             'fee'         => ['required', 'numeric'],
             'status'      => ['required', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
-            'images.*'     => ['nullable', 'mimes:jepg,png,jpg', 'max:2048'],
+            'images.*'    => ['nullable', 'mimes:jepg,png,jpg', 'max:2048'],
         ];
+        if (auth()->user()->isAdmin())
+        {
+            $validationArr['club_id'] = ['required', 'string', 'exists:clubs,id'];
+        }
+        return  $validationArr;
     }
 
     public function messages(): array
     {
         return [
-            'thumbnail.required_without'       => 'The thumbnail field is required.'
+            'thumbnail.required_without' => 'The thumbnail field is required.',
         ];
     }
 

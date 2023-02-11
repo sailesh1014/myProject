@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
+use App\Models\Club;
 use App\Models\Event;
+use App\Models\User;
 use App\Services\EventService;
+use App\Services\RoleService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class EventController extends Controller {
 
-    public function __construct(protected EventService $eventService) {}
+    public function __construct(protected EventService $eventService, protected RoleService $roleService) {}
 
     public function index(Request $request) {
         $this->authorize('view', Event::Class);
@@ -34,18 +39,19 @@ class EventController extends Controller {
     public function create(): View
     {
         $event = new Event();
-
-        return view('dashboard.events.create', compact('event'));
+        /** TODO: Move this to service or repo */
+        $clubs = Club::pluck('name', 'id');
+        return view('dashboard.events.create', compact('event', 'clubs'));
     }
 
     public function store(EventRequest $request)
     {
         $this->authorize('create', Event::class);
-        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee');
+        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee', 'club_id');
         $inputCollection = collect($input);
         $this->eventService->organizeEvent($inputCollection);
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('events.index');
     }
 
     public function show(Event $event){
@@ -56,28 +62,35 @@ class EventController extends Controller {
 
     public function edit(Event $event): View
     {
-        $images = $event->eventImages;
-        $eventImages = [];
-        foreach ($images as $file)
-        {
-            $imageName = $file->image;
-            $obj['name'] = $imageName;
-            $obj['size'] = filesize(public_path('storage/uploads/' . $imageName));
-            $obj['path'] = asset('storage/uploads/' . $imageName);
-            $eventImages[] = $obj;
-        }
-
-        return view('dashboard.events.edit', compact('event', 'eventImages'));
+        $event->load('eventMedia');
+        //foreach ($medias as $file)
+        //{
+        //    $imageName = $file->media;
+        //    $obj['name'] = $imageName;
+        //    $obj['size'] = filesize(public_path('storage/uploads/' . $imageName));
+        //    $obj['path'] = asset('storage/uploads/' . $imageName);
+        //    $eventMedia[] = $obj;
+        //}
+        /** TODO: Remove query from Here */
+        $clubs = Club::pluck('name', 'id');
+        return view('dashboard.events.edit', compact('event', 'clubs'));
     }
 
-    public function update(EventRequest $request, Event $event): View
+    public function update(EventRequest $request, Event $event): RedirectResponse
     {
         $this->authorize('update', Event::class);
-        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee');
+        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee', 'club_id');
         $inputCollection = collect($input);
         $this->eventService->updateEvent($inputCollection,$event);
 
+        return redirect()->route('events.show', $event->id);
+    }
 
-        return view('dashboard.events.event', compact('event'));
+    public function destroy(Event $event)
+    {
+        $this->authorize('update', Event::class);
+        $this->eventService->deleteEvent($event);
+        return response()->json(['message' => 'Event successfully deleted']);
+
     }
 }

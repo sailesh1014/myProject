@@ -14,4 +14,18 @@ class ClubService {
         return $this->clubRepository->store($input);
     }
 
+    public function updateOrCreate(array $conditionArr, array $input,){
+        return $this->clubRepository->updateOrCreate($conditionArr, $input);
+
+    }
+
+    public function delete($club): void
+    {
+        $modelObj = $club;
+        if(is_string($club)){
+            $modelObj = $this->clubRepository->find($club);
+        }
+        $this->clubRepository->delete($modelObj);
+    }
+
 }

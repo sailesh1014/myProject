@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('club_media', function (Blueprint $table) {
             $table->id();
             $table->string('media');
-            $table->set('type', ['image', 'video']);
+            $table->set('type', ['image', 'video'])->default('image');
             $table->foreignId('club_id')->constrained('clubs')->cascadeOnDelete();
             $table->timestamps();
         });

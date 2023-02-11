@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Helpers\AppHelper;
-use App\Interfaces\EventImageRepositoryInterface;
+use App\Interfaces\EventMediaRepositoryInterface;
 use App\Interfaces\EventRepositoryInterface;
 use App\Models\Event;
 
-class EventImageService {
+class EventMediaService {
 
-    public function __construct(private EventImageRepositoryInterface $eventImageRepository) {}
+    public function __construct(private EventMediaRepositoryInterface $eventMediaRepository) {}
 
     public function uploadImage($event, $image): void
     {
         $pathPrefix = AppHelper::prepareFileStoragePath();
         $imageName = AppHelper::renameImageFileUpload($image);
         $image->storeAs("public/uploads/$pathPrefix", $imageName);
-        $this->eventImageRepository->store(['event_id' => $event->id, 'image' => "{$pathPrefix}/{$imageName}"]);
+        $this->eventMediaRepository->store(['event_id' => $event->id, 'media' => "{$pathPrefix}/{$imageName}"]);
     }
 
 }

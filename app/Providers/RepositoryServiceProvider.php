@@ -16,7 +16,7 @@ class RepositoryServiceProvider extends ServiceProvider {
             'Club',
             'Permission',
             'Event',
-            'EventImage'
+            'EventMedia'
         ]);
         $model->each(function ($el) {
             $this->app->bind("App\\Interfaces\\{$el}RepositoryInterface", "App\\Repositories\\{$el}Repository");

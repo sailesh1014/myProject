@@ -134,7 +134,7 @@
                 <!--end::Card body-->
             </div>
             <!--end::Card-->
-            <?php $eventImages = $event->eventImages; ?>
+            <?php $eventImages = $event->eventMedia; ?>
             @if($eventImages)
                 <div class="card mt-8">
                     <div class="card-header">
@@ -147,11 +147,11 @@
                         @foreach($eventImages as $file)
                                 <!--begin::Overlay-->
                                 <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="event-images"
-                                   href="{{asset('storage/uploads/'.$file->image)}}">
+                                   href="{{asset('storage/uploads/'.$file->media)}}">
                                     <!--begin::Image-->
                                     <div
                                         class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-                                        style="background-image:url({{'/storage/uploads/'.$file->image}})">
+                                        style="background-image:url({{'/storage/uploads/'.$file->media}})">
                                     </div>
                                     <!--end::Image-->
 

@@ -15,14 +15,14 @@ class Event extends Model
     protected $guarded = ['id'];
     protected $date = ['created_at', 'updated_at', 'event_date'];
 
-    public function eventImages(): HasMany
+    public function eventMedia(): HasMany
     {
-        return $this->hasMany(EventMeda::class);
+        return $this->hasMany(EventMedia::class);
     }
 
-    public function user(): BelongsTo
+    public function club(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Club::class);
     }
 
 }

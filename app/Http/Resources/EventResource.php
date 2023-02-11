@@ -24,6 +24,7 @@ class EventResource extends JsonResource {
         }
 
         return [
+            'id'        =>  $this->id,
             'title'      => ucwords($this->title),
             'thumbnail'  => "<img class='img-fluid hi-index-img' src='" . asset('storage/uploads/' . $this->thumbnail) . "'/>",
             'event_date' => AppHelper::formatDate($this->event_date, 'Y-m-d h:i A'),

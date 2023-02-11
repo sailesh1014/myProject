@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 
 class EventService {
 
-    public function __construct(private EventRepositoryInterface $eventRepository, private EventImageService $eventImageService) {}
+    public function __construct(private EventRepositoryInterface $eventRepository, private EventMediaService $eventImageService) {}
 
     public function paginateWithQuery(array $input): array
     {
@@ -36,14 +36,14 @@ class EventService {
 
     public function organizeEvent(Collection $input): object
     {
-        $input['user_id'] = auth()->user()->id;
+        $input['club_id'] = $input['club_id'] ?? auth()->user()->club->id;
         /* thumbnail store start */
         $thumbnail = $input['thumbnail'];
         $pathPrefix = AppHelper::prepareFileStoragePath();
         $thumbnailName = AppHelper::renameImageFileUpload($thumbnail);
         $thumbnail->storeAs("public/uploads/$pathPrefix", $thumbnailName);
         $input['thumbnail'] = "{$pathPrefix}/{$thumbnailName}";
-        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'user_id'])->toArray());
+        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id'])->toArray());
 
         /* image store start*/
         if(isset($input['images'])){
@@ -56,27 +56,37 @@ class EventService {
     }
 
     public function updateEvent(Collection $input,Model $event){
-        $event->load('eventImages');
+        $event->load('eventMedia');
         $newEventImages = $input['images'] ?? [];
         $newEventImagesArr = array_map(function ($element){
             return $element->getClientOriginalName();
         },$newEventImages);
-        $currentEventImagesArr = $event->eventImages->map(function ($el){
-                return  basename($el->image);
+        $currentEventImagesArr = $event->eventMedia->map(function ($el){
+                return  basename($el->media);
         })->toArray();
         $toUploadImages = array_diff($newEventImagesArr,$currentEventImagesArr);
         $toRemoveImages = array_intersect($newEventImagesArr,$currentEventImagesArr);
         //foreach ($toRemoveImages as $oldImage){
         //    @unlink(public_path('storage/uploads/' . $genre->image));
         //}
-        if(isset($input['image'])){
-            $symbol = $input['image'];
-            @unlink(public_path('storage/uploads/' . $genre->image));
-            $imageName = AppHelper::renameImageFileUpload($symbol);
+        if(isset($input['thumbnail'])){
+            $thumbnail = $input['thumbnail'];
+            @unlink(public_path('storage/uploads/' . $event->thumbnail));
+            $imageName = AppHelper::renameImageFileUpload($thumbnail);
             $pathPrefix = AppHelper::prepareFileStoragePath();
-            $symbol->storeAs("public/uploads/$pathPrefix", $imageName);
-            $input['symbol'] = "{$pathPrefix}/{$imageName}";
+            $thumbnail->storeAs("public/uploads/$pathPrefix", $imageName);
+            $input['thumbnail'] = "{$pathPrefix}/{$imageName}";
         }
-        //$this->genreRepository->update($input, $genre);
+        $this->eventRepository->update($input->toArray(), $event);
+    }
+
+    public function deleteEvent(Event $event){
+        $event->load('eventMedia');
+        @unlink(public_path('storage/uploads/' . $event->thumbnail));
+        $eventMedia = $event->eventMedia;
+        foreach ($eventMedia as $media){
+            @unlink(public_path('storage/uploads/' . $media->file));
+        }
+        $this->eventRepository->delete($event);
     }
 }

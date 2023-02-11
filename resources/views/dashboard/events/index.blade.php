@@ -140,7 +140,7 @@
             "searchable": false,
             "dom": '<"top">rt<" bottom.d-md-flex.justify-content-between"lip><"clear">',
             "language": {
-                "emptyTable": "No User Found"
+                "emptyTable": "No Event Found"
             },
         });
 

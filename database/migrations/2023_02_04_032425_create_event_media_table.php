@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('event_media', function (Blueprint $table) {
             $table->id();
             $table->string('media');
-            $table->set('type', ['image', 'video']);
+            $table->set('type', ['image', 'video'])->default('image');
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
             $table->timestamps();
         });

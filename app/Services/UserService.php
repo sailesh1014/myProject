@@ -3,24 +3,28 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserService {
 
     private UserRepositoryInterface $userRepository;
-    private RoleService $roleService;
-    private GenreService $genreService;
+    private RoleService             $roleService;
+    private GenreService            $genreService;
+    private ClubService             $clubService;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->roleService = resolve(RoleService::class);
         $this->genreService = resolve(GenreService::class);
+        $this->clubService = resolve(ClubService::class);
     }
 
     public function paginateWithQuery(array $input): array
@@ -44,26 +48,56 @@ class UserService {
 
     public function createNewUser(array $input): object
     {
-        $role = $this->roleService->getRoleByKey($input['role']);
-        $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
+        return DB::transaction(function () use ($input) {
+            $role = $this->roleService->getRoleByKey($input['role']);
+            $input['password'] = Hash::make($input['password']);
+            $input['role_id'] = $role->id;
+            $user = $this->userRepository->store($input);
 
-        $input['password'] = Hash::make($input['password']);
-        $input['role_id'] = $role->id;
+            if (isset($input['genres']) && ! in_array($input['role'], UserRole::ADMIN_LIST))
+            {
+                $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
+                $this->genreService->assignGenreToUser($genreIds, $user);
+            }
+            if ($input['role'] === UserRole::ORGANIZER)
+            {
+                $input['user_id'] = $user->id;
+                $input['name'] = $input['club_name'];
+                $input['address'] = $input['club_address'];
+                $input['description'] = $input['description'] ?? null;
+                $this->clubService->createNewClub(collect($input)->only(['name', 'address', 'established_date', 'user_id'])->toArray());
+            }
 
-        $user = $this->userRepository->store($input);
-        $this->genreService->assignGenreToUser($genreIds, $user);
-        return $user;
+            return $user;
+        });
     }
 
     public function updateUser(array $input, User $user): void
     {
-        $role = $this->roleService->getRoleByKey($input['role']);
-        $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
+        DB::transaction(function () use ($input, $user) {
+            $role = $this->roleService->getRoleByKey($input['role']);
+            $input['role_id'] = $role->id;
+            $this->userRepository->update($input, $user);
 
-        $input['role_id'] = $role->id;
+            if (isset($input['genres']) && ! in_array($input['role'], UserRole::ADMIN_LIST))
+            {
+                $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
+                $this->genreService->assignGenreToUser($genreIds, $user);
+            }
 
-        $this->userRepository->update($input, $user);
-        $this->genreService->assignGenreToUser($genreIds, $user);
+            if ($input['role'] === UserRole::ORGANIZER)
+            {
+                $input['name'] = $input['club_name'];
+                $input['address'] = $input['club_address'];
+                $input['description'] = $input['description'] ?? null;
+
+                $this->clubService->updateOrCreate(['user_id' => $user->id], collect($input)->only(['name', 'address', 'established_date', 'description'])->toArray());
+            }else{
+                if($user->club){
+                    $this->clubService->delete($user->club);
+                }
+            }
+        });
     }
 
     public function findUserOrCreate(array $condition, array $data)
@@ -73,7 +107,7 @@ class UserService {
 
     public function updatePassword(array $input, $user = null): void
     {
-        if(!$user) $user = auth()->user();
+        if (! $user) $user = auth()->user();
         $input['password'] = Hash::make($input['password']);;
         $this->userRepository->update($input, $user);
     }

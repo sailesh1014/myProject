@@ -112,7 +112,7 @@
                 "searchable": false,
                 "dom": '<"top">rt<" bottom.d-md-flex.justify-content-between"lip><"clear">',
                 "language": {
-                    "emptyTable": " "
+                    "emptyTable": "No Roles Found"
                 }
             });
             $('.table-search').on( 'keyup', function () {

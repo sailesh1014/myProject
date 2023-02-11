@@ -80,10 +80,6 @@ class User extends Authenticatable implements MustVerifyEmail {
     }
 
     /* Relationship */
-    public function events(): HasMany
-    {
-        return $this->hasMany(Event::class);
-    }
 
     public function genres(): BelongsToMany
     {
@@ -99,4 +95,5 @@ class User extends Authenticatable implements MustVerifyEmail {
     {
         return $this->hasOne(Club::class);
     }
+
 }

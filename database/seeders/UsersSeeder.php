@@ -22,13 +22,13 @@ class UsersSeeder extends Seeder {
             [
                 'first_name'        => 'Suman',
                 'last_name'         => 'Budathoki',
-                'user_name'         =>  'sumanBudathoki',
+                'user_name'         => 'sumanBudathoki',
                 'email'             => 'sumanbudathoki@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender'            =>  'male',
-                'address'            =>  'Nepal',
-                'phone'            =>  '9812345678',
-                'dob'               =>  now(),
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9812345678',
+                'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => $role->id,
                 'remember_token'    => Str::random(10),
@@ -36,13 +36,13 @@ class UsersSeeder extends Seeder {
             [
                 'first_name'        => 'Suman1',
                 'last_name'         => 'Budathoki1',
-                'user_name'         =>  'sumanBudathoki1',
+                'user_name'         => 'sumanBudathoki1',
                 'email'             => 'sumanbudathoki1@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender'            =>  'male',
-                'address'            =>  'Nepal',
-                'phone'            =>  '9812345678',
-                'dob'               =>  now(),
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9812345678',
+                'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 2,  // admin
                 'remember_token'    => Str::random(10),
@@ -50,13 +50,13 @@ class UsersSeeder extends Seeder {
             [
                 'first_name'        => 'Suman2',
                 'last_name'         => 'Budathoki2',
-                'user_name'         =>  'sumanBudathok2',
+                'user_name'         => 'sumanBudathok2',
                 'email'             => 'sumanbudathoki2@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender'            =>  'male',
-                'address'            =>  'Nepal',
-                'phone'            =>  '9812345678',
-                'dob'               =>  now(),
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9812345678',
+                'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 3,  // Basic User
                 'remember_token'    => Str::random(10),
@@ -64,13 +64,13 @@ class UsersSeeder extends Seeder {
             [
                 'first_name'        => 'Suman3',
                 'last_name'         => 'Budathoki3',
-                'user_name'         =>  'sumanBudathok3',
+                'user_name'         => 'sumanBudathok3',
                 'email'             => 'sumanbudathoki3@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender'            =>  'male',
-                'address'            =>  'Nepal',
-                'phone'            =>  '9812345678',
-                'dob'               =>  now(),
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9812345678',
+                'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 4,  // Artist
                 'remember_token'    => Str::random(10),
@@ -78,13 +78,13 @@ class UsersSeeder extends Seeder {
             [
                 'first_name'        => 'Suman4',
                 'last_name'         => 'Budathoki4',
-                'user_name'         =>  'sumanBudathoki4',
+                'user_name'         => 'sumanBudathoki4',
                 'email'             => 'sumanbudathoki4@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender'            =>  'male',
-                'address'            =>  'Nepal',
-                'phone'            =>  '9812345678',
-                'dob'               =>  now(),
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9812345678',
+                'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 5,  // Organizer
                 'remember_token'    => Str::random(10),
