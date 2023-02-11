@@ -23,7 +23,7 @@
             <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                 <!--begin::Logo-->
                 <a href="{{route('dashboard.index')}}">
-                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-white.svg')}}" class="h-15px logo" />
+                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-white.png')}}" class="h-[60px] logo" />
                 </a>
                 <!--end::Logo-->
                 <!--begin::Aside toggler-->
@@ -84,7 +84,7 @@
                     <!--begin::Mobile logo-->
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                         <a href="{{route('front.index')}}" class="d-lg-none">
-                            <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}" class="h-30px" />
+                            <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.png')}}" class="h-[40px]" />
                         </a>
                     </div>
                     <!--end::Mobile logo-->
