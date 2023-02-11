@@ -49,7 +49,7 @@
                         <!--begin::Table row-->
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                             <th class="">Title</th>
-                            <th class="">Symbol</th>
+                            <th class="">Excerpt</th>
                             <th class="">Created Date</th>
                             <th class="min-w-70px">Actions</th>
                         </tr>
@@ -106,9 +106,7 @@
                     "data": "title",
                 },
                 {
-                    "data": "symbol",
-                    "searchable": false,
-                    "orderable": false
+                    "data": "excerpt",
                 },
                 {
                     "data": "created_at"

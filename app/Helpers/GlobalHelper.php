@@ -43,7 +43,7 @@ if(!function_exists('get_homePage')){
     function get_user_home_page(): string{
         $user = auth()->user();
         if(!$user){abort('401');}
-        return in_array($user->role->key, [...UserRole::ADMIN_LIST, UserRole::ORGANIZER,]) ? route('dashboard.index') : route('front.index');
+        return in_array($user->role->key, UserRole::ADMIN_LIST) ? route('dashboard.index') : route('front.home');
     }
 }
 

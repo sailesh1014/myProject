@@ -68,7 +68,7 @@ class UserController extends Controller {
 
     public function show(User $user): View
     {
-        $user->load('genres', 'role');
+        $user->load('genres', 'role', 'club');
         $genres = $this->genreService->allGenre();
         return view('dashboard.users.show', compact('user', 'genres'));
     }

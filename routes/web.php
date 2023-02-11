@@ -26,6 +26,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/email-verified', [FrontController::class, 'emailVerified']);
     Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
     Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
+
+    Route::group(['middleware' => ['genre']], function (){
+        Route::get('/home', [FrontController::class, 'home'])->name('front.home');
+    });
+
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard']], function () {
@@ -42,6 +47,7 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
         });
     });
 });
+
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::group(['middleware' => 'guest'], function (){

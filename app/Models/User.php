@@ -65,6 +65,20 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $role === UserRole::SUPER_ADMIN;
     }
 
+    public function isOrganizer(): bool
+    {
+        $role = $this->role->key;
+
+        return $role === UserRole::ORGANIZER;
+    }
+
+    public function isArtist(): bool
+    {
+        $role = $this->role->key;
+
+        return $role === UserRole::ARTIST;
+    }
+
     /* Relationship */
     public function events(): HasMany
     {

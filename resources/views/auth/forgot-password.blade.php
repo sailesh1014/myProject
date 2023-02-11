@@ -18,7 +18,7 @@
             <!--begin::Wrapper-->
             <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-success text-center" role="alert">
                         {{ ucfirst(str_replace('-', '', session('status'))) }}
                     </div>
                 @endif

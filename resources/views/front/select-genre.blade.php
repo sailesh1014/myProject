@@ -8,7 +8,7 @@
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
             <!--begin::Logo-->
-            <a href="{{url('/')}}" class="mb-10">
+            <a href="{{route('front.index')}}" class="mb-10">
                 <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}" class="h-45px"/>
             </a>
             <!--end::Logo-->
@@ -29,10 +29,7 @@
                     @foreach($genres as $genre)
                         <div data-val="{{$genre->name}}" class="single-genre"
                              title="{{$genre->excerpt}}">
-                            <img src="{{asset('storage/uploads/'.$genre->symbol)}}" class="h-[30px] w-[30px]"
-                                 alt="{{$genre->name}}">
-                            <span
-                                class="inline-block text-gray-800 fw-bold fs-6 lh-1 pointer-events-none overflow-hidden overflow-ellipsis w-full text-center">{{ucwords($genre->name)}}</span>
+                            <span class="inline-block text-gray-800 fw-bold fs-6 lh-1 pointer-events-none overflow-hidden overflow-ellipsis w-full text-center">{{ucwords($genre->name)}}</span>
                         </div>
                     @endforeach
                 </div>
@@ -65,7 +62,7 @@
                 } else {
                     selectedGenre = selectedGenre.filter((el) => el !== selectedSlug);
                 }
-                if (selectedGenre.length === 3) {
+                if (selectedGenre.length ==  '{{env('MAX_USER_GENRE_COUNT')}}') {
                     $('.single-genre').not('.single-genre.active').addClass('disabled');
                 } else {
                     $('.single-genre').removeClass('disabled');
