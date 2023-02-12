@@ -32,7 +32,7 @@ class CreateNewUser implements CreatesNewUsers {
             'gender'               => ['nullable', 'string', 'in:male,female,others'],
             'address'              => ['required', 'string', 'max:191'],
             'phone'                => ['nullable', 'numeric', 'digits:10'],
-            'dob'                  => ['nullable', 'date', 'before:' . now()->toDateString()],
+            'dob'                  => ['nullable', 'date_format:Y-m-d', 'before:' . now()->toDateString()],
             'terms_and_conditions' => ['required'],
         ];
         $selectedRole = $authService->selectedRole();
@@ -40,7 +40,7 @@ class CreateNewUser implements CreatesNewUsers {
         {
             $validationArr['club_name'] = ['required', 'string', 'max:191'];
             $validationArr['club_address'] = ['required', 'string', 'max:191'];
-            $validationArr['established_date'] = ['required', 'date', 'before:' . now()->toDateString()];
+            $validationArr['established_date'] = ['required', 'date_format:Y-m-d', 'before:' . now()->toDateString()];
         }
 
 
