@@ -48,7 +48,6 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
     });
 });
 
-
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::group(['middleware' => 'guest'], function (){
     Route::get('/register/user', [AuthController::class, 'createUser'])->name('register.user');
