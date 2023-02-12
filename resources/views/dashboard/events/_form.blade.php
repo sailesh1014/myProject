@@ -100,32 +100,6 @@
         <!--end::Card body-->
     </div>
     <!--end::Status-->
-    <!--begin::Location-->
-    <div class="card card-flush py-4">
-        <!--begin::Card header-->
-        <div class="card-header">
-            <!--begin::Card title-->
-            <div class="card-title">
-                <h2 class="required">Location</h2>
-            </div>
-            <!--end::Card title-->
-        </div>
-        <!--end::Card header-->
-        <!--begin::Card body-->
-        <div class="card-body pt-0">
-            <!--begin::location-->
-            <input type="text" name="location" class="form-control mb-2" placeholder="Event Location" id="location"
-                   value="{{old('location', $event->location)}}"/>
-            @error('location')
-            <span class="invalid-feedback show" role="alert">
-                    <strong>{{$message}}</strong>
-                </span>
-            @enderror
-            <!--end::location-->
-        </div>
-        <!--end::Card body-->
-    </div>
-    <!--end::Location-->
     <!--begin::Weekly sales-->
     <div class="card card-flush py-4">
         <!--begin::Card header-->
@@ -174,7 +148,7 @@
                     <option value="">Choose Club</option>
                     @foreach($clubs as $k => $v)
                         <?php
-                        $selected = old('club_id', $event->club_id) === $k ? 'selected' : '';
+                        $selected = old('club_id', $event->club_id) == $k ? 'selected' : '';
                         ?>
                         <option value="{{$k}}" {{$selected}}>{{ucwords($v)}}</option>
                     @endforeach
@@ -270,7 +244,7 @@
                         <input type="file" class="filepond" name="images[]">
                     </div>
                     <!--end::Input group-->
-                    @error('images')
+                    @error('images.*')
                     <span class="invalid-feedback show" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -359,8 +333,23 @@
             const eventImagesArr = eventImages.map(el => {
                 return {source: `${assetPath}/${el.media}`}
             })
-            FilePond.create(ImageElement, {
+            const pond = FilePond.create(ImageElement, {
                 files: eventImagesArr
+            });
+            let fileNames = [];
+            pond.on('addfile',
+                function(error, file){
+                    if(fileNames.includes(file.filename)){
+                        pond.removeFile(file);
+                        toastError(file.filename +' cannot be loaded. Duplicate name !!!');
+                        return;
+                    }
+                    fileNames.push(file.filename);
+                });
+            pond.on('removefile',
+                function(error, file){
+                    const index = fileNames.indexOf(file.filename);
+                    fileNames.splice(index, 1);
             });
             submitButton.on('click', function (e) {
                 e.preventDefault();

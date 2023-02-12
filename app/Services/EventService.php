@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 
 class EventService {
 
-    public function __construct(private EventRepositoryInterface $eventRepository, private EventMediaService $eventImageService) {}
+    public function __construct(private EventRepositoryInterface $eventRepository, private EventMediaService $eventMediaService) {}
 
     public function paginateWithQuery(array $input): array
     {
@@ -47,10 +47,7 @@ class EventService {
 
         /* image store start*/
         if(isset($input['images'])){
-            $images = $input['images'];
-            foreach ($images as $image){
-                $this->eventImageService->uploadImage($event,$image);
-            }
+                $this->eventMediaService->uploadMedia($event,$input['images']);
         }
         return $event;
     }
@@ -58,17 +55,27 @@ class EventService {
     public function updateEvent(Collection $input,Model $event){
         $event->load('eventMedia');
         $newEventImages = $input['images'] ?? [];
-        $newEventImagesArr = array_map(function ($element){
-            return $element->getClientOriginalName();
-        },$newEventImages);
-        $currentEventImagesArr = $event->eventMedia->map(function ($el){
-                return  basename($el->media);
-        })->toArray();
-        $toUploadImages = array_diff($newEventImagesArr,$currentEventImagesArr);
-        $toRemoveImages = array_intersect($newEventImagesArr,$currentEventImagesArr);
-        //foreach ($toRemoveImages as $oldImage){
-        //    @unlink(public_path('storage/uploads/' . $genre->image));
-        //}
+        $newEventImagesArr = array_reduce($newEventImages,function ($carry,$element){
+            $carry[$element->getClientOriginalName()] = $element;
+            return $carry;
+        },[]);
+        /*  'image.png' => '2023/12/image.png'  */
+        $currentEventImagesArr = $event->eventMedia->reduce(function ($carry,$element){
+                $carry[basename($element->media)] = $element->media;
+                return  $carry;
+        },[]);
+
+
+        $currentEventImagesArrKeys = array_keys($currentEventImagesArr);
+        $newEventImagesArrKeys = array_keys($newEventImagesArr);
+        $toUploadImagesKeys = array_diff($newEventImagesArrKeys,$currentEventImagesArrKeys);
+        $toRemoveImagesKeys = array_diff($currentEventImagesArrKeys,$newEventImagesArrKeys);
+
+        $toUploadImages = array_intersect_key($newEventImagesArr,array_flip($toUploadImagesKeys));
+        $toRemoveImages = array_intersect_key($currentEventImagesArr,array_flip($toRemoveImagesKeys));
+        $this->eventMediaService->uploadMedia($event,$toUploadImages);
+        $this->eventMediaService->removeMedia($event->id,$toRemoveImages);
+
         if(isset($input['thumbnail'])){
             $thumbnail = $input['thumbnail'];
             @unlink(public_path('storage/uploads/' . $event->thumbnail));
@@ -83,10 +90,8 @@ class EventService {
     public function deleteEvent(Event $event){
         $event->load('eventMedia');
         @unlink(public_path('storage/uploads/' . $event->thumbnail));
-        $eventMedia = $event->eventMedia;
-        foreach ($eventMedia as $media){
-            @unlink(public_path('storage/uploads/' . $media->file));
-        }
+        $eventMedia = $event->eventMedia->pluck('media')->toArray();
+        $this->eventMediaService->removeMedia($event->id,$eventMedia);
         $this->eventRepository->delete($event);
     }
 }

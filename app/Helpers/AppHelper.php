@@ -31,7 +31,7 @@ class AppHelper {
     {
         $imageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-        return Str::of($imageName)->slug('_') . '_' . date('YmdHis') . '.' . $file->extension();
+        return Str::of($imageName)->slug('_') . '_' .uniqid(date('Ymd')). '.' . $file->extension();
     }
 
 

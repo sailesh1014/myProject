@@ -39,11 +39,11 @@ class UserRequest extends FormRequest {
             'gender'           => ['nullable', 'string', 'in:male,female,others'],
             'address'          => ['required', 'string', 'max:191'],
             'phone'            => ['nullable', 'numeric', 'digits:10'],
-            'dob'              => ['nullable', 'date'],
+            'dob'              => ['nullable', 'date_format:Y-m-d'],
             'club_name'        => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'string', 'max:191'],
             'club_address'     => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'string', 'max:191'],
             'club_description' => ['nullable', 'string', 'max:255'],
-            'established_date' => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'date'],
+            'established_date' => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'date_format:Y-m-d'],
         ];
         //no need to validate during update, because there will be no password field on update
         //there will be another form change password for updating password

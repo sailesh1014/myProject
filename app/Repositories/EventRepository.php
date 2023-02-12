@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Interfaces\EventRepositoryInterface;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Model;
 
 
 class EventRepository extends BaseRepository implements EventRepositoryInterface

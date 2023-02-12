@@ -73,16 +73,17 @@
                             </th>
                             <td>
                                 <?php
-                                    switch ($event->status){
-                                        case \App\Constants\EventStatus::PUBLISHED:
-                                            echo info_pill($event->status);
-                                            break;
-                                        case \App\Constants\EventStatus::DRAFT:
-                                            echo danger_pill($event->status);
-                                            break;
-                                        case \App\Constants\EventStatus::FINISHED:
-                                            echo success_pill($event->status);
-                                    }
+                                switch ($event->status)
+                                {
+                                    case \App\Constants\EventStatus::PUBLISHED:
+                                        echo info_pill($event->status);
+                                        break;
+                                    case \App\Constants\EventStatus::DRAFT:
+                                        echo danger_pill($event->status);
+                                        break;
+                                    case \App\Constants\EventStatus::FINISHED:
+                                        echo success_pill($event->status);
+                                }
                                 ?>
                             </td>
                         </tr>
@@ -94,7 +95,48 @@
                                 {!! $event->description !!}
                             </td>
                         </tr>
-
+                        <tr>
+                            <th>
+                                Fee
+                            </th>
+                            <td>
+                                {{$event->fee === 0 ? 'Free' : $event->fee}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Event Date
+                            </th>
+                            <td>
+                                {{\App\Helpers\AppHelper::formatDate($event->event_date, 'd M, Y')}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Event Time
+                            </th>
+                            <td>
+                                {{\App\Helpers\AppHelper::formatDate($event->event_date, 'h:i A')}}
+                            </td>
+                        </tr>
+                        @if($event->club)
+                            <tr>
+                                <th>
+                                    Club Name
+                                </th>
+                                <td>
+                                    {{$event->club->name}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Location
+                                </th>
+                                <td>
+                                    {{$event->club->address}}
+                                </td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>
                                 Created At
@@ -135,7 +177,7 @@
             </div>
             <!--end::Card-->
             <?php $eventImages = $event->eventMedia; ?>
-            @if($eventImages)
+            @if($eventImages->count() > 0)
                 <div class="card mt-8">
                     <div class="card-header">
                         <div class="card-title">
@@ -145,22 +187,22 @@
                     <!--begin::Row-->
                     <div class="card-body flex flex-wrap flex-start gap-8 p-10">
                         @foreach($eventImages as $file)
-                                <!--begin::Overlay-->
-                                <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="event-images"
-                                   href="{{asset('storage/uploads/'.$file->media)}}">
-                                    <!--begin::Image-->
-                                    <div
-                                        class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-                                        style="background-image:url({{'/storage/uploads/'.$file->media}})">
-                                    </div>
-                                    <!--end::Image-->
+                            <!--begin::Overlay-->
+                            <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="event-images"
+                               href="{{asset('storage/uploads/'.$file->media)}}">
+                                <!--begin::Image-->
+                                <div
+                                    class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                    style="background-image:url({{'/storage/uploads/'.$file->media}})">
+                                </div>
+                                <!--end::Image-->
 
-                                    <!--begin::Action-->
-                                    <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
-                                        <i class="bi bi-eye-fill text-white fs-3x"></i>
-                                    </div>
-                                    <!--end::Action-->
-                                </a>
+                                <!--begin::Action-->
+                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                    <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                </div>
+                                <!--end::Action-->
+                            </a>
                             <!--end::Overlay-->
                         @endforeach
                     </div>

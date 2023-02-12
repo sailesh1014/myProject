@@ -2,7 +2,7 @@ import.meta.glob([
     '../../img/dashboard/**',
 ]);
 import flatpickr from "flatpickr";
-import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
+// import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 
 
 $(function () {

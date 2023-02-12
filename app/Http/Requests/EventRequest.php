@@ -22,8 +22,7 @@ class EventRequest extends FormRequest {
             'excerpt'     => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'thumbnail'   => ['required_without:thumbnail_hidden_value', 'mimes:jepg,png,jpg', 'max:2048'],
-            'location'    => ['required', 'string', 'max:191'],
-            'event_date'  => ['required', 'date', 'after_or_equal:tomorrow'],
+            'event_date'  => ['required', 'date_format:Y-m-d H:i', 'after_or_equal:tomorrow'],
             'fee'         => ['required', 'numeric'],
             'status'      => ['required', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
             'images.*'    => ['nullable', 'mimes:jepg,png,jpg', 'max:2048'],
@@ -32,7 +31,8 @@ class EventRequest extends FormRequest {
         {
             $validationArr['club_id'] = ['required', 'string', 'exists:clubs,id'];
         }
-        return  $validationArr;
+
+        return $validationArr;
     }
 
     public function messages(): array

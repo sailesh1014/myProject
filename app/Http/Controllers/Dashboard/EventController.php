@@ -56,21 +56,13 @@ class EventController extends Controller {
 
     public function show(Event $event){
         $this->authorize('view', Event::class);
-
+        $event->load('club');
         return view('dashboard.events.show',compact('event'));
     }
 
     public function edit(Event $event): View
     {
         $event->load('eventMedia');
-        //foreach ($medias as $file)
-        //{
-        //    $imageName = $file->media;
-        //    $obj['name'] = $imageName;
-        //    $obj['size'] = filesize(public_path('storage/uploads/' . $imageName));
-        //    $obj['path'] = asset('storage/uploads/' . $imageName);
-        //    $eventMedia[] = $obj;
-        //}
         /** TODO: Remove query from Here */
         $clubs = Club::pluck('name', 'id');
         return view('dashboard.events.edit', compact('event', 'clubs'));

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->float('fee')->default(0);
             $table->set('status', EventStatus::LIST)->default(EventStatus::DRAFT);
-            $table->string('location');
             $table->dateTime('event_date');
             $table->foreignId('club_id')->nullable()->constrained('clubs')->nullOnDelete();
             $table->timestamps();
