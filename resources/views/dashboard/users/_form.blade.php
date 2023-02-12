@@ -181,11 +181,42 @@
             </span>
         @enderror
     </div>
+
+    <div class="col-md-6 fv-row preference
+     {{(old('role',$user->role?->key) === \App\Constants\UserRole::ORGANIZER || old('role',$user->role?->key) === \App\Constants\UserRole::ARTIST)   ? '' : 'hidden'}}">
+        <label class="fs-6 fw-bold mb-2" for="role_id">
+            <span>Preference</span>
+            <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
+               title="Select your preference"></i></label>
+        <select class="form-control form-control-solid @error('preference') is-invalid @enderror"
+                name="preference">
+            <option value="">{{ __('-- Select preference --') }}</option>
+            @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
+                <?php
+                if (old('preference', $user->preference) == $key ? 'selected' : '')
+                {
+                    $selected = "selected";
+                } else
+                {
+                    $selected = '';
+                }
+                ?>
+                <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
+            @endforeach
+        </select>
+        @error('preference')
+        <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
 </div>
 <!--end::Input group-->
 
 
-<div class="club mb-8 {{(old('role',$user->role?->key) === \App\Constants\UserRole::ORGANIZER && $user->role?->key === \App\Constants\UserRole::ORGANIZER) || old('role') === \App\Constants\UserRole::ORGANIZER   ? '' : 'hidden'}}">
+<div
+    class="club mb-8 {{(old('role',$user->role?->key) === \App\Constants\UserRole::ORGANIZER && $user->role?->key === \App\Constants\UserRole::ORGANIZER) || old('role') === \App\Constants\UserRole::ORGANIZER   ? '' : 'hidden'}}">
     <!--begin::Input group-->
     <div class="row g-9 mb-8">
         <!--begin::Input group-->
@@ -220,7 +251,8 @@
     <div class="row g-9 mb-8">
         <div class="col-md-6 fv-row">
             <label class="required fs-6 fw-bold mb-2">Established Date</label>
-            <input id="established_date" name="established_date" class="form-control form-control-solid @error('established_date') is-invalid @enderror"
+            <input id="established_date" name="established_date"
+                   class="form-control form-control-solid @error('established_date') is-invalid @enderror"
                    value="{{ old('established_date', $user->club?->established_date) }}"/>
             @error('established_date')
             <span class="invalid-feedback" role="alert">
@@ -230,7 +262,8 @@
         </div>
         <div class="col-md-6 fv-row">
             <label class="fs-6 fw-bold mb-2">Description</label>
-            <textarea name="club_description" rows="1" class="form-control form-control-solid @error('club_description') is-invalid @enderror">{{ old('club_description', $user->club?->description) }}</textarea>
+            <textarea name="club_description" rows="1"
+                      class="form-control form-control-solid @error('club_description') is-invalid @enderror">{{ old('club_description', $user->club?->description) }}</textarea>
             @error('club_description')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -242,7 +275,8 @@
 
 </div>
 
-<div class="user-genre {{(  old('role', $user->role?->key) != "" &&  !in_array(old('role', $user->role?->key), \App\Constants\UserRole::ADMIN_LIST)) ? '': 'hidden'}}">
+<div
+    class="user-genre {{(  old('role', $user->role?->key) != "" &&  !in_array(old('role', $user->role?->key), \App\Constants\UserRole::ADMIN_LIST)) ? '': 'hidden'}}">
     <!--begin::Title-->
     <label class="required fs-6 fw-bold mb-4">Select User genre</label>
     <!--end::Title-->
@@ -284,18 +318,23 @@
     <script type="text/javascript">
         $(document).ready(function () {
             /** role select */
-            $('select[name="role"]').on('change', function(){
+            $('select[name="role"]').on('change', function () {
                 const value = $(this).val();
                 const adminList = @json(\App\Constants\UserRole::ADMIN_LIST);
-                if(adminList.includes(value)){
+                if (adminList.includes(value)) {
                     $('.user-genre').slideUp();
-                }else{
+                } else {
                     $('.user-genre').slideDown();
                 }
-                if(value === "{{\App\Constants\UserRole::ORGANIZER}}"){
+                if (value === "{{\App\Constants\UserRole::ORGANIZER}}") {
                     $('.club').slideDown();
-                }else{
+                } else {
                     $('.club').slideUp();
+                }
+                if (value === "{{\App\Constants\UserRole::ORGANIZER}}" || value === "{{\App\Constants\UserRole::ARTIST}}") {
+                    $('.preference').slideDown();
+                }else{
+                    $('.preference').slideUp();
                 }
             });
 

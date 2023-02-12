@@ -28,6 +28,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
+                'solo'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => $role->id,
@@ -42,6 +43,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
+                'solo'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 2,  // admin
@@ -56,6 +58,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
+                'solo'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 3,  // Basic User
@@ -70,6 +73,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
+                'solo'              => true,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 4,  // Artist
@@ -84,6 +88,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
+                'solo'              => false,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 5,  // Organizer

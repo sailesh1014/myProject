@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('intro_video')->nullable();
+            $table->boolean('solo')->nullable()->comment('If the artist/organizer prefer solo/band');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
             $table->rememberToken();

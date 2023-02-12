@@ -8,6 +8,7 @@ use App\Http\Requests\EventRequest;
 use App\Models\Club;
 use App\Models\Event;
 use App\Models\User;
+use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
 use Illuminate\Contracts\View\View;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller {
 
-    public function __construct(protected EventService $eventService, protected RoleService $roleService) {}
+    public function __construct(protected EventService $eventService, protected RoleService $roleService, protected ClubService $clubService) {}
 
     public function index(Request $request) {
         $this->authorize('view', Event::Class);
@@ -39,8 +40,7 @@ class EventController extends Controller {
     public function create(): View
     {
         $event = new Event();
-        /** TODO: Move this to service or repo */
-        $clubs = Club::pluck('name', 'id');
+        $clubs = $this->clubService->getclubs()->pluck('name', 'id');
         return view('dashboard.events.create', compact('event', 'clubs'));
     }
 
@@ -63,8 +63,7 @@ class EventController extends Controller {
     public function edit(Event $event): View
     {
         $event->load('eventMedia');
-        /** TODO: Remove query from Here */
-        $clubs = Club::pluck('name', 'id');
+        $clubs = $this->clubService->getclubs()->pluck('name', 'id');
         return view('dashboard.events.edit', compact('event', 'clubs'));
     }
 

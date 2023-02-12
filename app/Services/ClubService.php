@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Interfaces\ClubRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClubService {
 
@@ -17,6 +18,10 @@ class ClubService {
     public function updateOrCreate(array $conditionArr, array $input,){
         return $this->clubRepository->updateOrCreate($conditionArr, $input);
 
+    }
+    public function getClubs(): Collection
+    {
+        return $this->clubRepository->all();
     }
 
     public function delete($club): void

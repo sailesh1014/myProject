@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Models\User;
 use App\Services\RoleService;
@@ -33,17 +34,18 @@ class UserRequest extends FormRequest {
             'last_name'        => ['required', 'string', 'max:191'],
             'email'            => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
             'role'             => ['required', 'string', 'exists:roles,key', Rule::in(array_keys($publicRoles))],
-            'genres'           => ['nullable','required_if:role,'.implode(',',array_keys($roleService->getPublicRoles())), 'array', "min:$minGenreCount", "max:$maxGenreCount"],
+            'genres'           => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST), 'required_if:role,' . implode(',', array_keys($roleService->getPublicRoles())), 'array', "min:$minGenreCount", "max:$maxGenreCount"],
             'genres.*'         => ['string', 'exists:genres,name'],
             'user_name'        => ['required', 'string', 'max:191', Rule::unique(User::class)],
             'gender'           => ['nullable', 'string', 'in:male,female,others'],
             'address'          => ['required', 'string', 'max:191'],
             'phone'            => ['nullable', 'numeric', 'digits:10'],
+            'preference'       => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER, 'required_if:role,' . UserRole::ORGANIZER . ',' . UserRole::ARTIST, 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
             'dob'              => ['nullable', 'date_format:Y-m-d'],
-            'club_name'        => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'string', 'max:191'],
-            'club_address'     => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'string', 'max:191'],
-            'club_description' => ['nullable', 'string', 'max:255'],
-            'established_date' => ['nullable', 'required_if:role,'.UserRole::ORGANIZER, 'date_format:Y-m-d'],
+            'club_name'        => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'required_if:role,' . UserRole::ORGANIZER, 'string', 'max:191'],
+            'club_address'     => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'required_if:role,' . UserRole::ORGANIZER, 'string', 'max:191'],
+            'club_description' => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'string', 'max:255'],
+            'established_date' => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'required_if:role,' . UserRole::ORGANIZER, 'date_format:Y-m-d'],
         ];
         //no need to validate during update, because there will be no password field on update
         //there will be another form change password for updating password
