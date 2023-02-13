@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
+use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Interfaces\ClubRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
@@ -23,6 +24,8 @@ class CreateNewUser implements CreatesNewUsers {
     public function create(array $input): User
     {
         $authService = resolve(AuthService::class);
+        $selectedRole = $authService->selectedRole();
+        $selectedRoleIsOrganizer = $selectedRole === UserRole::ORGANIZER;
         $validationArr = [
             'first_name'           => ['required', 'string', 'max:191'],
             'last_name'            => ['required', 'string', 'max:191'],
@@ -34,25 +37,21 @@ class CreateNewUser implements CreatesNewUsers {
             'phone'                => ['nullable', 'numeric', 'digits:10'],
             'dob'                  => ['nullable', 'date_format:Y-m-d', 'before:' . now()->toDateString()],
             'terms_and_conditions' => ['required'],
+            'preference'           => ['nullable',  Rule::excludeIf(function () use ($selectedRoleIsOrganizer, $selectedRole) { return (!$selectedRoleIsOrganizer) &&  $selectedRole !== UserRole::ARTIST; }), Rule::requiredIf(function () use($selectedRole,$selectedRoleIsOrganizer){
+                return $selectedRole === UserRole::ARTIST || $selectedRoleIsOrganizer;
+            }), 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
+            'club_name'            => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer) { return !$selectedRoleIsOrganizer; }), Rule::requiredIf(function ()use($selectedRole){return $selectedRole === UserRole::ORGANIZER;}), 'string', 'max:191'],
+            'club_address'         => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer) { return ! $selectedRoleIsOrganizer; }),  Rule::requiredIf(function ()use($selectedRole){return $selectedRole === UserRole::ORGANIZER;}), 'string', 'max:191'],
+            'established_date'     => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer) { return ! $selectedRoleIsOrganizer; }), Rule::requiredIf(function ()use($selectedRole){return $selectedRole === UserRole::ORGANIZER;}), 'date_format:Y-m-d'],
         ];
-        $selectedRole = $authService->selectedRole();
-        if ($selectedRole === UserRole::ORGANIZER)
-        {
-            $validationArr['club_name'] = ['required', 'string', 'max:191'];
-            $validationArr['club_address'] = ['required', 'string', 'max:191'];
-            $validationArr['established_date'] = ['required', 'date_format:Y-m-d', 'before:' . now()->toDateString()];
-        }
 
-
-        Validator::make($input, $validationArr, ['terms_and_conditions' => 'The :attribute must be accepted.',
-                                                 'role.required'        => 'Select least one role.'])->validate();
-
+        Validator::make($input, $validationArr, ['terms_and_conditions' => 'The :attribute must be accepted.'])->validate();
         return DB::transaction(function () use ($input, $selectedRole, $authService) {
             $userRepository = resolve(UserRepositoryInterface::class);
             $roleService = resolve(RoleService::class);
             $input['role_id'] = $roleService->getRoleByKey($selectedRole)->id;
             $input['password'] = Hash::make($input['password']);
-            $user = $userRepository->store(collect($input)->only(['first_name', 'last_name', 'user_name', 'email', 'password', 'gender', 'phone', 'dob', 'role_id', 'address'])->toArray());
+            $user = $userRepository->store(collect($input)->only(['first_name', 'last_name', 'user_name', 'email', 'password', 'gender', 'phone', 'dob', 'role_id', 'address', 'preference'])->toArray());
 
             if ($selectedRole === UserRole::ORGANIZER)
             {

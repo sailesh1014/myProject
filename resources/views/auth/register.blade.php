@@ -35,7 +35,8 @@
                         <div class="row fv-row mb-7 gap-y-[20px]">
                             <!--begin::Col-->
                             <div class="col-xl-6">
-                                <label for="first_name" class="form-label fw-bolder text-dark fs-6 required">First Name</label>
+                                <label for="first_name" class="form-label fw-bolder text-dark fs-6 required">First
+                                    Name</label>
                                 <input id="first_name" type="text"
                                        class="form-control form-control-lg @error('first_name') is-invalid @enderror"
                                        name="first_name" value="{{ old('first_name') }}" autocomplete="off"
@@ -49,7 +50,8 @@
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-xl-6">
-                                <label for="last_name" class="form-label fw-bolder text-dark fs-6 required">Last Name</label>
+                                <label for="last_name" class="form-label fw-bolder text-dark fs-6 required">Last
+                                    Name</label>
                                 <input id="last_name" type="text"
                                        class="form-control form-control-lg @error('last_name') is-invalid @enderror"
                                        name="last_name" value="{{ old('last_name') }}" autocomplete="off"
@@ -66,7 +68,8 @@
 
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <label for="user_name" class="form-label fw-bolder text-dark fs-6 required">User Name</label>
+                            <label for="user_name" class="form-label fw-bolder text-dark fs-6 required">User
+                                Name</label>
                             <input id="user_name" type="text"
                                    class="form-control form-control-lg @error('user_name') is-invalid @enderror"
                                    name="user_name"
@@ -166,14 +169,41 @@
                             </span>
                             @enderror
                         </div>
+                        <?php
+                        $selectedRole = session(\App\Services\AuthService::SELECT_ROLE_KEY);
+                        ?>
+                        @if($selectedRole === \App\Constants\UserRole::ORGANIZER || $selectedRole === \App\Constants\UserRole::ARTIST)
                         <!--end::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="fs-6 fw-bold mb-2" for="role_id">
+                                <span>Preference</span>
+                                <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
+                                   title="Select your preference"></i></label>
+                            <select class="form-control form-control @error('preference') is-invalid @enderror"
+                                    name="preference">
+                                <option value="">{{ __('-- Select preference --') }}</option>
+                                @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
+                                    <?php
+                                    $selected = old('preference') == $key ? 'selected' : '';
+                                    ?>
+                                    <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            @error('preference')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                            @enderror
+                        </div>
+                        @endif
 
                         <!--begin::Input group-->
                         <div class="mb-7 fv-row" data-kt-password-meter="true">
                             <!--begin::Wrapper-->
                             <div class="mb-1">
                                 <!--begin::Label-->
-                                <label for="password" class="form-label fw-bolder text-dark fs-6 required">Password</label>
+                                <label for="password"
+                                       class="form-label fw-bolder text-dark fs-6 required">Password</label>
                                 <!--end::Label-->
                                 <!--begin::Input wrapper-->
                                 <div class="position-relative mb-3">
@@ -240,7 +270,8 @@
 
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
-                                    <label for="club_name" class="form-label fw-bolder text-dark fs-6 required">Club Name</label>
+                                    <label for="club_name" class="form-label fw-bolder text-dark fs-6 required">Club
+                                        Name</label>
                                     <input id="club_name" type="text"
                                            class="form-control form-control-lg @error('club_name') is-invalid @enderror"
                                            name="club_name"
@@ -255,7 +286,8 @@
 
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
-                                    <label for="club_address" class="form-label fw-bolder text-dark fs-6 required">Club Address</label>
+                                    <label for="club_address" class="form-label fw-bolder text-dark fs-6 required">Club
+                                        Address</label>
                                     <input id="club_address" type="text"
                                            class="form-control form-control-lg @error('club_address') is-invalid @enderror"
                                            name="club_address"
@@ -270,7 +302,8 @@
 
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
-                                    <label for="established_date" class="form-label fw-bolder text-dark fs-6 required">Established Date</label>
+                                    <label for="established_date" class="form-label fw-bolder text-dark fs-6 required">Established
+                                        Date</label>
                                     <input name="established_date" class="form-control" id="dob"
                                            value="{{old('established_date')}}"/>
                                     @error('established_date')
@@ -325,7 +358,7 @@
 @endsection
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#dob,#established_date").flatpickr({
                 dateFormat: "Y-m-d",
                 maxDate: new Date(),

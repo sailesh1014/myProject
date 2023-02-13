@@ -50,8 +50,14 @@
                         <button type="submit" class="btn btn-lg btn-primary fw-bolder">
                             <span class="indicator-label">Resend</span>
                         </button>
+                            <button type="button" id="logoutBtn" class="btn btn-lg btn-danger fw-bolder" onclick="logout('#logoutForm');">
+                                <span class="indicator-label">Logout</span>
+                            </button>
                     </div>
                     <!--end::Action-->
+                </form>
+                <form action="{{route('logout')}}" id="logoutForm" method="POST">
+                    @csrf
                 </form>
                 <!--end::Form-->
             </div>
@@ -62,3 +68,10 @@
     <!--end::Authentication - Verify Email -->
 
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        const logout = (form) =>{
+            $(form).submit();
+        }
+    </script>
+@endpush
