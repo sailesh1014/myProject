@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
             UsersSeeder::class,
             ClubSeeder::class,
             PermissionSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }
