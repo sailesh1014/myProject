@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Models\Club;
 use App\Models\User;
@@ -28,7 +29,7 @@ class ClubSeeder extends Seeder {
                 'gender'            => 'male',
                 'phone'             => '9812345678',
                 'address'           => 'Nepal',
-                'solo'              =>  1,
+                'preference'        => PreferenceType::SOLO,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

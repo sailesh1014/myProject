@@ -8,6 +8,7 @@ use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Models\User;
 use App\Services\RoleService;
+use App\Services\UserService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,15 +29,15 @@ class UserRequest extends FormRequest {
         /* TODO: Change max and min genre count from config or setting */
         $maxGenreCount = env('MAX_USER_GENRE_COUNT');
         $minGenreCount = env('MIN_USER_GENRE_COUNT');
-        $userId = $this->route('user');
+        $user = $this->route('user');
         $rules = [
             'first_name'       => ['required', 'string', 'max:191'],
             'last_name'        => ['required', 'string', 'max:191'],
-            'email'            => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
+            'email'            => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user)],
             'role'             => ['required', 'string', 'exists:roles,key', Rule::in(array_keys($publicRoles))],
             'genres'           => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST), 'required_if:role,' . implode(',', array_keys($roleService->getPublicRoles())), 'array', "min:$minGenreCount", "max:$maxGenreCount"],
             'genres.*'         => ['string', 'exists:genres,name'],
-            'user_name'        => ['required', 'string', 'max:191', Rule::unique(User::class)],
+            'user_name'        => ['required', 'string', 'max:191', Rule::unique(User::class)->ignore($user)],
             'gender'           => ['nullable', 'string', 'in:male,female,others'],
             'address'          => ['required', 'string', 'max:191'],
             'phone'            => ['nullable', 'numeric', 'digits:10'],
@@ -52,6 +53,10 @@ class UserRequest extends FormRequest {
         if ($this->isMethod('POST'))
         {
             $rules['password'] = $this->passwordRules();
+        }else{
+            $rules['role'] =  ['nullable',Rule::requiredIf(function () use ($user){
+                return !$user->isSuperAdmin();
+            }), Rule::excludeIf($user->isSuperAdmin()), 'string', 'exists:roles,key'];
         }
 
         return $rules;

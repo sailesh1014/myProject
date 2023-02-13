@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Models\Permission;
 use App\Models\Role;
@@ -28,7 +29,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'solo'              => null,
+                'preference'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => $role->id,
@@ -43,7 +44,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'solo'              => null,
+                'preference'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 2,  // admin
@@ -58,7 +59,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'solo'              => null,
+                'preference'              => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 3,  // Basic User
@@ -73,7 +74,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'solo'              => true,
+                'preference'              => PreferenceType::SOLO,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 4,  // Artist
@@ -88,7 +89,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'solo'              => false,
+                'preference'              => PreferenceType::BAND,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 5,  // Organizer

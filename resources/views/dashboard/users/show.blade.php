@@ -88,6 +88,14 @@
                         </tr>
                         <tr>
                             <th>
+                                Role
+                            </th>
+                            <td>
+                                {{$user->role->name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
                                 Gender
                             </th>
                             <td>
@@ -126,6 +134,16 @@
                                 {{\App\Helpers\AppHelper::formatDate($user->created_at, 'd M, Y')}}
                             </td>
                         </tr>
+                        @if($user->preference !== null)
+                            <tr>
+                                <th>
+                                    Preference
+                                </th>
+                                <td>
+                                    {{ucwords($user->preference)}}
+                                </td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                     <!--end: Table-->
@@ -159,14 +177,6 @@
                                 </th>
                                 <td>
                                     {{ucwords($user->club->name)}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Club Address
-                                </th>
-                                <td>
-                                    {{$user->club->address}}
                                 </td>
                             </tr>
                             @if($user->club->description)

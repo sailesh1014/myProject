@@ -100,7 +100,7 @@
                                 Fee
                             </th>
                             <td>
-                                {{$event->fee === 0 ? 'Free' : $event->fee}}
+                                {{$event->fee == 0 || $event->fee == null ? 'Free' : $event->fee}}
                             </td>
                         </tr>
                         <tr>

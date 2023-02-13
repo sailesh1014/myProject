@@ -1,5 +1,4 @@
 @csrf
-@include('utils._error_all')
 <!--begin::Input group-->
 <div class="row g-9 mb-8">
     <!--begin::Col-->
@@ -61,6 +60,7 @@
 </div>
 <!--end::Input group-->
 
+{{--$show varialbe is true for "POST" request i.e, create request --}}
 @if($show)
     <!--begin::Input group-->
     <div class="row g-9 mb-8">
@@ -98,11 +98,11 @@
             <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
                title="Select your gender"></i></label>
         <select class="form-control form-control-solid @error('gender') is-invalid @enderror"
-                name="role">
+                name="gender">
             <option value="">{{ __('-- Select Gender --') }}</option>
             <option value="male" {{ old('gender', $user->gender) === "male" ? 'selected': '' }}>Male</option>
-            <option value="female" {{ old('gender', $user->gender) === "male" ? 'selected': '' }}>Female</option>
-            <option value="others" {{ old('gender', $user->gender) === "male" ? 'selected': '' }}>Others</option>
+            <option value="female" {{ old('gender', $user->gender) === "female" ? 'selected': '' }}>Female</option>
+            <option value="others" {{ old('gender', $user->gender) === "others" ? 'selected': '' }}>Others</option>
         </select>
         @error('gender')
         <span class="invalid-feedback" role="alert">
@@ -111,26 +111,27 @@
         @enderror
     </div>
 
+    <?php
+        $isRoleFieldDisabled = !$show && $user->isSuperAdmin()
+    ?>
     <div class="col-md-6 fv-row">
         <label class="fs-6 fw-bold mb-2" for="role_id">
             <span class="required">Role</span>
             <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
                title="Different Role have different capabilities"></i></label>
-        <select class="form-control form-control-solid @error('role') is-invalid @enderror"
+        <select class="form-control form-control-solid @error('role') is-invalid @enderror" {{$isRoleFieldDisabled ? 'disabled' : ''}}
                 name="role">
+            @if(!$isRoleFieldDisabled)
             <option value="">{{ __('-- Select Role --') }}</option>
             @foreach($roles as $key => $name)
                 <?php
-                if (old('role', $user->role?->key) == $key ? 'selected' : '')
-                {
-                    $selected = "selected";
-                } else
-                {
-                    $selected = '';
-                }
+                $selected = old('role', $user->role?->key) == $key ? 'selected' : '';
                 ?>
                 <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
             @endforeach
+            @else
+                <option value="" selected>{{ __('Could not change role for super admin') }}</option>
+            @endIf
         </select>
         @error('role')
         <span class="invalid-feedback" role="alert">
@@ -181,7 +182,6 @@
             </span>
         @enderror
     </div>
-
     <div class="col-md-6 fv-row preference
      {{(old('role',$user->role?->key) === \App\Constants\UserRole::ORGANIZER || old('role',$user->role?->key) === \App\Constants\UserRole::ARTIST)   ? '' : 'hidden'}}">
         <label class="fs-6 fw-bold mb-2" for="role_id">
@@ -193,13 +193,7 @@
             <option value="">{{ __('-- Select preference --') }}</option>
             @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
                 <?php
-                if (old('preference', $user->preference) == $key ? 'selected' : '')
-                {
-                    $selected = "selected";
-                } else
-                {
-                    $selected = '';
-                }
+                    $selected = old('preference', $user->preference) == $key ? 'selected' : '';
                 ?>
                 <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
             @endforeach
