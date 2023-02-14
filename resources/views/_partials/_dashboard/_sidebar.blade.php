@@ -29,8 +29,8 @@
             </div>
 
             @can('view', \App\Models\Event::class)
-            <!-- Event Menu Starts -->
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <!-- Event Menu Starts -->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                 <span class="menu-link {{current_page('events') ? 'active' : '' }}">
                     <span class="menu-icon">
                         <i class="fas fa-theater-masks"></i>
@@ -38,29 +38,29 @@
                     <span class="menu-title">Event</span>
                     <span class="menu-arrow"></span>
                 </span>
-                <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
-                        <a class="menu-link" href="{{route('events.create')}}">
+                    <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{route('events.create')}}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Add Event</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link " href="{{ route('events.index') }}">
+                                <span class="menu-title">Add Event</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link " href="{{ route('events.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Event Listing</span>
-                        </a>
+                                <span class="menu-title">Event Listing</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Event Menu Ends -->
+                <!-- Event Menu Ends -->
             @endcan
 
-                @can('view', \App\Models\Genre::class)
+            @can('view', \App\Models\Genre::class)
                 <!-- Genre Menu Starts -->
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link {{current_page('genres') ? 'active' : '' }}">
@@ -93,8 +93,8 @@
             @endcan
 
             @can('view', \App\Models\User::class)
-            <!-- User Menu Starts -->
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <!-- User Menu Starts -->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                 <span class="menu-link {{current_page('users') ? 'active' : '' }}">
                     <span class="menu-icon">
                         <i class="fas fa-users"></i>
@@ -102,26 +102,26 @@
                     <span class="menu-title">Users</span>
                     <span class="menu-arrow"></span>
                 </span>
-                <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
-                        <a class="menu-link" href="{{route('users.create')}}">
+                    <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{route('users.create')}}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Add User</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link " href="{{ route('users.index') }}">
+                                <span class="menu-title">Add User</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link " href="{{ route('users.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">User Listing</span>
-                        </a>
+                                <span class="menu-title">User Listing</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- User Menu Ends -->
+                <!-- User Menu Ends -->
             @endCan
 
             @if(auth()->user()->isSuperAdmin())
@@ -163,7 +163,8 @@
 
                 <!-- Settings Menu Starts -->
                 <div class="menu-item">
-                    <a class="menu-link {{current_page('settings') ? 'active' : '' }}" href="#">
+                    <a class="menu-link {{current_page('settings') ? 'active' : '' }}"
+                       href="{{route('settings.index')}}">
                     <span class="menu-icon">
                         <i class="fas fa-cogs"></i>
                     </span>

@@ -1,41 +1,34 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
 use App\Models\Setting;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class SettingsSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+class SettingsSeeder extends Seeder {
+
+    public function run(): void
     {
         Setting::insertOrIgnore([
             [
-                'key' => 'app_name',
-                'name' => 'hiMusician',
+                'key'        => 'app_name',
+                'name'       => 'hiMusician',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ],
             [
-                'key' => 'admin_email',
-                'name' => 'sumanbudhathoki1@gmail.com',
+                'key'        => 'admin_email',
+                'name'       => 'sumanbudhathoki@gmail.com',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ],
             [
-                'key' => 'company_address',
-                'name' => 'hiMusician',
+                'key'        => 'company_address',
+                'name'       => 'Itahari, Nepal',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ],
-
-
         ]);
     }
 }

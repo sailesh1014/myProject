@@ -10,13 +10,14 @@ class RepositoryServiceProvider extends ServiceProvider {
     public function register(): void
     {
         $model = collect([
+            'Setting',
             'User',
             'Genre',
             'Role',
             'Club',
             'Permission',
             'Event',
-            'EventMedia'
+            'EventMedia',
         ]);
         $model->each(function ($el) {
             $this->app->bind("App\\Interfaces\\{$el}RepositoryInterface", "App\\Repositories\\{$el}Repository");
