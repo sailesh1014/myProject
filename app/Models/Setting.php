@@ -12,7 +12,7 @@ class Setting extends Model {
 
     use HasFactory;
 
-    protected const SETTING_SESSION_KEY = 'settings';
+    public const SETTING_SESSION_KEY = 'settings';
 
     protected $table   = 'settings';
     protected $guarded = ['id'];
@@ -28,16 +28,5 @@ class Setting extends Model {
         'app_name', 'admin_email', 'app_logo', 'app_address'
     ];
 
-    public static function getCachedValue()
-    {
-        return Cache::rememberForever(self::SETTING_SESSION_KEY, function () {
-            return Setting::pluck('key', 'name');
-        });
-    }
 
-    public static function updateCachedSettingsData()
-    {
-        Cache::forget(self::SETTING_SESSION_KEY);
-        self::getCachedValue();
-    }
 }

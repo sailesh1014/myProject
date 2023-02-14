@@ -5,7 +5,9 @@ namespace App\Services;
 
 use App\Helpers\AppHelper;
 use App\Interfaces\SettingRepositoryInterface;
+use App\Models\Setting;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SettingService {
@@ -25,13 +27,31 @@ class SettingService {
             $input['app_logo']->storeAs('public/settings', $imageName);
             $input['app_logo'] = $imageName;
         }
+
         $updateArr = collect($input)->map(function ($v,$k){
             return ['key'   => $k,
-                'name'  => $v,
-                'updated_at' => now()
+                    'name'  => $v,
+                    'updated_at' => now()
             ];
         })->toArray();
-            $this->settingRepository->upsert($updateArr, ['key'], ['name', 'updated_at']);
+
+        $upsertOkay = $this->settingRepository->upsert($updateArr, ['key'], ['name', 'updated_at']);
+        if($upsertOkay){
+            self::updateCachedSettingsValue();
+        }
+    }
+
+    public static function getCachedSettingsValue()
+    {
+        return Cache::rememberForever(Setting::SETTING_SESSION_KEY, function (){
+            return Setting::pluck('key', 'name');
+        });
+    }
+
+    public static function updateCachedSettingsValue(): void
+    {
+        Cache::forget(Setting::SETTING_SESSION_KEY);
+        self::getCachedSettingsValue();
     }
 
 }

@@ -17,10 +17,10 @@ class SettingRepository extends BaseRepository implements SettingRepositoryInter
         parent::__construct($model);
     }
 
-    public function upsert(array $input, array $conditionArr, array $toUpdateArr): void
+    public function upsert(array $input, array $conditionArr, array $toUpdateArr): bool|int
     {
-        DB::transaction(function () use ($input, $conditionArr, $toUpdateArr){
-            $this->model->upsert($input, $conditionArr,$toUpdateArr);
+        return DB::transaction(function () use ($input, $conditionArr, $toUpdateArr){
+            return $this->model->upsert($input, $conditionArr,$toUpdateArr);
         });
     }
 }

@@ -6,5 +6,5 @@ namespace App\Interfaces;
 
 interface SettingRepositoryInterface {
 
-    public function upsert(array $input, array $conditionArr,array $toUpdateArr): void;
+    public function upsert(array $input, array $conditionArr,array $toUpdateArr): bool|int;
 }
