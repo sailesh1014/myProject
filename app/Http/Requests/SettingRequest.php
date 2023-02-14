@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Requests;
 
@@ -6,25 +7,28 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SettingRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+
+    public function rules(): array
     {
         return [
-            //
+            'app_name'      =>      ['required', 'string', 'max:191'],
+            'admin_email'    =>      ['required', 'email', 'string', 'max:191'],
+            'app_address'   =>      ['required', 'string', 'max:191'],
+            'app_logo'          =>      ['nullable','required_without:hidden_logo', 'mimes:jepg,jpg,png', 'max:2048'],
+            'hidden_logo'   =>      ['nullable', 'string', 'max:191'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'app_logo.required_without' => 'The app logo field is required.'
         ];
     }
 }

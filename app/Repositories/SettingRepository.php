@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Interfaces\SettingRepositoryInterface;
 use App\Models\Setting;
+use Illuminate\Support\Facades\DB;
 
 
 class SettingRepository extends BaseRepository implements SettingRepositoryInterface {
@@ -16,4 +17,10 @@ class SettingRepository extends BaseRepository implements SettingRepositoryInter
         parent::__construct($model);
     }
 
+    public function upsert(array $input, array $conditionArr, array $toUpdateArr): void
+    {
+        DB::transaction(function () use ($input, $conditionArr, $toUpdateArr){
+            $this->model->upsert($input, $conditionArr,$toUpdateArr);
+        });
+    }
 }

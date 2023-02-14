@@ -24,6 +24,10 @@ class Setting extends Model {
         'updated_at' => 'datetime:Y-m-d',
     ];
 
+    public const SETTINGS_FIELD = [
+        'app_name', 'admin_email', 'app_logo', 'app_address'
+    ];
+
     public static function getCachedValue()
     {
         return Cache::rememberForever(self::SETTING_SESSION_KEY, function () {

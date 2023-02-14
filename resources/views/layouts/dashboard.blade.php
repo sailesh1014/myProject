@@ -23,7 +23,7 @@
             <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                 <!--begin::Logo-->
                 <a href="{{route('dashboard.index')}}">
-                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-white.png')}}" class="h-[60px] logo" />
+                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo.png')}}" class="h-[60px] logo" />
                 </a>
                 <!--end::Logo-->
                 <!--begin::Aside toggler-->

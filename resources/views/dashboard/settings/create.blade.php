@@ -3,6 +3,7 @@
 @section('title','Settings')
 
 @section('content')
+    @include('utils._error_all')
 
     @include('_partials._dashboard._breadcrumb')
 
@@ -36,8 +37,59 @@
                 <!--begin::Card body-->
                 <div class="card-body table-responsive pt-0">
                     <!--begin:Form-->
-                    <form id="create_settings_form" class="form" action="{{route('settings.store')}}" method="POST">
+                    <form id="create_settings_form" class="form" action="{{route('settings.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+
+                        <!--begin::Input group-->
+                        <div class="flex justify-content-center pt-5 g-9 mb-8">
+                            <!--begin::Col-->
+                            <div class="fv-row">
+                                <div class="image-input image-input-outline" id="event_thumbnail">
+                                    <!--begin::Image preview wrapper-->
+                                    <div class="image-input-wrapper hi_preview_image_container">
+                                        <img src="{{ asset('storage/settings/'.$settings['app_logo'])}}"
+                                             class="img-fluid show w-full h-full object-cover object-center"
+                                             alt="image preview">
+                                        <!--begin::Remove button-->
+                                        <span
+                                            class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow cancel-image hidden absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2"
+                                            data-bs-toggle="tooltip"
+                                            title="Remove Logo">
+                                            <i class="bi bi-x fs-2"></i>
+                                        </span>
+                                        <!--end::Remove button-->
+                                    </div>
+                                    <!--end::Image preview wrapper-->
+                                    <!--begin::Edit button-->
+                                    <label
+                                        class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow change-image absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-dismiss="click"
+                                        title="Change Log">
+                                        <i class="bi bi-pencil-fill fs-7"></i>
+
+                                        <!--begin::Inputs-->
+                                        <input type="hidden" name="hidden_logo" class="hidden_logo"
+                                               value="{{$settings['app_logo']}}">
+                                        <input type="file" name="app_logo" accept=".png, .jpg, .jpeg"
+                                               value="{{$settings['app_logo']}}"
+                                               onchange="previewImage(this)"
+                                        class="invisible absolute pointer-events-none"/>
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Edit button-->
+                                </div>
+
+                                @error('app_logo')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+
                         <!--begin::Input group-->
                         <div class="row g-9 mb-8">
                             <!--begin::Col-->
@@ -78,6 +130,27 @@
                         </div>
                         <!--end::Input group-->
 
+                        <!--begin::Input group-->
+                        <div class="row g-9 mb-8">
+                            <!--begin::Col-->
+                            <div class="fv-row">
+                                <label class="required fs-6 fw-bold mb-2" for="app_address">
+                                    App Address
+                                </label>
+                                <input type="text" name="app_address" id="app_address"
+                                       class="form-control form-control-solid @error('app_address') is-invalid @enderror"
+                                       value="{{ old('app_address', $settings['app_address']) }}"/>
+                                @error('app_address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+
+
                         <div class="form-group mb-0">
                             <button class="btn btn-primary btn-sm" type="submit">
                                 Update
@@ -95,4 +168,25 @@
     </div>
     <!--end::Post-->
 @endsection
-
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.cancel-image').on('click', function (){
+                const imageWrapper = $(this).parent('.hi_preview_image_container');
+                imageWrapper.find('img').attr('src', "{{asset('storage/settings/'.$settings['app_logo'])}}");
+                $('input[name="app_logo"]').val('');
+                $(this).addClass('hidden');
+            })
+        });
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $(input).closest('.image-input').find('.image-input-wrapper img').attr('src', reader.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+                $(input).closest('.image-input').find('.cancel-image').removeClass('hidden');
+            }
+        }
+    </script>
+@endpush

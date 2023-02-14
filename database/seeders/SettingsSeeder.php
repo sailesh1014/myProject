@@ -24,7 +24,13 @@ class SettingsSeeder extends Seeder {
                 'updated_at' => now(),
             ],
             [
-                'key'        => 'company_address',
+                'key'        => 'app_logo',
+                'name'       => 'logo.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key'        => 'app_address',
                 'name'       => 'Itahari, Nepal',
                 'created_at' => now(),
                 'updated_at' => now(),
