@@ -43,13 +43,14 @@ class SettingService {
 
     public static function getCachedSettingsValue()
     {
-        return Cache::rememberForever(Setting::SETTING_SESSION_KEY, function (){
-            return Setting::pluck('key', 'name');
+       return  Cache::rememberForever(Setting::SETTING_SESSION_KEY, function (){
+            return Setting::pluck('name', 'key');
         });
     }
 
     public static function updateCachedSettingsValue(): void
     {
+//        dd(Cache::get(Setting::SETTINGw_SESSION_KEY));
         Cache::forget(Setting::SETTING_SESSION_KEY);
         self::getCachedSettingsValue();
     }

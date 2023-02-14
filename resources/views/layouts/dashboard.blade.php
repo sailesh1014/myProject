@@ -22,8 +22,8 @@
             <!--begin::Brand-->
             <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                 <!--begin::Logo-->
-                <a href="{{route('dashboard.index')}}">
-                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo.png')}}" class="h-[60px] logo" />
+                <a href="{{route('dashboard.index')}}" class="mb-12 max-w-[150px]">
+                    <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
                 </a>
                 <!--end::Logo-->
                 <!--begin::Aside toggler-->
