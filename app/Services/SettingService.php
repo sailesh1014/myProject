@@ -23,7 +23,7 @@ class SettingService {
     public function updateSettings($input): void
     {
         if(isset($input['app_logo'])){
-            $imageName = AppHelper::renameImageFileUpload($input['app_logo']);
+            $imageName = AppHelper::renameMediaFileUpload($input['app_logo']);
             $input['app_logo']->storeAs('public/settings', $imageName);
             $input['app_logo'] = $imageName;
         }

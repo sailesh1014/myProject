@@ -119,6 +119,14 @@
                                 {{\App\Helpers\AppHelper::formatDate($event->event_date, 'h:i A')}}
                             </td>
                         </tr>
+                        <tr>
+                            <th>
+                                Artist Preference
+                            </th>
+                            <td>
+                                {{$event->preference}}
+                            </td>
+                        </tr>
                         @if($event->club)
                             <tr>
                                 <th>

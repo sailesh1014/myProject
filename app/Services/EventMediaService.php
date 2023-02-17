@@ -12,14 +12,25 @@ class EventMediaService {
 
     public function __construct(private EventMediaRepositoryInterface $eventMediaRepository) {}
 
+
+    public function getMediaType($file):string{
+        $allowed_video_types = ['mp4', 'mkv'];
+        if (in_array($file->getClientOriginalExtension(), $allowed_video_types)) {
+            return  "Video";
+        }
+        return "image";
+    }
+
     public function uploadMedia($event, object|array $media): void
     {
         $media = is_array($media) ? $media : [$media];
         $pathPrefix = AppHelper::prepareFileStoragePath();
         foreach ($media as $element){
-            $imageName = AppHelper::renameImageFileUpload($element);
+            $mediaType = self::getMediaType($element);
+            $imageName = AppHelper::renameMediaFileUpload($element);
             $element->storeAs("public/uploads/$pathPrefix", $imageName);
-            $this->eventMediaRepository->store(['event_id' => $event->id, 'media' => "{$pathPrefix}/{$imageName}"]);
+            $inputArr = ['event_id' => $event->id, 'media' => "{$pathPrefix}/{$imageName}", 'type' => $mediaType];
+            $this->eventMediaRepository->store($inputArr);
         }
     }
 

@@ -40,46 +40,46 @@ class EventService {
         /* thumbnail store start */
         $thumbnail = $input['thumbnail'];
         $pathPrefix = AppHelper::prepareFileStoragePath();
-        $thumbnailName = AppHelper::renameImageFileUpload($thumbnail);
+        $thumbnailName = AppHelper::renameMediaFileUpload($thumbnail);
         $thumbnail->storeAs("public/uploads/$pathPrefix", $thumbnailName);
         $input['thumbnail'] = "{$pathPrefix}/{$thumbnailName}";
         $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id', 'preference'])->toArray());
 
         /* image store start*/
-        if(isset($input['images'])){
-                $this->eventMediaService->uploadMedia($event,$input['images']);
+        if(isset($input['media'])){
+                $this->eventMediaService->uploadMedia($event,$input['media']);
         }
         return $event;
     }
 
     public function updateEvent(Collection $input,Model $event){
         $event->load('eventMedia');
-        $newEventImages = $input['images'] ?? [];
-        $newEventImagesArr = array_reduce($newEventImages,function ($carry,$element){
+        $newEventMedia = $input['media'] ?? [];
+        $newEventMediaArr = array_reduce($newEventMedia,function ($carry,$element){
             $carry[$element->getClientOriginalName()] = $element;
             return $carry;
         },[]);
         /*  'image.png' => '2023/12/image.png'  */
-        $currentEventImagesArr = $event->eventMedia->reduce(function ($carry,$element){
+        $currentEventMediaArr = $event->eventMedia->reduce(function ($carry,$element){
                 $carry[basename($element->media)] = $element->media;
                 return  $carry;
         },[]);
 
 
-        $currentEventImagesArrKeys = array_keys($currentEventImagesArr);
-        $newEventImagesArrKeys = array_keys($newEventImagesArr);
-        $toUploadImagesKeys = array_diff($newEventImagesArrKeys,$currentEventImagesArrKeys);
-        $toRemoveImagesKeys = array_diff($currentEventImagesArrKeys,$newEventImagesArrKeys);
+        $currentEventMediaArrKeys = array_keys($currentEventMediaArr);
+        $newEventMediaArrKeys = array_keys($newEventMediaArr);
+        $toUploadMediaKeys = array_diff($newEventMediaArrKeys,$currentEventMediaArrKeys);
+        $toRemoveMediaKeys = array_diff($currentEventMediaArrKeys,$newEventMediaArrKeys);
 
-        $toUploadImages = array_intersect_key($newEventImagesArr,array_flip($toUploadImagesKeys));
-        $toRemoveImages = array_intersect_key($currentEventImagesArr,array_flip($toRemoveImagesKeys));
-        $this->eventMediaService->uploadMedia($event,$toUploadImages);
-        $this->eventMediaService->removeMedia($event->id,$toRemoveImages);
+        $toUploadMedia = array_intersect_key($newEventMediaArr,array_flip($toUploadMediaKeys));
+        $toRemoveMedia = array_intersect_key($currentEventMediaArr,array_flip($toRemoveMediaKeys));
+        $this->eventMediaService->uploadMedia($event,$toUploadMedia);
+        $this->eventMediaService->removeMedia($event->id,$toRemoveMedia);
 
         if(isset($input['thumbnail'])){
             $thumbnail = $input['thumbnail'];
             @unlink(public_path('storage/uploads/' . $event->thumbnail));
-            $imageName = AppHelper::renameImageFileUpload($thumbnail);
+            $imageName = AppHelper::renameMediaFileUpload($thumbnail);
             $pathPrefix = AppHelper::prepareFileStoragePath();
             $thumbnail->storeAs("public/uploads/$pathPrefix", $imageName);
             $input['thumbnail'] = "{$pathPrefix}/{$imageName}";

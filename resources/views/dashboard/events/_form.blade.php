@@ -275,14 +275,19 @@
                 <div class="card-body pt-0">
                     <!--begin::Input group-->
                     <div class="fv-row mb-2">
-                        <input type="file" class="filepond" name="images[]">
+                        <input type="file" class="filepond" name="media[]">
                     </div>
                     <!--end::Input group-->
-                    @error('images.*')
-                    <span class="invalid-feedback show" role="alert">
-                            <strong>{{$message}}</strong>
+                    @if($errors->has('media') || $errors->has('media.*'))
+                        <span class="invalid-feedback show" role="alert">
+                            @if ($errors->has('media'))
+                                <strong>{{ $errors->first('media') }}</strong>
+                            @endif
+                            @if ($errors->has('media.*'))
+                                <strong>{{ $errors->first('media.*') }}</strong>
+                            @endif
                         </span>
-                    @enderror
+                    @endif
                 </div>
                 <!--end::Card header-->
             </div>
@@ -354,8 +359,8 @@
             FilePond.registerPlugin(FilePondPluginImageValidateSize);
 
             FilePond.setOptions({
-                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
-                maxFileSize: '2MB',
+                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/mp4','video/mkv'],
+                maxFileSize: '30MB',
                 allowImageValidateSize: true,
                 maxFiles: 3,
                 storeAsFile: true,

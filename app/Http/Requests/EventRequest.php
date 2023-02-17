@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 use App\Constants\EventStatus;
 use App\Constants\PreferenceType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EventRequest extends FormRequest {
 
@@ -18,6 +19,9 @@ class EventRequest extends FormRequest {
 
     public function rules(): array
     {
+        $allowed_video_types = ['mp4', 'mkv'];
+        $allowed_image_types = ['png', 'jpeg', 'jpg'];
+
         $validationArr = [
             'title'       => ['required', 'string', 'max:191'],
             'excerpt'     => ['required', 'string', 'max:255'],
@@ -26,8 +30,29 @@ class EventRequest extends FormRequest {
             'event_date'  => ['required', 'date_format:Y-m-d H:i', 'after_or_equal:tomorrow'],
             'fee'         => ['required', 'numeric'],
             'status'      => ['required', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
-            'images.*'    => ['nullable', 'mimes:jepg,png,jpg', 'max:30720'],
             'preference'  => ['required', 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
+            'media' => [
+                'required',
+                'array',
+            ],
+            'media.*' => [
+                'nullable',
+                'required',
+                function ($attribute, $value, $fail) use ($allowed_video_types, $allowed_image_types) {
+                    $allowed_types = array_merge($allowed_video_types, $allowed_image_types);
+
+                    if (!in_array($value->getClientOriginalExtension(), $allowed_types)) {
+                        $fail('The file must be a video or image file.');
+                    }
+
+                    if (in_array($value->getClientOriginalExtension(), $allowed_video_types)) {
+                        if (!in_array($value->getClientMimeType(), ['video/mp4', 'video/x-matroska'])) {
+                            $fail('The video file must be a MP4, MKV.');
+                        }
+                    }
+                },
+                'max:30720'
+            ],
         ];
         if (auth()->user()->isAdmin())
         {
