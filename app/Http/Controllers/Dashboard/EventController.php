@@ -57,6 +57,8 @@ class EventController extends Controller {
     public function show(Event $event){
         $this->authorize('view', Event::class);
         $event->load('club');
+        $favourableArtists = $this->eventService->getFavourableArtist($event);
+        dd($favourableArtists);
         return view('dashboard.events.show',compact('event'));
     }
 

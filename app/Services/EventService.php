@@ -3,17 +3,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\UserResource;
 use App\Interfaces\EventRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class EventService {
 
-    public function __construct(private EventRepositoryInterface $eventRepository, private EventMediaService $eventMediaService) {}
+    public function __construct(protected EventRepositoryInterface $eventRepository, protected EventMediaService $eventMediaService, protected  UserRepositoryInterface $userRepository) {}
 
     public function paginateWithQuery(array $input): array
     {
@@ -87,11 +89,21 @@ class EventService {
         $this->eventRepository->update($input->toArray(), $event);
     }
 
-    public function deleteEvent(Event $event){
+    public function deleteEvent(Event $event): void
+    {
         $event->load('eventMedia');
         @unlink(public_path('storage/uploads/' . $event->thumbnail));
         $eventMedia = $event->eventMedia->pluck('media')->toArray();
         $this->eventMediaService->removeMedia($event->id,$eventMedia);
         $this->eventRepository->delete($event);
+    }
+
+    public function getFavourableArtist(Event $event)
+    {
+        $artistPreference = $event->preference;
+        $roleService = resolve(RoleService::class);
+        $artistRoleId = $roleService->getRoleByKey(UserRole::ARTIST)->id;
+        $condition = ['role_id' => $artistRoleId, 'preference' => $artistPreference];
+        return $this->userRepository->where($condition);
     }
 }

@@ -24,7 +24,11 @@
                     <div class="card-toolbar">
                         <!--begin::Toolbar-->
                         <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                            <a href="{{route('events.index')}}" class="btn btn-light-dark btn-sm">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light-primary btn-sm" data-bs-toggle="modal" data-bs-target="#inviteArtistModal">
+                                Invite Artist
+                            </button>
+                            <a href="{{route('events.index')}}" class="btn btn-light-dark btn-sm ms-2">
                                 Back
                             </a>
                             @can('update', \App\Models\Event::class)
@@ -160,7 +164,6 @@
                             <td>
                                 <!--begin::Overlay-->
                                 <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="thumbnail"
-                                   script="onclick(console.log('sdf'))"
                                    href="{{asset('storage/uploads/'.$event->thumbnail)}}">
                                     <!--begin::Image-->
                                     <div
@@ -222,7 +225,35 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <!--begin::modal-->
+    <div class="modal fade" id="inviteArtistModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Artist List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div>
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::modal-->
 @endsection
 @push('scripts')
     @include('dashboard.events._shared')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#myModal').on('shown.bs.modal', function () {
+                $('#myInput').trigger('focus')
+            })
+        });
+    </script>
 @endpush

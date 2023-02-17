@@ -19,4 +19,7 @@ interface BaseRepositoryInterface
 
     public function delete(Model $modelObj): ?bool;
 
+    public function where(array $condition, bool $single = false);
+
+
 }
