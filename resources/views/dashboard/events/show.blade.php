@@ -234,13 +234,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        <div>
-
-                        </div>
+                    <form class="" action="/" method="get">
+                        @forelse($favourableArtists as $artist)
+                            <ul class="flex flex-column gap-2">
+                                <li class="flex justify-between gap-2">
+                                    <div>
+                                        <span class="text-primary"> {{$artist->first_name.' '.$artist->last_name}}</span>
+                                        <span>({{implode(',', $artist->genres->pluck('name')->toArray())}})</span>
+                                    </div>
+                                    <input type="checkbox" name="artist[]" class="cursor-pointer"/>
+                                </li>
+                            </ul>
+                        @empty
+                        @endforelse
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                    <button type="button" class="btn btn-primary font-weight-bold">Send Invitation</button>
                 </div>
             </div>
         </div>

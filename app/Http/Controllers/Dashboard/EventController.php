@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
@@ -57,9 +58,9 @@ class EventController extends Controller {
     public function show(Event $event){
         $this->authorize('view', Event::class);
         $event->load('club');
-        $favourableArtists = $this->eventService->getFavourableArtist($event);
-        dd($favourableArtists);
-        return view('dashboard.events.show',compact('event'));
+        $roleId = $this->roleService->getRoleByKey(UserRole::ARTIST)->id;
+        $favourableArtists = User::with('genres')->where('role_id', $roleId)->whereIn('preference', [PreferenceType::ANY, $event->preference])->get();
+        return view('dashboard.events.show',compact('event', 'favourableArtists'));
     }
 
     public function edit(Event $event): View
