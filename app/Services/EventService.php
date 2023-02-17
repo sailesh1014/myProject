@@ -43,7 +43,7 @@ class EventService {
         $thumbnailName = AppHelper::renameImageFileUpload($thumbnail);
         $thumbnail->storeAs("public/uploads/$pathPrefix", $thumbnailName);
         $input['thumbnail'] = "{$pathPrefix}/{$thumbnailName}";
-        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id'])->toArray());
+        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id', 'preference'])->toArray());
 
         /* image store start*/
         if(isset($input['images'])){

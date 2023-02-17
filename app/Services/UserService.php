@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\UserResource;
@@ -53,9 +52,6 @@ class UserService {
             $role = $this->roleService->getRoleByKey($input['role']);
             $input['password'] = Hash::make($input['password']);
             $input['role_id'] = $role->id;
-            if(isset($input['preference'])){
-                    $input['solo'] = $input['preference'] === PreferenceType::SOLO ? 1 : 0;
-            }
             $user = $this->userRepository->store($input);
 
             if (isset($input['genres']) && ! in_array($input['role'], UserRole::ADMIN_LIST))

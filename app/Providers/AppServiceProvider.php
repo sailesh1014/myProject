@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('settings')) {
             $settingService = resolve(SettingService::class);
             $settings = $settingService->getCachedSettingsValue();
+            //$settingService->updateCachedSettingsValue();
             if($settings){
                 config([
                     'app.name'                                      => $settings['app_name'],

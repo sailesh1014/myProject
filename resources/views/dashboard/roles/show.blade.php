@@ -68,7 +68,7 @@
                                 Created At
                             </th>
                             <td>
-                                {{\App\Helpers\AppHelper::formatDate($event->created_at, 'd M, Y')}}
+                                {{\App\Helpers\AppHelper::formatDate($role->created_at, 'd M, Y')}}
                             </td>
                         </tr>
                         </tbody>

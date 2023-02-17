@@ -29,7 +29,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'preference'              => null,
+                'preference'        => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => $role->id,
@@ -44,7 +44,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'preference'              => null,
+                'preference'        => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 2,  // admin
@@ -59,7 +59,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'preference'              => null,
+                'preference'        => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 3,  // Basic User
@@ -74,7 +74,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'preference'              => PreferenceType::SOLO,
+                'preference'        => PreferenceType::SOLO,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 4,  // Artist
@@ -89,7 +89,7 @@ class UsersSeeder extends Seeder {
                 'gender'            => 'male',
                 'address'           => 'Nepal',
                 'phone'             => '9812345678',
-                'preference'              => PreferenceType::BAND,
+                'preference'        => null,
                 'dob'               => now(),
                 'email_verified_at' => now(),
                 'role_id'           => 5,  // Organizer

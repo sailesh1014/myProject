@@ -164,6 +164,40 @@
     </div>
     <!--end::club-->
     @endif
+
+
+    <div class="card card-flush py-4">
+        <!--begin::Card header-->
+        <div class="card-header">
+            <!--begin::Card title-->
+            <div class="card-title">
+                <h2 class="required">Select Artist Preference</h2>
+            </div>
+            <!--end::Card title-->
+        </div>
+        <!--end::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body pt-0">
+            <!--begin::Select2-->
+            <select class="form-select mb-2" data-hide-search="true" data-placeholder="Select an option"
+                    name="preference">
+                <option value="">Choose Club</option>
+                @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
+                    <?php
+                    $selected = old('preference', $event->preference) == $key ? 'selected' : '';
+                    ?>
+                        <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
+                @endforeach
+            </select>
+            @error('preference')
+            <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+            @enderror
+            <!--end::Select2-->
+        </div>
+        <!--end::Card body-->
+    </div>
 </div>
 <!--end::Aside column-->
 <!--begin::Main column-->

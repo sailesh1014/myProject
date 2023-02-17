@@ -36,8 +36,8 @@ class CreateNewUser implements CreatesNewUsers {
             'phone'                => ['nullable', 'numeric', 'digits:10'],
             'dob'                  => ['nullable', 'date_format:Y-m-d', 'before:' . now()->toDateString()],
             'terms_and_conditions' => ['required'],
-            'preference'           => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer, $selectedRole) { return (! $selectedRoleIsOrganizer) && $selectedRole !== UserRole::ARTIST; }), Rule::requiredIf(function () use ($selectedRole, $selectedRoleIsOrganizer) {
-                return $selectedRole === UserRole::ARTIST || $selectedRoleIsOrganizer;
+            'preference'           => ['nullable', Rule::excludeIf(function () use ($selectedRole) { return $selectedRole !== UserRole::ARTIST; }), Rule::requiredIf(function () use ($selectedRole) {
+                return $selectedRole === UserRole::ARTIST;
             }), 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
             'club_name'            => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer) { return ! $selectedRoleIsOrganizer; }), Rule::requiredIf(function () use ($selectedRole) { return $selectedRole === UserRole::ORGANIZER; }), 'string', 'max:191'],
             'club_address'         => ['nullable', Rule::excludeIf(function () use ($selectedRoleIsOrganizer) { return ! $selectedRoleIsOrganizer; }), Rule::requiredIf(function () use ($selectedRole) { return $selectedRole === UserRole::ORGANIZER; }), 'string', 'max:191'],
