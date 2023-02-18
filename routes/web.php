@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
     Route::group(['prefix' => 'dashboard'], function () {
 
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::post('/events/{event}/invite-artist', [EventController::class, 'inviteArtist'])->name('events.inviteArtist');
         Route::resource('events', EventController::class);
 
         Route::group(['middleware' => 'isAdmin'], function () {

@@ -1,4 +1,5 @@
 @csrf
+{{--@include('utils._error_all')--}}
 <!--begin::Aside column-->
 <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
     <!--begin::Thumbnail settings-->
