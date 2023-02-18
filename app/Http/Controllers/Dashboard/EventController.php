@@ -8,7 +8,6 @@ use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
-use App\Models\Club;
 use App\Models\Event;
 use App\Models\User;
 use App\Services\ClubService;
@@ -18,7 +17,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller {
 
@@ -64,6 +62,10 @@ class EventController extends Controller {
     public function show(Event $event): View
     {
         $this->authorize('view', Event::class);
+        if(auth()->user()->isOrganizer()){
+            $authorized = $event->club_id == auth()->user()->club->id;
+            abort_if(!$authorized, "401");
+        }
         $event->load('club', 'invitations');
         $roleId = $this->roleService->getRoleByKey(UserRole::ARTIST)->id;
 

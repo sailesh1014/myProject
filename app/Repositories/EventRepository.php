@@ -28,6 +28,10 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
                 'e.event_date',
                 'e.created_at',
             );
+
+        if(auth()->user()->isOrganizer()){
+            $query->where('club_id', auth()->user()->club->id);
+        }
         $query->where(function($q) use($meta){
             $q->orWhere('e.title', 'like', $meta['search'] . '%')
                 ->orWhere('e.event_date', 'like', $meta['search'] . '%')
