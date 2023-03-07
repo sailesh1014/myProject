@@ -172,7 +172,7 @@
                         <?php
                         $selectedRole = session(\App\Services\AuthService::SELECT_ROLE_KEY);
                         ?>
-                        @if($selectedRole === \App\Constants\UserRole::ORGANIZER || $selectedRole === \App\Constants\UserRole::ARTIST)
+                        @if($selectedRole === \App\Constants\UserRole::ARTIST)
                         <!--end::Input group-->
                         <div class="fv-row mb-7">
                             <label class="fs-6 fw-bold mb-2" for="role_id">

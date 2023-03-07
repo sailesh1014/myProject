@@ -47,7 +47,7 @@ class EventController extends Controller {
     public function store(EventRequest $request)
     {
         $this->authorize('create', Event::class);
-        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee', 'club_id');
+        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'media', 'fee', 'club_id', 'preference');
         $inputCollection = collect($input);
         $this->eventService->organizeEvent($inputCollection);
 
@@ -57,6 +57,8 @@ class EventController extends Controller {
     public function show(Event $event){
         $this->authorize('view', Event::class);
         $event->load('club');
+        $favourableArtists = $this->eventService->getFavourableArtist($event);
+        dd($favourableArtists);
         return view('dashboard.events.show',compact('event'));
     }
 
@@ -70,7 +72,7 @@ class EventController extends Controller {
     public function update(EventRequest $request, Event $event): RedirectResponse
     {
         $this->authorize('update', Event::class);
-        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'images', 'fee', 'club_id');
+        $input = $request->only('title', 'excerpt', 'description', 'thumbnail', 'status', 'event_date', 'location', 'media', 'fee', 'club_id', 'preference');
         $inputCollection = collect($input);
         $this->eventService->updateEvent($inputCollection,$event);
 

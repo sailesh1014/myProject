@@ -164,6 +164,40 @@
     </div>
     <!--end::club-->
     @endif
+
+
+    <div class="card card-flush py-4">
+        <!--begin::Card header-->
+        <div class="card-header">
+            <!--begin::Card title-->
+            <div class="card-title">
+                <h2 class="required">Select Artist Preference</h2>
+            </div>
+            <!--end::Card title-->
+        </div>
+        <!--end::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body pt-0">
+            <!--begin::Select2-->
+            <select class="form-select mb-2" data-hide-search="true" data-placeholder="Select an option"
+                    name="preference">
+                <option value="">Choose Club</option>
+                @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
+                    <?php
+                    $selected = old('preference', $event->preference) == $key ? 'selected' : '';
+                    ?>
+                        <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
+                @endforeach
+            </select>
+            @error('preference')
+            <span class="invalid-feedback show" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+            @enderror
+            <!--end::Select2-->
+        </div>
+        <!--end::Card body-->
+    </div>
 </div>
 <!--end::Aside column-->
 <!--begin::Main column-->
@@ -241,14 +275,19 @@
                 <div class="card-body pt-0">
                     <!--begin::Input group-->
                     <div class="fv-row mb-2">
-                        <input type="file" class="filepond" name="images[]">
+                        <input type="file" class="filepond" name="media[]">
                     </div>
                     <!--end::Input group-->
-                    @error('images.*')
-                    <span class="invalid-feedback show" role="alert">
-                            <strong>{{$message}}</strong>
+                    @if($errors->has('media') || $errors->has('media.*'))
+                        <span class="invalid-feedback show" role="alert">
+                            @if ($errors->has('media'))
+                                <strong>{{ $errors->first('media') }}</strong>
+                            @endif
+                            @if ($errors->has('media.*'))
+                                <strong>{{ $errors->first('media.*') }}</strong>
+                            @endif
                         </span>
-                    @enderror
+                    @endif
                 </div>
                 <!--end::Card header-->
             </div>
@@ -320,8 +359,8 @@
             FilePond.registerPlugin(FilePondPluginImageValidateSize);
 
             FilePond.setOptions({
-                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
-                maxFileSize: '2MB',
+                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/mp4','video/mkv'],
+                maxFileSize: '30MB',
                 allowImageValidateSize: true,
                 maxFiles: 3,
                 storeAsFile: true,

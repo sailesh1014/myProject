@@ -183,7 +183,7 @@
         @enderror
     </div>
     <div class="col-md-6 fv-row preference
-     {{(old('role',$user->role?->key) === \App\Constants\UserRole::ORGANIZER || old('role',$user->role?->key) === \App\Constants\UserRole::ARTIST)   ? '' : 'hidden'}}">
+     {{old('role',$user->role?->key) === \App\Constants\UserRole::ARTIST   ? '' : 'hidden'}}">
         <label class="fs-6 fw-bold mb-2" for="role_id">
             <span>Preference</span>
             <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
@@ -325,7 +325,7 @@
                 } else {
                     $('.club').slideUp();
                 }
-                if (value === "{{\App\Constants\UserRole::ORGANIZER}}" || value === "{{\App\Constants\UserRole::ARTIST}}") {
+                if (value === "{{\App\Constants\UserRole::ARTIST}}") {
                     $('.preference').slideDown();
                 }else{
                     $('.preference').slideUp();

@@ -155,7 +155,7 @@ return [
     */
 
     'custom' => [
-        'images.*' =>
+        'media.*' =>
             [
                 'max'   => 'Maximum allowed image size is 2MB.',
                 'mimes' => 'only jepg, jpg and png  extension are supported.',

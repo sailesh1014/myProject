@@ -78,5 +78,10 @@ class BaseRepository implements BaseRepositoryInterface
         ];
     }
 
+    public function where(array $condition, bool $single = false){
+        $query =  $this->model->where($condition);
+        return $single ? $query->first() : $query->get();
+    }
+
 
 }

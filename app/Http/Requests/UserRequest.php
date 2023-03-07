@@ -41,7 +41,7 @@ class UserRequest extends FormRequest {
             'gender'           => ['nullable', 'string', 'in:male,female,others'],
             'address'          => ['required', 'string', 'max:191'],
             'phone'            => ['nullable', 'numeric', 'digits:10'],
-            'preference'       => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER, 'required_if:role,' . UserRole::ORGANIZER . ',' . UserRole::ARTIST, 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
+            'preference'       => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER. ','.UserRole::ORGANIZER, 'required_if:role,'.UserRole::ARTIST, 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
             'dob'              => ['nullable', 'date_format:Y-m-d'],
             'club_name'        => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'required_if:role,' . UserRole::ORGANIZER, 'string', 'max:191'],
             'club_address'     => ['nullable', 'exclude_if:role,' . implode(',', UserRole::ADMIN_LIST) . ',' . UserRole::BASIC_USER . ',' . UserRole::ARTIST, 'required_if:role,' . UserRole::ORGANIZER, 'string', 'max:191'],

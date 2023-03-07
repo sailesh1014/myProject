@@ -3,17 +3,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\UserResource;
 use App\Interfaces\EventRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class EventService {
 
-    public function __construct(private EventRepositoryInterface $eventRepository, private EventMediaService $eventMediaService) {}
+    public function __construct(protected EventRepositoryInterface $eventRepository, protected EventMediaService $eventMediaService, protected  UserRepositoryInterface $userRepository) {}
 
     public function paginateWithQuery(array $input): array
     {
@@ -40,46 +42,46 @@ class EventService {
         /* thumbnail store start */
         $thumbnail = $input['thumbnail'];
         $pathPrefix = AppHelper::prepareFileStoragePath();
-        $thumbnailName = AppHelper::renameImageFileUpload($thumbnail);
+        $thumbnailName = AppHelper::renameMediaFileUpload($thumbnail);
         $thumbnail->storeAs("public/uploads/$pathPrefix", $thumbnailName);
         $input['thumbnail'] = "{$pathPrefix}/{$thumbnailName}";
-        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id'])->toArray());
+        $event = $this->eventRepository->store($input->only(['title', 'excerpt', 'description', 'thumbnail', 'status', 'location', 'event_date', 'fee' , 'club_id', 'preference'])->toArray());
 
         /* image store start*/
-        if(isset($input['images'])){
-                $this->eventMediaService->uploadMedia($event,$input['images']);
+        if(isset($input['media'])){
+                $this->eventMediaService->uploadMedia($event,$input['media']);
         }
         return $event;
     }
 
     public function updateEvent(Collection $input,Model $event){
         $event->load('eventMedia');
-        $newEventImages = $input['images'] ?? [];
-        $newEventImagesArr = array_reduce($newEventImages,function ($carry,$element){
+        $newEventMedia = $input['media'] ?? [];
+        $newEventMediaArr = array_reduce($newEventMedia,function ($carry,$element){
             $carry[$element->getClientOriginalName()] = $element;
             return $carry;
         },[]);
         /*  'image.png' => '2023/12/image.png'  */
-        $currentEventImagesArr = $event->eventMedia->reduce(function ($carry,$element){
+        $currentEventMediaArr = $event->eventMedia->reduce(function ($carry,$element){
                 $carry[basename($element->media)] = $element->media;
                 return  $carry;
         },[]);
 
 
-        $currentEventImagesArrKeys = array_keys($currentEventImagesArr);
-        $newEventImagesArrKeys = array_keys($newEventImagesArr);
-        $toUploadImagesKeys = array_diff($newEventImagesArrKeys,$currentEventImagesArrKeys);
-        $toRemoveImagesKeys = array_diff($currentEventImagesArrKeys,$newEventImagesArrKeys);
+        $currentEventMediaArrKeys = array_keys($currentEventMediaArr);
+        $newEventMediaArrKeys = array_keys($newEventMediaArr);
+        $toUploadMediaKeys = array_diff($newEventMediaArrKeys,$currentEventMediaArrKeys);
+        $toRemoveMediaKeys = array_diff($currentEventMediaArrKeys,$newEventMediaArrKeys);
 
-        $toUploadImages = array_intersect_key($newEventImagesArr,array_flip($toUploadImagesKeys));
-        $toRemoveImages = array_intersect_key($currentEventImagesArr,array_flip($toRemoveImagesKeys));
-        $this->eventMediaService->uploadMedia($event,$toUploadImages);
-        $this->eventMediaService->removeMedia($event->id,$toRemoveImages);
+        $toUploadMedia = array_intersect_key($newEventMediaArr,array_flip($toUploadMediaKeys));
+        $toRemoveMedia = array_intersect_key($currentEventMediaArr,array_flip($toRemoveMediaKeys));
+        $this->eventMediaService->uploadMedia($event,$toUploadMedia);
+        $this->eventMediaService->removeMedia($event->id,$toRemoveMedia);
 
         if(isset($input['thumbnail'])){
             $thumbnail = $input['thumbnail'];
             @unlink(public_path('storage/uploads/' . $event->thumbnail));
-            $imageName = AppHelper::renameImageFileUpload($thumbnail);
+            $imageName = AppHelper::renameMediaFileUpload($thumbnail);
             $pathPrefix = AppHelper::prepareFileStoragePath();
             $thumbnail->storeAs("public/uploads/$pathPrefix", $imageName);
             $input['thumbnail'] = "{$pathPrefix}/{$imageName}";
@@ -87,11 +89,21 @@ class EventService {
         $this->eventRepository->update($input->toArray(), $event);
     }
 
-    public function deleteEvent(Event $event){
+    public function deleteEvent(Event $event): void
+    {
         $event->load('eventMedia');
         @unlink(public_path('storage/uploads/' . $event->thumbnail));
         $eventMedia = $event->eventMedia->pluck('media')->toArray();
         $this->eventMediaService->removeMedia($event->id,$eventMedia);
         $this->eventRepository->delete($event);
+    }
+
+    public function getFavourableArtist(Event $event)
+    {
+        $artistPreference = $event->preference;
+        $roleService = resolve(RoleService::class);
+        $artistRoleId = $roleService->getRoleByKey(UserRole::ARTIST)->id;
+        $condition = ['role_id' => $artistRoleId, 'preference' => $artistPreference];
+        return $this->userRepository->where($condition);
     }
 }
