@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
-{
+class AppServiceProvider extends ServiceProvider {
 
     public function register(): void
     {
@@ -19,22 +18,28 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Model::preventLazyLoading(!$this->app->isProduction());
+        Model::preventLazyLoading(! $this->app->isProduction());
         Schema::defaultStringLength(191);
         $this->app->singleton(AuthService::class, function ($app) {
             return new AuthService();
         });
 
-        if (Schema::hasTable('settings')) {
+        if (Schema::hasTable('settings'))
+        {
             $settingService = resolve(SettingService::class);
             $settings = $settingService->getCachedSettingsValue();
             //$settingService->updateCachedSettingsValue();
-            if($settings){
+            if ($settings)
+            {
                 config([
-                    'app.name'                                      => $settings['app_name'],
-                    'app.settings.app_logo'                         => $settings['app_logo'],
-                    'app.settings.admin_email'                      => $settings['admin_email'],
-                    'app.settings.app_address'                      => $settings['app_address'],
+                    'app.name'                   => $settings['app_name'],
+                    'app.settings.app_logo'      => $settings['app_logo'],
+                    'app.settings.admin_email'   => $settings['admin_email'],
+                    'app.settings.app_address'   => $settings['app_address'],
+                    'app.settings.app_phone'     => $settings['app_phone'],
+                    'app.settings.facebook_url'  => $settings['facebook_url'],
+                    'app.settings.twitter_url'   => $settings['twitter_url'],
+                    'app.settings.instagram_url' => $settings['instagram_url'],
                 ]);
             }
         }

@@ -30,8 +30,32 @@ class SettingsSeeder extends Seeder {
                 'updated_at' => now(),
             ],
             [
+                'key'        => 'app_phone',
+                'name'       => '9812380822',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'key'        => 'app_address',
                 'name'       => 'Itahari, Nepal',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key'        => 'facebook_url',
+                'name'       => '#',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key'        => 'twitter_url',
+                'name'       => '#',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key'        => 'instagram_url',
+                'name'       => '#',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

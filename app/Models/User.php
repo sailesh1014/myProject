@@ -81,6 +81,13 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $role === UserRole::ARTIST;
     }
 
+    public function isBasicUser(): bool
+    {
+        $role = $this->role->key;
+
+        return $role === UserRole::BASIC_USER;
+    }
+
     /* Relationship */
 
     public function genres(): BelongsToMany

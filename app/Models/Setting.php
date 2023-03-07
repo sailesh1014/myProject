@@ -25,7 +25,7 @@ class Setting extends Model {
     ];
 
     public const SETTINGS_FIELD = [
-        'app_name', 'admin_email', 'app_logo', 'app_address'
+        'app_name', 'admin_email', 'app_logo', 'app_address', 'app_phone', 'facebook_url', 'twitter_url', 'instagram_url'
     ];
 
 

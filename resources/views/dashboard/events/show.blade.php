@@ -76,19 +76,7 @@
                                 Status
                             </th>
                             <td>
-                                <?php
-                                switch ($event->status)
-                                {
-                                    case \App\Constants\EventStatus::PUBLISHED:
-                                        echo info_pill($event->status);
-                                        break;
-                                    case \App\Constants\EventStatus::DRAFT:
-                                        echo danger_pill($event->status);
-                                        break;
-                                    case \App\Constants\EventStatus::FINISHED:
-                                        echo success_pill($event->status);
-                                }
-                                ?>
+                                {{\App\Constants\EventStatus::PUBLISHED ? info_pill($event->status) : danger_pill($event->status)}}
                             </td>
                         </tr>
                         <tr>

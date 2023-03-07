@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder {
             RolesSeeder::class,
             GenreSeeder::class,
             UsersSeeder::class,
-            ClubSeeder::class,
+            EventSeeder::class,
             PermissionSeeder::class,
             SettingsSeeder::class,
         ]);
