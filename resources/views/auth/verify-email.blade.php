@@ -11,9 +11,8 @@
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
             <!--begin::Logo-->
-            <a href="{{route('front.index')}}" class="mb-12">
-                <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}"
-                     class="h-45px"/>
+            <a href="{{route('front.index')}}" class="mb-12 max-w-[150px]">
+                <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
             </a>
             <!--end::Logo-->
             <!--begin::Wrapper-->
@@ -50,8 +49,14 @@
                         <button type="submit" class="btn btn-lg btn-primary fw-bolder">
                             <span class="indicator-label">Resend</span>
                         </button>
+                            <button type="button" id="logoutBtn" class="btn btn-lg btn-danger fw-bolder" onclick="logout('#logoutForm');">
+                                <span class="indicator-label">Logout</span>
+                            </button>
                     </div>
                     <!--end::Action-->
+                </form>
+                <form action="{{route('logout')}}" id="logoutForm" method="POST">
+                    @csrf
                 </form>
                 <!--end::Form-->
             </div>
@@ -62,3 +67,10 @@
     <!--end::Authentication - Verify Email -->
 
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        const logout = (form) =>{
+            $(form).submit();
+        }
+    </script>
+@endpush

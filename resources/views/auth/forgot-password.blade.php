@@ -11,14 +11,14 @@
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
             <!--begin::Logo-->
-            <a href="{{route('front.index')}}" class="mb-12">
-                <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}" class="h-45px"/>
+            <a href="{{route('front.index')}}" class="mb-12 max-w-[150px]">
+                <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
             </a>
             <!--end::Logo-->
             <!--begin::Wrapper-->
             <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-success text-center" role="alert">
                         {{ ucfirst(str_replace('-', '', session('status'))) }}
                     </div>
                 @endif

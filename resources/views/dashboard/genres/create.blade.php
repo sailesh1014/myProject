@@ -34,7 +34,7 @@
                 <!--begin::Card body-->
                 <div class="card-body table-responsive pt-0">
                     <!--begin:Form-->
-                    <form id="create_user_form" class="form" action="{{route('genres.store')}}" method="POST" enctype="multipart/form-data">
+                    <form id="create_user_form" class="form" action="{{route('genres.store')}}" method="POST">
                         @include('dashboard.genres._form',['show' => true,'buttonText' => 'Create'])
                     </form>
                     <!--end:Form-->
@@ -49,6 +49,6 @@
     <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.genres._shared')
-@endsection
+@endpush

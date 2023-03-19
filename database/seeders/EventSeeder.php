@@ -1,19 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Club;
+use App\Models\Event;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
     public function run()
     {
-        //
+        Club::all()->each(function ($club){
+            Event::factory(30)->create([
+                'club_id'       =>      $club->id,
+            ]);
+        });
     }
 }

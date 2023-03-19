@@ -17,7 +17,7 @@ class GenreService {
     {
         $columns = [
             'name',
-            'symbol',
+            'excerpt',
             'created_at',
             'action',
         ];
@@ -31,11 +31,6 @@ class GenreService {
 
     public function createNewGenre(array $input): object
     {
-        $symbol = $input['image'];
-        $imageName = AppHelper::renameImageFileUpload($symbol);
-        $pathPrefix = AppHelper::prepareFileStoragePath();
-        $symbol->storeAs("public/uploads/$pathPrefix", $imageName);
-        $input['symbol'] = "{$pathPrefix}/{$imageName}";
         return $this->genreRepository->store($input);
     }
 
@@ -46,14 +41,6 @@ class GenreService {
     }
 
     public function updateGenre(array $input, $genre): void{
-        if(isset($input['image'])){
-            $symbol = $input['image'];
-            @unlink(public_path('storage/uploads/' . $genre->image));
-            $imageName = AppHelper::renameImageFileUpload($symbol);
-            $pathPrefix = AppHelper::prepareFileStoragePath();
-            $symbol->storeAs("public/uploads/$pathPrefix", $imageName);
-            $input['symbol'] = "{$pathPrefix}/{$imageName}";
-        }
         $this->genreRepository->update($input, $genre);
     }
 
@@ -70,7 +57,6 @@ class GenreService {
 
     public function delete(Genre $genre): void
     {
-        @unlink(public_path('storage/uploads/' . $genre->image));
         $this->genreRepository->delete($genre);
     }
 }

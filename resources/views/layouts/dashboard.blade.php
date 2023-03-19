@@ -22,8 +22,8 @@
             <!--begin::Brand-->
             <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                 <!--begin::Logo-->
-                <a href="{{route('dashboard.index')}}">
-                    <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-white.svg')}}" class="h-15px logo" />
+                <a href="{{route('dashboard.index')}}" class="mb-12 max-w-[150px]">
+                    <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
                 </a>
                 <!--end::Logo-->
                 <!--begin::Aside toggler-->
@@ -84,7 +84,7 @@
                     <!--begin::Mobile logo-->
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                         <a href="{{route('front.index')}}" class="d-lg-none">
-                            <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}" class="h-30px" />
+                            <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.png')}}" class="h-[40px]" />
                         </a>
                     </div>
                     <!--end::Mobile logo-->
@@ -172,7 +172,7 @@
 @include('utils._toastify')
 @include('utils._alertify')
 <!-- start: page level script -->
-@yield('page_level_script')
+@stack('scripts')
 <!-- end: page level script -->
 
 </body>

@@ -35,7 +35,7 @@
                 <!--begin::Card body-->
                 <div class="card-body table-responsive pt-0">
                     <!--begin:Form-->
-                    <form id="edit_user_form" class="form" action="{{route('genres.update',$genre)}}" enctype="multipart/form-data"  method="POST">
+                    <form id="edit_user_form" class="form" action="{{route('genres.update',$genre)}}" method="POST">
                         {{ method_field('PUT') }}
                         @include('dashboard.genres._form',['show' => false,'buttonText' => 'Update'])
                     </form>
@@ -51,6 +51,6 @@
     <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.genres._shared')
-@endsection
+@endpush

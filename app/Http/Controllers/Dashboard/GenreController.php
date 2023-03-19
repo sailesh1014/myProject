@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GenreRequest;
 use App\Models\Genre;
 use App\Services\GenreService;
+use App\Services\PermissionService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -47,7 +48,7 @@ class GenreController extends Controller
     public function store(GenreRequest $request): RedirectResponse
     {
         $this->authorize('create', Genre::Class);
-        $input = $request->only(['name', 'excerpt', 'image', 'image_hidden_value']);
+        $input = $request->only(['name', 'excerpt']);
         $genre = $this->genreService->createNewGenre($input);
         return redirect(route('genres.show',$genre->id))->with('toast.success', 'Genre created successfully');
     }
@@ -70,7 +71,7 @@ class GenreController extends Controller
     public function update(GenreRequest $request, Genre $genre): RedirectResponse
     {
         $this->authorize('update', Genre::Class);
-        $input = $request->only(['name', 'excerpt', 'image', 'image_hidden_value']);
+        $input = $request->only(['name', 'excerpt']);
         $this->genreService->updateGenre($input, $genre);
         return redirect(route('genres.show',$genre->id))->with('toast.success', 'Genre updated successfully');
     }
@@ -78,7 +79,7 @@ class GenreController extends Controller
 
     public function destroy(Genre $genre): JsonResponse
     {
-        $this->authorize('destroy', Genre::Class);
+        $this->authorize('delete', Genre::Class);
         $this->genreService->delete($genre);
         return response()->json(['message' => 'Genre successfully deleted']);
     }

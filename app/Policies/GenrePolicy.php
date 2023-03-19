@@ -51,9 +51,4 @@ class GenrePolicy
         return true;
     }
 
-
-    public function forceDelete(User $user): bool
-    {
-        return true;
-    }
 }

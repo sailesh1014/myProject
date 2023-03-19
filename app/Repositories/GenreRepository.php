@@ -23,11 +23,12 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
             ->select(
                 'g.id',
                 'g.name',
-                'g.symbol',
+                'g.excerpt',
                 'g.created_at',
             );
         $query->where(function($q) use($meta){
             $q->orWhere('g.name', 'like', $meta['search'] . '%')
+                ->orWhere('g.excerpt', 'like', $meta['search'] . '%')
                 ->orWhere('g.created_at', 'like', $meta['search'] . '%');
         });
         return $this->offsetAndSort($query, $meta);

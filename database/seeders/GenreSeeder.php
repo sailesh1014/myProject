@@ -13,17 +13,15 @@ class GenreSeeder extends Seeder {
         Genre::upsert([
             ['name'       => 'Rock',
              'excerpt'    => 'Description about rock',
-             'symbol'     => '2023/1/rock.png',
              'created_at' => now(),
              'updated_at' => now()
             ],
             ['name'       => 'Pop',
              'excerpt'    => 'Description about pop',
-             'symbol'     => '2023/1/pop.png',
              'created_at' => now(),
              'updated_at' => now()
             ],
-        ], ['name'], ['excerpt', 'symbol', 'updated_at']);
+        ], ['name'], ['excerpt', 'updated_at']);
         Genre::factory(10)->create();
     }
 }

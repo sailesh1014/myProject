@@ -21,14 +21,7 @@ class GenreRequest extends FormRequest {
         return [
             'name'    => ['required', 'string',  Rule::unique(Genre::class)->ignore($genreId) ,'max:191'],
             'excerpt' => ['required', 'string', 'max:255'],
-            'image'  => ['required_without:image_hidden_value', 'nullable', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'image.required_without'       => 'The image field is required.'
-        ];
-    }
 }

@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-@section('page_level_script')
+@push('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
                  $('#updatePasswordForm').on('submit', function (e){
@@ -86,4 +86,4 @@
                  })
         })
     </script>
-@endsection
+@endpush

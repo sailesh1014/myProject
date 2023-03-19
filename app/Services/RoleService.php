@@ -114,16 +114,6 @@ class RoleService {
         return $this->roleRepository->all();
     }
 
-    //public function getPreservedRoles(bool $includeAdminRoles = true): array
-    //{
-    //    $preservedRoles = $this->roleRepository->getPreservedRoles()->pluck('name', 'key')->toArray();
-    //    if ($includeAdminRoles)
-    //    {
-    //        $adminRoles = $this->roleRepository->getRoleByKey(UserRole::ADMIN_LIST)->pluck('name', 'key')->toArray();
-    //        return  array_merge($preservedRoles,$adminRoles);
-    //    }
-    //    return $preservedRoles;
-    //}
 
     public function getPublicRoles(bool $includeAdmin = false)
     {

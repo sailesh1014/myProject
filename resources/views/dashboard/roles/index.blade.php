@@ -70,7 +70,7 @@
     <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
     @include('dashboard.roles._shared')
     <script>
         $( document ).ready(function( $ ) {
@@ -112,7 +112,7 @@
                 "searchable": false,
                 "dom": '<"top">rt<" bottom.d-md-flex.justify-content-between"lip><"clear">',
                 "language": {
-                    "emptyTable": " "
+                    "emptyTable": "No Roles Found"
                 }
             });
             $('.table-search').on( 'keyup', function () {
@@ -120,4 +120,4 @@
             } );
         });
     </script>
-@endsection
+@endpush

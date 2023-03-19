@@ -61,14 +61,14 @@ class UserController extends Controller {
     public function store(UserRequest $request): RedirectResponse
     {
         $this->authorize('create', User::Class);
-        $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres']);
+        $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres', 'user_name', 'gender', 'address', 'phone', 'dob', 'club_name', 'club_address', 'club_description', 'established_date', 'preference']);
         $user = $this->userService->createNewUser($input);
         return redirect(route('users.show',$user->id))->with('toast.success', 'User created successfully');
     }
 
     public function show(User $user): View
     {
-        $user->load('genres', 'role');
+        $user->load('genres', 'role', 'club');
         $genres = $this->genreService->allGenre();
         return view('dashboard.users.show', compact('user', 'genres'));
     }
@@ -86,7 +86,7 @@ class UserController extends Controller {
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $this->authorize('update',$user);
-        $input = $request->only(['first_name', 'last_name', 'email', 'role', 'genres']);
+        $input = $request->only(['first_name', 'last_name', 'email', 'password', 'role', 'genres', 'user_name', 'gender', 'address', 'phone', 'dob', 'club_name', 'club_address', 'club_description', 'established_date', 'preference']);
         $this->userService->updateUser($input, $user);
         return redirect(route('users.show',$user->id))->with('toast.success', 'User updated successfully');
     }

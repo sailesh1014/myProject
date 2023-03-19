@@ -3,7 +3,6 @@
 @section('title','Register')
 
 @section('content')
-
     <!--begin::Authentication - Sign-up -->
     <div
         class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed"
@@ -11,14 +10,15 @@
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
             <!--begin::Logo-->
-            <a href="{{url('/')}}" class="mb-12">
-                <img alt="Logo" src="{{Vite::asset('resources/img/dashboard/logo-dark.svg')}}" class="h-45px"/>
+            <a href="{{route('front.index')}}" class="mb-12 max-w-[150px]">
+                <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
             </a>
             <!--end::Logo-->
             <!--begin::Wrapper-->
             <div class="w-lg-600px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
                 <!--begin::Form-->
-                <form action="{{route('register')}}" class="form w-100 user-register-form overflow-hidden" method="POST" novalidate="novalidate"
+                <form action="{{route('register')}}" class="form w-100 user-register-form overflow-hidden" method="POST"
+                      novalidate="novalidate"
                       id="register_form">
                     @csrf
                     <!--begin::Heading-->
@@ -35,11 +35,12 @@
                         <div class="row fv-row mb-7 gap-y-[20px]">
                             <!--begin::Col-->
                             <div class="col-xl-6">
-                                <label for="first_name" class="form-label fw-bolder text-dark fs-6">First Name</label>
+                                <label for="first_name" class="form-label fw-bolder text-dark fs-6 required">First
+                                    Name</label>
                                 <input id="first_name" type="text"
                                        class="form-control form-control-lg @error('first_name') is-invalid @enderror"
                                        name="first_name" value="{{ old('first_name') }}" autocomplete="off"
-                                       autofocus="false">
+                                       autofocus>
                                 @error('first_name')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,10 +50,12 @@
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-xl-6">
-                                <label for="last_name" class="form-label fw-bolder text-dark fs-6">Last Name</label>
+                                <label for="last_name" class="form-label fw-bolder text-dark fs-6 required">Last
+                                    Name</label>
                                 <input id="last_name" type="text"
                                        class="form-control form-control-lg @error('last_name') is-invalid @enderror"
-                                       name="last_name" value="{{ old('last_name') }}" autocomplete="off" autofocus="false">
+                                       name="last_name" value="{{ old('last_name') }}" autocomplete="off"
+                                       autofocus>
                                 @error('last_name')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -65,11 +68,13 @@
 
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <label for="email" class="form-label fw-bolder text-dark fs-6">Email</label>
-                            <input id="email" type="text"
-                                   class="form-control form-control-lg @error('email') is-invalid @enderror" name="email"
-                                   value="{{ old('email') }}" autocomplete="off" autofocus="false">
-                            @error('email')
+                            <label for="user_name" class="form-label fw-bolder text-dark fs-6 required">User
+                                Name</label>
+                            <input id="user_name" type="text"
+                                   class="form-control form-control-lg @error('user_name') is-invalid @enderror"
+                                   name="user_name"
+                                   value="{{ old('user_name') }}" autocomplete="off" autofocus>
+                            @error('user_name')
                             <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -78,11 +83,127 @@
                         <!--end::Input group-->
 
                         <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label for="email" class="form-label fw-bolder text-dark fs-6 required">Email</label>
+                            <input id="email" type="text"
+                                   class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                   name="email"
+                                   value="{{ old('email') }}" autocomplete="off" autofocus>
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="form-label fw-bolder text-dark fs-6">Select Gender</label>
+                            <div class="sm:flex flex-wrap justify-between items-center">
+                                <label
+                                    class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
+                                    <input type="radio" name="gender"
+                                           value="male" {{old('gender') === "male" ? 'checked' : ''}}>
+                                    <span>Male</span>
+                                </label>
+                                <label
+                                    class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
+                                    <input type="radio" name="gender"
+                                           value="female" {{old('gender') === "female" ? 'checked' : ''}}>
+                                    <span>Female</span>
+                                </label>
+                                <label
+                                    class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
+                                    <input type="radio" name="gender"
+                                           value="others" {{old('gender') === "others" ? 'checked' : ''}}>
+                                    <span>Others</span>
+                                </label>
+                            </div>
+                            @error('gender')
+                            <span class="invalid-feedback show" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label for="dob" class="form-label fw-bolder text-dark fs-6">DOB</label>
+                            <input name="dob" class="form-control" id="dob"
+                                   value="{{old('dob')}}"/>
+                            @error('dob')
+                            <span class="invalid-feedback show" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label for="phone" class="form-label fw-bolder text-dark fs-6">Phone</label>
+                            <input id="phone" type="text"
+                                   class="form-control form-control-lg @error('phone') is-invalid @enderror"
+                                   name="phone"
+                                   value="{{ old('phone') }}" autocomplete="off" autofocus>
+                            @error('phone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label for="address" class="form-label fw-bolder text-dark fs-6">Address</label>
+                            <input id="address" type="text"
+                                   class="form-control form-control-lg @error('address') is-invalid @enderror"
+                                   name="address"
+                                   value="{{ old('address') }}" autocomplete="off" autofocus>
+                            @error('address')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <?php
+                        $selectedRole = session(\App\Services\AuthService::SELECT_ROLE_KEY);
+                        ?>
+                        @if($selectedRole === \App\Constants\UserRole::ARTIST)
+                        <!--end::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="fs-6 fw-bold mb-2" for="role_id">
+                                <span>Preference</span>
+                                <i class="fas fa-exclamation-circle fs-7" data-bs-toggle="tooltip"
+                                   title="Select your preference"></i></label>
+                            <select class="form-control form-control @error('preference') is-invalid @enderror"
+                                    name="preference">
+                                <option value="">{{ __('-- Select preference --') }}</option>
+                                @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
+                                    <?php
+                                    $selected = old('preference') == $key ? 'selected' : '';
+                                    ?>
+                                    <option value="{{$key}}" {{ $selected }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            @error('preference')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                            @enderror
+                        </div>
+                        @endif
+
+                        <!--begin::Input group-->
                         <div class="mb-7 fv-row" data-kt-password-meter="true">
                             <!--begin::Wrapper-->
                             <div class="mb-1">
                                 <!--begin::Label-->
-                                <label for="password" class="form-label fw-bolder text-dark fs-6">Password</label>
+                                <label for="password"
+                                       class="form-label fw-bolder text-dark fs-6 required">Password</label>
                                 <!--end::Label-->
                                 <!--begin::Input wrapper-->
                                 <div class="position-relative mb-3">
@@ -112,7 +233,8 @@
                             </div>
                             <!--end::Wrapper-->
                             <!--begin::Hint-->
-                            <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.
+                            <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp;
+                                symbols.
                             </div>
                             <!--end::Hint-->
                         </div>
@@ -120,7 +242,7 @@
 
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <label for="password_confirmation" class="form-label fw-bolder text-dark fs-6">Confirm
+                            <label for="password_confirmation" class="form-label fw-bolder text-dark fs-6 required">Confirm
                                 Password</label>
                             <!--begin::Input wrapper-->
                             <div class="position-relative mb-3">
@@ -138,18 +260,64 @@
                         <!--end::Input group-->
 
                         <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <label class="form-label fw-bolder text-dark fs-6 capitalize">Select account type</label>
-                            <div class="sm:flex flex-wrap justify-between items-center">
-                                @foreach($roles as $key => $name)
-                                <label class="form-label fw-bolder text-gray-700 flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="role" value="{{$key}}">
-                                    <span >{{$name}}</span>
-                                </label>
-                                @endforeach
+                        @if(session(\App\Services\AuthService::SELECT_ROLE_KEY) === \App\Constants\UserRole::ORGANIZER)
+                            <div class="fv-row mb-7">
+                                <!--begin::Heading-->
+                                <div class="mb-10 text-center">
+                                    <div class="link-primary fw-bolder fs-4">Club Details</div>
+                                </div>
+                                <!--end::Heading-->
+
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label for="club_name" class="form-label fw-bolder text-dark fs-6 required">Club
+                                        Name</label>
+                                    <input id="club_name" type="text"
+                                           class="form-control form-control-lg @error('club_name') is-invalid @enderror"
+                                           name="club_name"
+                                           value="{{ old('club_name') }}" autocomplete="off" autofocus>
+                                    @error('club_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label for="club_address" class="form-label fw-bolder text-dark fs-6 required">Club
+                                        Address</label>
+                                    <input id="club_address" type="text"
+                                           class="form-control form-control-lg @error('club_address') is-invalid @enderror"
+                                           name="club_address"
+                                           value="{{ old('club_address') }}" autocomplete="off" autofocus>
+                                    @error('club_address')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label for="established_date" class="form-label fw-bolder text-dark fs-6 required">Established
+                                        Date</label>
+                                    <input name="established_date" class="form-control" id="dob"
+                                           value="{{old('established_date')}}"/>
+                                    @error('established_date')
+                                    <span class="invalid-feedback show" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <!--end::Input group-->
+
+
                             </div>
-                        </div>
-                        <!--end::Input group-->
+                            <!--end::Input group-->
+                        @endif
 
                         <!--begin::Input group-->
                         <div class="fv-row mb-10">
@@ -162,6 +330,7 @@
                             </span>
                             </label>
                             @error('terms_and_conditions')
+
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -187,3 +356,13 @@
     <!--end::Authentication - Sign-up-->
 
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dob,#established_date").flatpickr({
+                dateFormat: "Y-m-d",
+                maxDate: new Date(),
+            });
+        });
+    </script>
+@endpush

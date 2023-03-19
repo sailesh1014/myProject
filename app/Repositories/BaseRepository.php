@@ -56,6 +56,10 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->firstOrCreate($condition, $data);
     }
 
+    public function updateOrCreate(array $condition, array $data)
+    {
+        return $this->model->updateOrCreate($condition, $data);
+    }
 
     public function offsetAndSort($query, $meta): array
     {
@@ -72,6 +76,11 @@ class BaseRepository implements BaseRepositoryInterface
             'results' => $results,
             'meta' => $meta,
         ];
+    }
+
+    public function where(array $condition, bool $single = false){
+        $query =  $this->model->where($condition);
+        return $single ? $query->first() : $query->get();
     }
 
 

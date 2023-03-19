@@ -27,11 +27,11 @@ class AppHelper {
     }
 
 
-    public static function renameImageFileUpload($file): string
+    public static function renameMediaFileUpload($file): string
     {
-        $imageName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-        return Str::of($imageName)->slug('_') . '_' . date('YmdHis') . '.' . $file->extension();
+        return Str::of($mediaName)->slug('_') . '_' .uniqid(date('Ymd')). '.' . $file->extension();
     }
 
 

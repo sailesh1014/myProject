@@ -13,7 +13,7 @@ class GenreResource extends JsonResource {
         return [
             'id'         => $this->id,
             'title'      => ucwords($this->name),
-            'symbol'     => "<img class='img-fluid hi-index-img' src='" . asset('storage/uploads/' . $this->symbol) . "'/>",
+            'excerpt'    => $this->excerpt,
             'created_at' => AppHelper::formatDate($this->created_at),
             'action'     => \View::make('dashboard.genres._action')->with('r', $this)->render(),
         ];

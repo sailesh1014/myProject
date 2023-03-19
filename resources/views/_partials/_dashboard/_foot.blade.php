@@ -8,7 +8,10 @@
 
 <!-- include FilePond library -->
 {{--TODO: Replace filepond cdn with local files --}}
-<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+<script src="{{asset('assets/plugin/filepond/filepond.min.js')}}"></script>
+
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+
 <!-- include FilePond plugins -->
 <script src="https://unpkg.com/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>

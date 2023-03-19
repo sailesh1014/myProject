@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->float('fee')->default(0);
             $table->set('status', EventStatus::LIST)->default(EventStatus::DRAFT);
-            $table->string('location');
+            $table->set('preference', array_keys(\App\Constants\PreferenceType::LIST))->comment('If the event is for solo/band');
             $table->dateTime('event_date');
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('club_id')->nullable()->constrained('clubs')->nullOnDelete();
             $table->timestamps();
         });
     }

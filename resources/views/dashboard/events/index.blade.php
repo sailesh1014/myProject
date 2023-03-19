@@ -74,7 +74,7 @@
 <!--end::Post-->
 
 @endsection
-@section('page_level_script')
+@push('scripts')
 @include('dashboard.events._shared')
 <script>
     $(document).ready(function($) {
@@ -140,7 +140,7 @@
             "searchable": false,
             "dom": '<"top">rt<" bottom.d-md-flex.justify-content-between"lip><"clear">',
             "language": {
-                "emptyTable": "No User Found"
+                "emptyTable": "No Event Found"
             },
         });
 
@@ -149,4 +149,4 @@
         });
     });
 </script>
-@endsection
+@endpush
