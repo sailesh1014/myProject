@@ -32,6 +32,7 @@
                 <style>
                     .front-logo{
                         max-height: 105px;
+                        max-width: 250px;
                     }
                 </style>
                 <a href="{{route('front.home')}}" class="logo-main">

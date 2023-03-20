@@ -76,7 +76,7 @@
                                 Status
                             </th>
                             <td>
-                                {{\App\Constants\EventStatus::PUBLISHED ? info_pill($event->status) : danger_pill($event->status)}}
+                                {!!  \App\Constants\EventStatus::PUBLISHED ? info_pill($event->status) : danger_pill($event->status) !!}
                             </td>
                         </tr>
                         <tr>
