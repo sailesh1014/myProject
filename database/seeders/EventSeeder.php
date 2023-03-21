@@ -13,7 +13,7 @@ class EventSeeder extends Seeder
     public function run()
     {
         Club::all()->each(function ($club){
-            Event::factory(30)->create([
+            Event::factory(1)->create([
                 'club_id'       =>      $club->id,
             ]);
         });
