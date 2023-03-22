@@ -25,8 +25,8 @@
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/css-loader/css/css-loader.css')}}" type="text/css">
 
     <!--Common Plugins CSS -->
+    <link rel="stylesheet" href="{{asset('assets/plugin/toastr.min.css') }}"  type="text/css"/>
 
-    <link  rel="stylesheet" href="{{asset('assets/plugin/toastr.min.css')}}" type="text/css">
     <!-- Site Stylesheet -->
 
     <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css">
