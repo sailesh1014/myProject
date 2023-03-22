@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['middleware' => ['genre']], function () {
         Route::get('/home', [FrontController::class, 'home'])->name('front.home');
+        Route::get('/artist', [FrontController::class, 'artist'])->name('front.artist');
     });
 
 });

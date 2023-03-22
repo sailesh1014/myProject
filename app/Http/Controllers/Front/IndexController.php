@@ -46,5 +46,9 @@ class IndexController extends Controller {
     {
         return view('auth.email-verified');
     }
+    public function artist(): view
+    {
+        return view('front.artist');
+    }
 
 }
