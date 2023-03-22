@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
-
+        Route::get('/invitations/{event_id}/{user_id}/accept', [\App\Http\Controllers\Auth\InvitationController::class, 'accept'])->name('invitations.accept');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::post('/events/{event}/invite-artist', [EventController::class, 'inviteArtist'])->name('events.inviteArtist');
         Route::resource('events', EventController::class);

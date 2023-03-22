@@ -1,3 +1,5 @@
+
+
 <script src="{{asset('assets/front/dependencies/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/bootstrap/js/bootstrap.min.js')}}"></script>
@@ -22,9 +24,12 @@
 <script src="{{asset('assets/front/assets/js/parallax.min.js')}}"></script>
 <!-- Player -->
 
+<script src="{{asset('assets/plugin/toastr.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/jPlayer/js/jquery.jplayer.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/jPlayer/js/jplayer.playlist.min.js')}}"></script>
 <script src="{{asset('assets/front/assets/js/myplaylist.js')}}"></script>
+
+
 
 <!-- Remove It -->
 {{--<script src="{{asset('assets/front/dependencies/colornip/colornip.min.js')}}"></script>--}}

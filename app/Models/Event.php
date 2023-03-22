@@ -38,4 +38,5 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'invitation_user')->withPivot('status', 'type');
     }
 
+
 }
