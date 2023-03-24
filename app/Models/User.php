@@ -105,6 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $this->hasOne(Club::class);
     }
 
+
     public function invitations(): BelongsToMany
     {
         return $this->belongsToMany(Event::class, 'invitation_user')->withPivot('status', 'type');;

@@ -17,6 +17,12 @@ class Event extends Model
 
     protected $date = ['created_at', 'updated_at', 'event_date'];
 
+    // Local Scope
+     public function scopePublished($query)
+     {
+          return $query->where('status', 'published');
+     }
+
     public function eventMedia(): HasMany
     {
         return $this->hasMany(EventMedia::class);
@@ -31,5 +37,6 @@ class Event extends Model
     {
         return $this->belongsToMany(User::class, 'invitation_user')->withPivot('status', 'type');
     }
+
 
 }

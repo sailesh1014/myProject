@@ -8,6 +8,7 @@ use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
+use App\Mail\TestMail;
 use App\Models\Event;
 use App\Models\User;
 use App\Services\ClubService;
@@ -17,6 +18,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller {
 
@@ -109,6 +112,8 @@ class EventController extends Controller {
 
     public function inviteArtist(Event $event, Request $request): JsonResponse
     {
+//        dd($request->all());
+
         $request->validate([
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
@@ -117,11 +122,25 @@ class EventController extends Controller {
         $artists = $request->input('artist');
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
         $toInviteArtist = array_diff($artists, $alreadyInvitedArtistForEvent);
-
+//dd($artists);
         $data = [];
-        foreach ($toInviteArtist as $artist)
+        foreach ($toInviteArtist as $k => $artist)
         {
             $data[$artist] = ['status' => InvitationStatus::PENDING, 'type' => InvitationType::INVITED];
+            try {
+                $user = User::where('id',$artist[$k])->first();
+
+                $recipientEmail = $user->email; // Replace with the actual recipient email
+
+                if (filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+                    Mail::to($recipientEmail)->send(new TestMail($event,$user));
+
+                }
+
+            } catch (\Exception $e) {
+
+
+            }
         }
         $event->invitations()->attach($data);
 

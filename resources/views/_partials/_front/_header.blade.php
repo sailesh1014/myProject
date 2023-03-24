@@ -1,3 +1,9 @@
+<style>
+    .front-logo{
+        max-height: 105px;
+        max-width: 230px;
+    }
+</style>
 <header class="header">
     <div class="top-header">
         <div class="tim-container clearfix">
@@ -29,11 +35,6 @@
     <div class="header-inner">
         <div class="tim-container clearfix">
             <div id="site-logo" class="float-left">
-                <style>
-                    .front-logo{
-                        max-height: 105px;
-                    }
-                </style>
                 <a href="{{route('front.home')}}" class="logo-main">
                     <img src='{{asset("storage/settings/".config('app.settings.app_logo'))}}' alt="logo" class="front-logo">
                 </a>

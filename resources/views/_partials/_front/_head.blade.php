@@ -12,6 +12,7 @@
     <meta name="theme-color" content="#e43a90">
 
     <!-- Dependency Styles -->
+
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/bootstrap/css/bootstrap.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/intro/css/stylesheet.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/swiper/swiper.min.css')}}" type="text/css">
@@ -23,7 +24,11 @@
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/colornip/css/colornip.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/front/dependencies/css-loader/css/css-loader.css')}}" type="text/css">
 
+    <!--Common Plugins CSS -->
+    <link rel="stylesheet" href="{{asset('assets/plugin/toastr.min.css') }}"  type="text/css"/>
+
     <!-- Site Stylesheet -->
+
     <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/front/assets/css/app.css')}}" type="text/css">
     <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css">

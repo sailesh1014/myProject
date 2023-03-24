@@ -38,6 +38,21 @@ class UsersSeeder extends Seeder {
                 'remember_token'    => Str::random(10),
             ],
             [
+                'first_name'        => 'Sandip',
+                'last_name'         => 'Bharati',
+                'user_name'         => 'sandy',
+                'email'             => 'sandipbharati07@gmail.com',
+                'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'gender'            => 'male',
+                'address'           => 'Nepal',
+                'phone'             => '9842502007',
+                'preference'        => null,
+                'dob'               => now(),
+                'email_verified_at' => now(),
+                'role_id'           => 4,
+                'remember_token'    => Str::random(10),
+            ],
+            [
                 'first_name'        => 'Suman1',
                 'last_name'         => 'Budathoki1',
                 'user_name'         => 'sumanBudathoki1',
