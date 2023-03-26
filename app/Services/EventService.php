@@ -27,7 +27,8 @@ class EventService {
             'created_at',
             'action',
         ];
-        $meta = AppHelper::defaultTableInput($input, $columns);
+
+         $meta = AppHelper::defaultTableInput($input, $columns);
         $resp = $this->eventRepository->paginatedWithQuery($meta);
         return [
             'data' => EventResource::collection($resp['results']),
