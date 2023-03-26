@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Front;
 
 use App\Constants\EventStatus;
+use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Rating;
+use App\Models\User;
+use App\Services\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +41,11 @@ class IndexController extends Controller {
               ->join('users', 'users.id', 'ratings.to')
               ->groupBy('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference')
               ->orderBy('average_rating')->first();
+         $data['upcoming_events'] =  Event::published()
+              ->where('event_date', '>', now())
+              ->orderBy('event_date')
+              ->limit(3)
+              ->get();
          return view('front.home.index')->with($data);
     }
 
@@ -46,9 +54,11 @@ class IndexController extends Controller {
     {
         return view('auth.email-verified');
     }
-    public function artist(): view
+    public function artist(RoleService $roleService): view
     {
-        return view('front.artist');
+         $artistRole = $roleService->getRoleByKey(UserRole::ARTIST);
+         $artist = User::with('genres')->where('role_id', $artistRole->id)->first();
+        return view('front.artist.index', compact('artist'));
     }
 
 }

@@ -152,7 +152,7 @@
                             <td>
                                 <!--begin::Overlay-->
                                 <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="thumbnail"
-                                   href="{{asset('storage/uploads/'.$event->thumbnail)}}">
+                                   href="{{asset('/storage/uploads/'.$event->thumbnail)}}">
                                     <!--begin::Image-->
                                     <div
                                         class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
