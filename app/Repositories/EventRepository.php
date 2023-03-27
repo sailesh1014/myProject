@@ -40,4 +40,9 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
         });
         return $this->offsetAndSort($query, $meta);
     }
+
+    public function getEventByKey(string|array $status)
+    {
+        return is_array($status) ? $this->model->whereIn('status', $status)->get() :$this->model->where('status', $status)->first();
+    }
 }

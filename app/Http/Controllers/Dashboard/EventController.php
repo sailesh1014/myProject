@@ -72,7 +72,7 @@ class EventController extends Controller {
         $event->load('club', 'invitations');
         $roleId = $this->roleService->getRoleByKey(UserRole::ARTIST)->id;
 
-        $favourableArtists = User::with('genres')->where('role_id', $roleId)->where(function ($q) use ($event) {
+        $favourableArtists = User::where('role_id', $roleId)->where(function ($q) use ($event) {
             if ($event->preference !== PreferenceType::ANY)
             {
                 $q->whereIn('preference', [PreferenceType::ANY, $event->preference]);
@@ -112,15 +112,16 @@ class EventController extends Controller {
 
     public function inviteArtist(Event $event, Request $request): JsonResponse
     {
-//        dd($request->all());
+
 
         $request->validate([
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
         $event->load('invitations');
-
+//dd($event);
         $artists = $request->input('artist');
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
+
         $toInviteArtist = array_diff($artists, $alreadyInvitedArtistForEvent);
 //dd($artists);
         $data = [];

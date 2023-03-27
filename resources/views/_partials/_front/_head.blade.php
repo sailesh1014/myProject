@@ -6,9 +6,9 @@
     <title>Home — Milando - Music Portal HTML Templat</title>
 
     <!-- Fav Icon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/fav-icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/fav-icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/fav-icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href='{{asset("assets/img/fav-icons/apple-touch-icon.png")}}'>
+    <link rel="icon" type="image/png" sizes="32x32" href='{{asset("assets/img/fav-icons/favicon-32x32.png")}}'>
+    <link rel="icon" type="image/png" sizes="16x16" href='{{asset("assets/img/fav-icons/favicon-16x16.png")}}'>
     <meta name="theme-color" content="#e43a90">
 
     <!-- Dependency Styles -->

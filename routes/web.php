@@ -30,7 +30,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['middleware' => ['genre']], function () {
         Route::get('/home', [FrontController::class, 'home'])->name('front.home');
-        Route::get('/artist', [FrontController::class, 'artist'])->name('front.artist');
+        Route::get('/artist/{artist}', [FrontController::class, 'artist'])->name('front.artist');
+        Route::post('/artists/{artist}/invite-in-events', [\App\Http\Controllers\Front\ArtistController::class, 'inviteArtist'])->name('events.artistInvitation');
+
+
+
     });
 
 });
@@ -40,6 +44,9 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
         Route::get('/invitations/{event_id}/{user_id}/accept', [\App\Http\Controllers\Auth\InvitationController::class, 'accept'])->name('invitations.accept');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::post('/events/{event}/invite-artist', [EventController::class, 'inviteArtist'])->name('events.inviteArtist');
+
+
+
         Route::resource('events', EventController::class);
 
         Route::group(['middleware' => 'isAdmin'], function () {

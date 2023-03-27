@@ -97,7 +97,10 @@ class EventService {
         $this->eventMediaService->removeMedia($event->id,$eventMedia);
         $this->eventRepository->delete($event);
     }
-
+    public function getEventByKey(string|array $status)
+    {
+        return $this->eventRepository->getEventByKey($status);
+    }
     public function getFavourableArtist(Event $event)
     {
         $artistPreference = $event->preference;
@@ -106,4 +109,7 @@ class EventService {
         $condition = ['role_id' => $artistRoleId, 'preference' => $artistPreference];
         return $this->userRepository->where($condition);
     }
+
+
+
 }

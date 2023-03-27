@@ -4,15 +4,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Front;
 
 use App\Constants\EventStatus;
+use App\Constants\PreferenceType;
+use App\Constants\UserRole;
+use App\Services\ClubService;
+use App\Services\EventService;
+use App\Services\RoleService;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
+    public function __construct(protected EventService $eventService, protected RoleService $roleService, protected ClubService $clubService) {}
+
 
     public function index(): RedirectResponse|View
     {
@@ -46,9 +54,29 @@ class IndexController extends Controller {
     {
         return view('auth.email-verified');
     }
-    public function artist(): view
+    public function artist(Event $event): View
     {
-        return view('front.artist');
+
+        $this->authorize('view', Event::class);
+        if(auth()->user()->isOrganizer()){
+            $authorized = $event->club_id == auth()->user()->club->id;
+            abort_if(!$authorized, "401");
+        }
+//        $event->load('club', 'invitations');
+//        dd($event);
+
+//        $events = Event::all();
+        $eventIdArr= $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
+        $events = Event::whereIn('id', $eventIdArr)->get();
+
+
+        $alreadyInvitedArtists = $event->invitations;
+        $artist= 2;
+
+        return view('front.artist', compact('artist','events', 'alreadyInvitedArtists'));
+
+
+
     }
 
 }

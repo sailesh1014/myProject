@@ -38,5 +38,14 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'invitation_user')->withPivot('status', 'type');
     }
 
+//    public function input(array $array): array
+//    {
+//        return array_filter($array, function ($key) {
+//            return $key === 'event';
+//        }, ARRAY_FILTER_USE_KEY);
+//    }
+
+
+
 
 }

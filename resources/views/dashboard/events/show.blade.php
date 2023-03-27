@@ -223,8 +223,10 @@
                 </div>
                 <?php
                     $alreadyInvitedArtistIds = $alreadyInvitedArtists->pluck('id')->toArray();
+
                 ?>
                 <div class="modal-body">
+
                     <form class="" action="{{route('events.inviteArtist', $event->id)}}" method="post" id="artistInvitationForm">
                         @csrf
                         <ul class="flex flex-column gap-2">
