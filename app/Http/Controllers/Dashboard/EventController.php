@@ -134,7 +134,7 @@ class EventController extends Controller {
         // TODO:: Queue mail.
          $users = User::whereIn('id', $toInviteArtist)->get();
          foreach ($users as $user) {
-              Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
+              Mail::to("sandipbharati07@gmail.com")->send(new ArtistInvitationMail($event,$user));
          }
 
 

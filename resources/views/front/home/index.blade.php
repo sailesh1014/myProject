@@ -36,7 +36,7 @@
     <!-- /#recommended-events -->
 
 
-
+@include('_partials._front._event');
     <!--=============================-->
          <!--= TOP RATED ARTIST =-->
     <!--=============================-->

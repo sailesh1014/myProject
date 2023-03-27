@@ -40,6 +40,13 @@ class IndexController extends Controller {
 
     public function home(): View
     {
+        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
+            ->pluck('id');
+        $events = Event::whereIn('id', $eventIdArr)
+            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
+            ->take(3)
+            ->get();
+
 
          $currentUserId = auth()->id();
          $data['recommended_events'] =Event::join('clubs', 'events.club_id', '=', 'clubs.id')
@@ -59,7 +66,7 @@ class IndexController extends Controller {
               ->orderBy('event_date')
               ->limit(3)
               ->get();
-         return view('front.home.index')->with($data);
+         return view('front.home.index',compact('events'))->with($data);
     }
 
 
