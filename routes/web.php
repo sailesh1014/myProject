@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['middleware' => ['genre']], function () {
         Route::get('/home', [FrontController::class, 'home'])->name('front.home');
-        Route::get('/artist/{artist}', [FrontController::class, 'artist'])->name('front.artist');
+        Route::get('/artist', [FrontController::class, 'artists'])->name('front.artist');
         Route::post('/artists/{artist}/invite-in-events', [\App\Http\Controllers\Front\ArtistController::class, 'inviteArtist'])->name('events.artistInvitation');
 
 
@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     });
 
 });
+
 
 Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard']], function () {
     Route::group(['prefix' => 'dashboard'], function () {

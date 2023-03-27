@@ -8,7 +8,7 @@ use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
-use App\Mail\TestMail;
+use App\Mail\ArtistInvitationMail;
 use App\Models\Event;
 use App\Models\User;
 use App\Services\ClubService;
@@ -114,6 +114,8 @@ class EventController extends Controller {
     {
 
 
+
+
         $request->validate([
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
@@ -123,27 +125,19 @@ class EventController extends Controller {
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
 
         $toInviteArtist = array_diff($artists, $alreadyInvitedArtistForEvent);
-//dd($artists);
         $data = [];
         foreach ($toInviteArtist as $k => $artist)
         {
             $data[$artist] = ['status' => InvitationStatus::PENDING, 'type' => InvitationType::INVITED];
-            try {
-                $user = User::where('id',$artist[$k])->first();
-
-                $recipientEmail = $user->email; // Replace with the actual recipient email
-
-                if (filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
-                    Mail::to($recipientEmail)->send(new TestMail($event,$user));
-
-                }
-
-            } catch (\Exception $e) {
-
-
-            }
         }
         $event->invitations()->attach($data);
+        // TODO:: Queue mail.
+         $users = User::whereIn('id', $toInviteArtist)->get();
+         foreach ($users as $user) {
+              Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
+         }
+
+
 
         return response()->json(['message' => 'Invitation sent successfully']);
     }

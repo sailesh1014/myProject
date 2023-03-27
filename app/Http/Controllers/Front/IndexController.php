@@ -4,15 +4,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Front;
 
 use App\Constants\EventStatus;
+
 use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
+
+
+
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Rating;
 use App\Models\User;
+
+
+
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +54,11 @@ class IndexController extends Controller {
               ->join('users', 'users.id', 'ratings.to')
               ->groupBy('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference')
               ->orderBy('average_rating')->first();
+         $data['upcoming_events'] =  Event::published()
+              ->where('event_date', '>', now())
+              ->orderBy('event_date')
+              ->limit(3)
+              ->get();
          return view('front.home.index')->with($data);
     }
 
@@ -54,11 +67,12 @@ class IndexController extends Controller {
     {
         return view('auth.email-verified');
     }
-    public function artist(Event $event): View
+
+    public function artists(Event $event): View
     {
 
         $this->authorize('view', Event::class);
-        if(auth()->user()->isOrganizer()){
+        if (auth()->user()->isOrganizer()) {
             $authorized = $event->club_id == auth()->user()->club->id;
             abort_if(!$authorized, "401");
         }
@@ -66,16 +80,23 @@ class IndexController extends Controller {
 //        dd($event);
 
 //        $events = Event::all();
-        $eventIdArr= $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
+        $eventIdArr = $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
         $events = Event::whereIn('id', $eventIdArr)->get();
 
 
         $alreadyInvitedArtists = $event->invitations;
-        $artist= 2;
+        $artist = 2;
 
-        return view('front.artist', compact('artist','events', 'alreadyInvitedArtists'));
+        return view('front.artist', compact('artist', 'events', 'alreadyInvitedArtists'));
 
 
+    }
+
+    public function artist(RoleService $roleService): view
+    {
+         $artistRole = $roleService->getRoleByKey(UserRole::ARTIST);
+         $artist = User::with('genres')->where('role_id', $artistRole->id)->first();
+        return view('front.artist.index', compact('artist'));
 
     }
 

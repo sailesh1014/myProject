@@ -38,10 +38,10 @@ class UsersSeeder extends Seeder {
                 'remember_token'    => Str::random(10),
             ],
             [
-                'first_name'        => 'Sandip',
-                'last_name'         => 'Bharati',
+                'first_name'        => 'Suman',
+                'last_name'         => 'Budathoki',
                 'user_name'         => 'sandy',
-                'email'             => 'sandipbharati07@gmail.com',
+                'email'             => 'sumanbudathoki1@gmail.com',
                 'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'gender'            => 'male',
                 'address'           => 'Nepal',
