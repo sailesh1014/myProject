@@ -43,10 +43,10 @@
 
 
 <!-- Remove It -->
-<script src="{{asset('assets/front/dependencies/colornip/colornip.min.js')}}"></script>
+{{-- <script src="{{asset('assets/front/dependencies/colornip/colornip.min.js')}}"></script> --}}
 
 <!--Google map api -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script> --}}
 
 <!-- Site Scripts -->
 <script src="{{asset('assets/front/assets/js/app.js')}}"></script>

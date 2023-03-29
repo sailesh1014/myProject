@@ -4,10 +4,15 @@
         <div class="swiper-container banner-slider-two" data-swiper-config='{"loop": true, "effect": "slide", "prevButton":"#banner-nav-prev", "nextButton": "#banner-nav-next", "speed": 700, "autoplay": 500000, "paginationClickable": true}'>
             <div class="swiper-wrapper">
                 @forelse($upcoming_events as $event)
-                    <div class="swiper-slide" data-bg-image='{{asset("storage/uploads/".$event->thumbnail)}}' data-parallax="image">
+                    <?php
+                         $banner_arr = ['event.jpeg', 'event_banner.jpeg'];
+                         $adder = ['music.png', 'sound.png'];
+                         $thumbnail = $event->thumbnail ? url("storage/uploads/".$event->thumbnail) : asset("assets/front/images/".$banner_arr[array_rand($banner_arr)])
+                   ?>
+                    <div class="swiper-slide" data-bg-image='{{$thumbnail}}' data-parallax="image">
                         <div class="slider-content-two text-left" data-animate="fadeIn">
-                            <img src='{{asset("assets/front/media/banner/1.png")}}' alt="Music">
-                            <h3 data-animate="fadeInUp">Jazz With</h3>
+                            <img src='{{asset("assets/front/images/".$adder[array_rand($adder)])}}' alt="Music">
+                            <h3 data-animate="fadeInUp">Coming Soon</h3>
                             <h2 data-animate="fadeInUp" data-delay="0.5s">
                                 {{ucwords($event->title)}}
                             </h2>
@@ -35,11 +40,11 @@
     @endif
     <!-- /#recommended-events -->
 
+    <!--===========================-->
+    <!--=  RECOMMENDED Artist =-->
+    <!--===========================-->
+    @include('front.home._segments.recommended_artist', ['artists' => $recommended_artists])
+    <!-- /#recommended-artist -->
 
-@include('_partials._front._event');
-    <!--=============================-->
-         <!--= TOP RATED ARTIST =-->
-    <!--=============================-->
-{{--    @include('front.home._segments.top_rated_artist', ['artist' => $top_rated_artist]);--}}
-    <!-- /#artist -->
+
 @endsection

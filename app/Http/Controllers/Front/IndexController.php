@@ -23,7 +23,9 @@ use App\Models\User;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
@@ -35,7 +37,7 @@ class IndexController extends Controller {
         if(Auth::check()){
             return  redirect(get_user_home_page());
         }
-        return view('front.index');
+        return view('front.welcome.index');
     }
 
     public function home(): View
@@ -49,18 +51,48 @@ class IndexController extends Controller {
 
 
          $currentUserId = auth()->id();
-         $data['recommended_events'] =Event::join('clubs', 'events.club_id', '=', 'clubs.id')
+         $currentDateTime = Carbon::now();
+         $data['recommended_events'] = Event::join('clubs', 'events.club_id', '=', 'clubs.id')
               ->join('genre_user', 'clubs.user_id', '=', 'genre_user.user_id')
               ->join('genre_user AS gu', 'gu.genre_id', '=', 'genre_user.genre_id')
               ->where('gu.user_id', $currentUserId)
               ->where('events.status', EventStatus::PUBLISHED)
+              ->where('events.event_date', '>',$currentDateTime)
               ->select('events.*')
-              ->distinct()->limit(12)
+              ->distinct()->limit(6)
+              ->orderBy('title')
               ->get();
-         $data['top_rated_artist'] = Rating::select('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference',DB::raw('AVG(value) as average_rating'))
-              ->join('users', 'users.id', 'ratings.to')
-              ->groupBy('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference')
-              ->orderBy('average_rating')->first();
+
+         // will be empty if user has no selected genres.
+         if($data['recommended_events']->isEmpty()){
+              $data['recommended_events'] = Event::published()->inRandomOrder()
+                   ->where('events.event_date', '>',$currentDateTime)
+                   ->take(6)
+                   ->orderBy('title')
+                   ->get();
+         }
+
+         $currentUserGenres = \auth()->user()->genres->pluck('id')->toArray();
+         $artistRoleId = $this->roleService->getRoleByKey(UserRole::ARTIST)->id;
+         $data['recommended_artists'] = User::join('genre_user as gu', 'users.id', '=', 'gu.user_id')
+              ->join('genres', 'genres.id', 'gu.genre_id')
+              ->whereIn('gu.genre_id', $currentUserGenres)
+              ->where('users.role_id', $artistRoleId)
+              ->select('users.*')
+              ->distinct()->limit(6)
+              ->orderBy('first_name')
+              ->get();
+
+
+         // will be empty if user has no selected genres.
+         if($data['recommended_artists']->isEmpty()){
+              $data['recommended_artists'] = User::where('users.role_id', $artistRoleId)->inRandomOrder()
+                   ->take(6)
+                   ->orderBy('first_name')
+                   ->get();
+         }
+
+
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')
@@ -75,28 +107,26 @@ class IndexController extends Controller {
         return view('auth.email-verified');
     }
 
-    public function artists(Event $event): View
+    public function artistDetail($id): View
     {
-
-        $this->authorize('view', Event::class);
-        if (auth()->user()->isOrganizer()) {
-            $authorized = $event->club_id == auth()->user()->club->id;
-            abort_if(!$authorized, "401");
-        }
-//        $event->load('club', 'invitations');
-//        dd($event);
-
-//        $events = Event::all();
-        $eventIdArr = $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
-        $events = Event::whereIn('id', $eventIdArr)->get();
+         try
+         {
+              $id = Crypt::decrypt($id);
+         }catch(\Exception $e){
+               abort(404);
+         }
+         $artist = User::where('id', $id)->where('role_id', $this->roleService->getRoleByKey(UserRole::ARTIST)->id)->firstOrFail();
+//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
+//        $events = Event::whereIn('id', $eventIdArr)->get();
 
 
-        $alreadyInvitedArtists = $event->invitations;
-        $artist = 2;
+//        $alreadyInvitedArtists = $event->invitations;
+//        $artist = 2;
 
-        return view('front.artist', compact('artist', 'events', 'alreadyInvitedArtists'));
+         $authUserEvents = \auth()->user()->club?->events->where('event_date', '>', now())->where('status', EventStatus::PUBLISHED);
+         $userHasUpComingEvents = false;
 
-
+        return view('front.artist.index', compact('artist', 'authUserEvents'));
     }
 
     public function artist(RoleService $roleService): view

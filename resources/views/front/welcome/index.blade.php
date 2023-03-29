@@ -4,10 +4,10 @@
         <div class="swiper-container banner-slider-two" data-swiper-config='{"loop": true, "effect": "slide", "prevButton":"#banner-nav-prev", "nextButton": "#banner-nav-next", "speed": 700, "autoplay": 500000, "paginationClickable": true}'>
 
             <div class="swiper-wrapper">
-                <div class="swiper-slide" data-bg-image='{{asset("assets/front/images/a.png")}}' data-parallax="image">
+                <div class="swiper-slide" data-bg-image='{{asset("assets/front/images/welcome_bg.png")}}' data-parallax="image">
 
                     <div class="slider-content-two text-left" data-animate="fadeIn">
-                        <img src='{{asset("assets/front/media/banner/1.png")}}' alt="Music">
+                        <img src='{{asset("assets/front/images/music.png")}}' alt="Music">
                         <h2 data-animate="fadeInUp">Hear It.</h2>
                         <h2 data-animate="fadeInUp" data-delay="0.5s">
                             See it.
@@ -23,10 +23,10 @@
 
                 </div>
 
-                <div class="swiper-slide" data-bg-image='{{asset("assets/front/images/AA.png")}}' data-parallax="image">
+                <div class="swiper-slide" data-bg-image='{{asset("assets/front/images/welcome_bg_2.png")}}' data-parallax="image">
 
                     <div class="slider-content-two text-left" data-animate="fadeIn">
-                        <img src='{{asset("assets/front/media/banner/2.png")}}' alt="Music">
+                        <img src='{{asset("assets/front/images/sound.png")}}' alt="Music">
                         <h2 data-animate="fadeInUp">Hear It.</h2>
                         <h2 data-animate="fadeInUp" data-delay="0.5s">
                             See it.
@@ -45,5 +45,5 @@
         </div>
 
     </section>
-
+    @include('front.welcome._segments.services')
 @endsection

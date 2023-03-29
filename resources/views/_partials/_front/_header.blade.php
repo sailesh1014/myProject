@@ -15,8 +15,9 @@
             <!-- /.site-social-link -->
 
             <ul class="user-login float-right">
-                @guest
-                <li><a href="{{route('register')}}">Sing Up</a></li>
+                <li><a href="{{route('front.home')}}">{{config('app.name')}}</a></li>
+            @guest
+                <li><a href="{{route('register')}}">Sign Up</a></li>
                 <li><a href="{{route('login')}}">Sign In</a></li>
                 @else
                     <li>

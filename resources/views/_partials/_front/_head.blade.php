@@ -29,7 +29,7 @@
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/magnific-popup/magnific-popup.css')}}" type="text/css">
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/jquery-ui/css/jquery-ui.css')}}" type="text/css">
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/slick-carousel/css/slick.css')}}" type="text/css">
-     <link rel="stylesheet" href="{{asset('assets/front/dependencies/colornip/css/colornip.min.css')}}" type="text/css">
+{{--      <link rel="stylesheet" href="{{asset('assets/front/dependencies/colornip/css/colornip.min.css')}}" type="text/css"> --}}
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/css-loader/css/css-loader.css')}}" type="text/css">
 
      <!--Common Plugins CSS -->
@@ -39,7 +39,7 @@
 
      <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css">
      <link rel="stylesheet" href="{{asset('assets/front/assets/css/app.css')}}" type="text/css">
-     <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css">
+{{--      <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css"> --}}
 
 
 

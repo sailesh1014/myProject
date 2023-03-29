@@ -30,11 +30,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['middleware' => ['genre']], function () {
         Route::get('/home', [FrontController::class, 'home'])->name('front.home');
-        Route::get('/artist', [FrontController::class, 'artists'])->name('front.artist');
+        Route::get('/artist/{artist_id}', [FrontController::class, 'artistDetail'])->name('front.artist.detail');
         Route::post('/artists/{artist}/invite-in-events', [\App\Http\Controllers\Front\ArtistController::class, 'inviteArtist'])->name('events.artistInvitation');
-
-
-
     });
 
 });
