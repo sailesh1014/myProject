@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Constants\UserRole;
+use App\Services\RoleService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,6 +44,12 @@ class User extends Authenticatable implements MustVerifyEmail {
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function scopeArtist($query){
+         $roleService = resolve(RoleService::class);
+         $artist_role_id = $roleService->getRoleByKey(UserRole::ARTIST)->id;
+         $query->where('role_id', $artist_role_id);
+    }
     public function getFullName(): string
     {
         return "{$this->first_name} {$this->last_name}";

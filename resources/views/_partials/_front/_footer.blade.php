@@ -105,6 +105,7 @@
                             <a href="#">Responsive</a>
                             <a href="#">Max Studio</a>
                             <a href="#">Life</a>
+
                         </div>
                         <!-- /.tagcloud -->
                     </div>

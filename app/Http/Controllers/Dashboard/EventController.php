@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Constants\EventStatus;
 use App\Constants\InvitationStatus;
 use App\Constants\InvitationType;
 use App\Constants\PreferenceType;
@@ -20,6 +21,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class EventController extends Controller {
 
@@ -72,7 +74,7 @@ class EventController extends Controller {
         $event->load('club', 'invitations');
         $roleId = $this->roleService->getRoleByKey(UserRole::ARTIST)->id;
 
-        $favourableArtists = User::with('genres')->where('role_id', $roleId)->where(function ($q) use ($event) {
+        $favourableArtists = User::where('role_id', $roleId)->where(function ($q) use ($event) {
             if ($event->preference !== PreferenceType::ANY)
             {
                 $q->whereIn('preference', [PreferenceType::ANY, $event->preference]);
@@ -117,9 +119,9 @@ class EventController extends Controller {
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
         $event->load('invitations');
-
         $artists = $request->input('artist');
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
+
         $toInviteArtist = array_diff($artists, $alreadyInvitedArtistForEvent);
         $data = [];
         foreach ($toInviteArtist as $k => $artist)
@@ -130,11 +132,10 @@ class EventController extends Controller {
         // TODO:: Queue mail.
          $users = User::whereIn('id', $toInviteArtist)->get();
          foreach ($users as $user) {
+              $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
+              $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
               Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
          }
-
-
-
         return response()->json(['message' => 'Invitation sent successfully']);
     }
 }

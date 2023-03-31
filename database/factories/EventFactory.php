@@ -16,7 +16,7 @@ class EventFactory extends Factory {
             'title'       => $this->faker->word(),
             'excerpt'     => $this->faker->sentence(),
             'description' => $this->faker->sentences(5, true),
-            'thumbnail'   => "eventThumbnail.png",
+            'thumbnail'   => "",
             'fee'         => $this->faker->numberBetween(200, 300),
             'status'      => $this->faker->randomElement(EventStatus::LIST,1),
             'preference'  => $this->faker->randomElement(array_keys(PreferenceType::LIST)),
