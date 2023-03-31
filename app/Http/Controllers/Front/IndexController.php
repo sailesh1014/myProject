@@ -37,7 +37,11 @@ class IndexController extends Controller {
         if(Auth::check()){
             return  redirect(get_user_home_page());
         }
-        return view('front.welcome.index');
+         $data['top_rated_artists'] = Rating::select('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference',DB::raw('AVG(value) as average_rating'))
+              ->join('users', 'users.id', 'ratings.to')
+              ->groupBy('users.id','first_name', 'last_name','intro_video', 'email', 'user_name','preference')
+              ->orderBy('average_rating')->limit(4)->get();
+        return view('front.welcome.index')->with($data);
     }
 
     public function home(): View
@@ -107,34 +111,5 @@ class IndexController extends Controller {
         return view('auth.email-verified');
     }
 
-    public function artistDetail($id): View
-    {
-         try
-         {
-              $id = Crypt::decrypt($id);
-         }catch(\Exception $e){
-               abort(404);
-         }
-         $artist = User::where('id', $id)->where('role_id', $this->roleService->getRoleByKey(UserRole::ARTIST)->id)->firstOrFail();
-//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::LIST)->pluck('id');
-//        $events = Event::whereIn('id', $eventIdArr)->get();
-
-
-//        $alreadyInvitedArtists = $event->invitations;
-//        $artist = 2;
-
-         $authUserEvents = \auth()->user()->club?->events->where('event_date', '>', now())->where('status', EventStatus::PUBLISHED);
-         $userHasUpComingEvents = false;
-
-        return view('front.artist.index', compact('artist', 'authUserEvents'));
-    }
-
-    public function artist(RoleService $roleService): view
-    {
-         $artistRole = $roleService->getRoleByKey(UserRole::ARTIST);
-         $artist = User::with('genres')->where('role_id', $artistRole->id)->first();
-        return view('front.artist.index', compact('artist'));
-
-    }
 
 }

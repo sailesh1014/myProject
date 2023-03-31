@@ -70,13 +70,12 @@
     @yield('content')
 
 
-
 </div>
 <!-- /#site -->
 <!-- Dependency Scripts -->
 @include('_partials._front._foot')
 
-
+@stack('scripts')
 </body>
 
 </html>

@@ -24,29 +24,16 @@
 <script src="{{asset('assets/front/assets/js/parallax.min.js')}}"></script>
 <!-- Player -->
 
-<script src="{{asset('assets/plugin/toastr.min.js')}}"></script>
-<!-- to trigger these actions you need to pass `with('toast.success')` or `with('toast.error')` from controller -->
-@if(session('toast.success'))
-    <script>
-        toastr.success("{!! session('toast.success') !!}");
-    </script>
-@endif
+<script src="{{asset('assets/plugin/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('assets/plugin/sweetAlert/sweet-alert.min.js')}}"></script>
 
-@if(session('toast.error'))
-    <script>
-        toastr.error("{!! session('toast.error') !!}");
-    </script>
-@endif
+<script src="{{asset('assets/common/js/common.js')}}"></script>
+
 <script src="{{asset('assets/front/dependencies/jPlayer/js/jquery.jplayer.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/jPlayer/js/jplayer.playlist.min.js')}}"></script>
 <script src="{{asset('assets/front/assets/js/myplaylist.js')}}"></script>
 
-
-<!-- Remove It -->
-{{-- <script src="{{asset('assets/front/dependencies/colornip/colornip.min.js')}}"></script> --}}
-
-<!--Google map api -->
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script> --}}
-
-<!-- Site Scripts -->
+@include('utils._toastify')
+@include('utils._alertify')
 <script src="{{asset('assets/front/assets/js/app.js')}}"></script>
+@vite('resources/js/front/app.js')

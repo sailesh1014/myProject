@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Constants\EventStatus;
 use App\Constants\InvitationStatus;
 use App\Constants\InvitationType;
 use App\Constants\PreferenceType;
@@ -20,6 +21,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class EventController extends Controller {
 
@@ -113,14 +115,10 @@ class EventController extends Controller {
     public function inviteArtist(Event $event, Request $request): JsonResponse
     {
 
-
-
-
         $request->validate([
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
         $event->load('invitations');
-//dd($event);
         $artists = $request->input('artist');
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
 
@@ -134,11 +132,10 @@ class EventController extends Controller {
         // TODO:: Queue mail.
          $users = User::whereIn('id', $toInviteArtist)->get();
          foreach ($users as $user) {
-              Mail::to("sandipbharati07@gmail.com")->send(new ArtistInvitationMail($event,$user));
+              $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
+              $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
+              Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
          }
-
-
-
         return response()->json(['message' => 'Invitation sent successfully']);
     }
 }

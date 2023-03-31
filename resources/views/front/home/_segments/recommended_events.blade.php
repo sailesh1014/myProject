@@ -1,4 +1,9 @@
-<section id="upcoming-concerts-three" class="section-padding">
+<style>
+    .pb-75{
+        padding-bottom: 75px;
+    }
+</style>
+<section id="upcoming-concerts-three" class="section-padding pb-75">
     <div class="tim-container">
         <div class="section-title title-three text-center">
             <h2>Recommended <span>Events</span></h2>
@@ -11,7 +16,7 @@
                 <div class="col-xl-8 col-lg-12">
                     <div class="row">
                         @foreach($recommended_events as $event)
-                            <div class="col-lg-4 col-sm-6">
+                            <div class="col-lg-4 col-sm-6 mb-4">
                                 <div class="hover-flip upc-con-three">
                                     <div class="content-wrap">
                                         <div class="cons-feature-image">
