@@ -23,6 +23,8 @@ class SettingRequest extends FormRequest {
             'facebook_url'  => ['required', 'string', 'max:191'],
             'twitter_url'   => ['required', 'string', 'max:191'],
             'instagram_url' => ['required', 'string', 'max:191'],
+             'app_max_genre_count' => ['required', 'numeric'],
+            'app_min_genre_count' => ['required', 'numeric'],
             'app_logo'      => ['nullable', 'required_without:hidden_logo', 'mimes:jepg,jpg,png', 'max:2048'],
             'hidden_logo'   => ['nullable', 'string', 'max:191'],
         ];
@@ -32,6 +34,9 @@ class SettingRequest extends FormRequest {
     {
         return [
             'app_logo.required_without' => 'The app logo field is required.',
+            'app_min_genre_count' => 'The min genre count field is required',
+            'app_max_genre_count' => 'The max genre count field is required',
+
         ];
     }
 }

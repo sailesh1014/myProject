@@ -17,7 +17,7 @@ class SettingService {
 
     public function getAllSettings(): Collection
     {
-        return $this->settingRepository->all()->pluck('name', 'key');
+        return $this->settingRepository->all()->pluck('value', 'key');
     }
 
     public function updateSettings($input): void
@@ -30,12 +30,12 @@ class SettingService {
 
         $updateArr = collect($input)->map(function ($v,$k){
             return ['key'   => $k,
-                    'name'  => $v,
+                    'value'  => $v,
                     'updated_at' => now()
             ];
         })->toArray();
 
-        $upsertOkay = $this->settingRepository->upsert($updateArr, ['key'], ['name', 'updated_at']);
+        $upsertOkay = $this->settingRepository->upsert($updateArr, ['key'], ['value', 'updated_at']);
         if($upsertOkay){
             self::updateCachedSettingsValue();
         }
@@ -44,7 +44,7 @@ class SettingService {
     public static function getCachedSettingsValue()
     {
        return  Cache::rememberForever(Setting::SETTING_SESSION_KEY, function (){
-            return Setting::pluck('name', 'key');
+            return Setting::pluck('value', 'key');
         });
     }
 
