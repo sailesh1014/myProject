@@ -134,7 +134,7 @@ class EventController extends Controller {
          foreach ($users as $user) {
               $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
               $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
-              Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
+              Mail::to("budhathokisuman384@gmail.com")->send(new ArtistInvitationMail($event,$user));
          }
         return response()->json(['message' => 'Invitation sent successfully']);
     }
