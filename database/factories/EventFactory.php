@@ -20,7 +20,7 @@ class EventFactory extends Factory {
             'fee'         => $this->faker->numberBetween(200, 300),
             'status'      => $this->faker->randomElement(EventStatus::LIST,1),
             'preference'  => $this->faker->randomElement(array_keys(PreferenceType::LIST)),
-            'event_date'  => $this->faker->dateTimeBetween('-1 month', '+1 month'),
+            'event_date'  => $this->faker->dateTimeBetween('-1 week', '+1 month'),
             'club_id'     => null,
         ];
     }

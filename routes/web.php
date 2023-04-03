@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 {
      Route::get('/email-verified', [FrontController::class, 'emailVerified']);
      Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
+     Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
      Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
 
      Route::group(['middleware' => ['genre']], function()

@@ -13,52 +13,64 @@ class SettingsSeeder extends Seeder {
         Setting::insertOrIgnore([
             [
                 'key'        => 'app_name',
-                'name'       => 'hiMusician',
+                'value'       => 'hiMusician',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'admin_email',
-                'name'       => 'sumanbudhathoki@gmail.com',
+                'value'       => 'sumanbudhathoki@gmail.com',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'app_logo',
-                'name'       => 'logo.png',
+                'value'       => 'logo.png',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'app_phone',
-                'name'       => '9812380822',
+                'value'       => '9812380822',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'app_address',
-                'name'       => 'Itahari, Nepal',
+                'value'       => 'Itahari, Nepal',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'facebook_url',
-                'name'       => '#',
+                'value'       => '#',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'twitter_url',
-                'name'       => '#',
+                'value'       => '#',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'key'        => 'instagram_url',
-                'name'       => '#',
+                'value'       => '#',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+             [
+                  'key'        => 'app_max_genre_count',
+                  'value'       => '3',
+                  'created_at' => now(),
+                  'updated_at' => now(),
+             ],
+             [
+                  'key'        => 'app_min_genre_count',
+                  'value'       => '1',
+                  'created_at' => now(),
+                  'updated_at' => now(),
+             ],
         ]);
     }
 }

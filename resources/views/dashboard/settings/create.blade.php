@@ -3,7 +3,6 @@
 @section('title','Settings')
 
 @section('content')
-    @include('utils._error_all')
 
     @include('_partials._dashboard._breadcrumb')
 
@@ -221,6 +220,46 @@
                                        class="form-control form-control-solid @error('instagram_url') is-invalid @enderror"
                                        value="{{ old('instagram_url', $settings['instagram_url']) }}"/>
                                 @error('instagram_url')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="row g-9 mb-8">
+                            <!--begin::Col-->
+                            <div class="fv-row">
+                                <label class="required fs-6 fw-bold mb-2" for="app_max_genre_count">
+                                    Max Genre Count
+                                </label>
+                                <input type="text" name="app_max_genre_count" id="app_max_genre_count"
+                                       class="form-control form-control-solid @error('app_max_genre_count') is-invalid @enderror"
+                                       value="{{ old('app_max_genre_count', $settings['app_max_genre_count']) }}"/>
+                                @error('app_max_genre_count')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="row g-9 mb-8">
+                            <!--begin::Col-->
+                            <div class="fv-row">
+                                <label class="required fs-6 fw-bold mb-2" for="app_min_genre_count">
+                                    Min Genre Count
+                                </label>
+                                <input type="text" name="app_min_genre_count" id="app_min_genre_count"
+                                       class="form-control form-control-solid @error('app_min_genre_count') is-invalid @enderror"
+                                       value="{{ old('app_min_genre_count', $settings['app_min_genre_count']) }}"/>
+                                @error('app_min_genre_count')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
