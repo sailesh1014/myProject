@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class ClubController extends Controller
 {
@@ -40,20 +41,31 @@ class ClubController extends Controller
 
     public function editclub($id, ClubRequest $request) : JsonResponse
     {
-//        dd($request->all());
         $club_id = Crypt::decrypt($id);
-//        dd($club_id);
         $club = Club::findOrFail($club_id);
-        $data = $request->only('name',  'address', 'description', 'established_date');
-//        dd($this->clubService->updateOrCreate($data,$club));
-        Club::where('id', $club_id)->update([
-            'name' => $request->input('name'),
-            'address' => $request->input('address'),
-            'description' => $request->input('description'),
-            'established_date' => $request->input('established_date'),
 
-        ]);
+
+
+        // Store the new image file
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $directory = 'uploads/clubs';
+            $filename = $thumbnail->getClientOriginalName();
+            $imagePath = Storage::disk('public')->putFileAs($directory, $thumbnail, $filename);
+
+            $club->thumbnail = basename($imagePath);
+        }
+
+        // Update the club data
+        $club->name = $request->input('name');
+        $club->address = $request->input('address');
+        $club->description = $request->input('description');
+        $club->established_date = $request->input('established_date');
+
+        // Save the updated club data
+        $club->save();
 
         return response()->json(['message' => "Club updated successfully"]);
     }
+
 }

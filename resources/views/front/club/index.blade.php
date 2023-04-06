@@ -115,12 +115,11 @@
 {{--@dd(auth()->user());--}}
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-full-width">
-{{--                    <div class="club-image">--}}
-{{--                        <?php--}}
-{{--                        $thumbnail = $club->thumbnail ? asset('storage/uploads/'.$club->thumbnail) : asset('assets/front/images/artist_placeholder.jpeg')--}}
-{{--                        ?>--}}
-{{--                        <img class="club-thumbnail" src="{{$thumbnail}}" alt="club">--}}
-{{--                    </div>--}}
+                  <div class="club-image"><?php
+                     $thumbnail = $club->thumbnail ? asset('storage/uploads/clubs/'.$club->thumbnail) : asset('assets/front/images/artist_placeholder.jpeg')
+                       ?>
+                        <img class="club-thumbnail" src="{{$thumbnail}}" alt="club">
+                    </div>
                     <!-- /.artist-image -->
                 </div>
                 <!-- /.col-lg-6 col-md-6 col-full-width -->

@@ -44,19 +44,7 @@
                         <span class="invalid-feedback hidden" id="established_date_error"></span>
 
                     </div>
-{{--                    <div class="form-group">--}}
-{{--                        <label class="" for="address">address</label>--}}
-{{--                        <input name="address" type="text" class="form-control" id="address" value="{{$artist->address}}">--}}
-{{--                        <span class="invalid-feedback hidden" id="address_error"></span>--}}
 
-{{--                    </div>--}}
-                    <div class="form-group">
-                        <div class="fv-row mb-2">
-                            <label class="" for="intro_video">Intro Video</label>
-                            <input type="file" class="filepond intro_video" name="intro_video" id="intro_video">
-                            <span class="invalid-feedback hidden" id="intro_video_error" role="alert"></span>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <div class="fv-row mb-2">
                             <label class="" for="thumbnail">Thumbnail</label>
