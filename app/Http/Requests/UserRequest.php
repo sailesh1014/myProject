@@ -26,9 +26,8 @@ class UserRequest extends FormRequest {
     {
         $roleService = resolve(RoleService::class);
         $publicRoles = $roleService->getPublicRoles(includeAdmin: auth()->user()->isSuperAdmin());
-        /* TODO: Change max and min genre count from config or setting */
-        $maxGenreCount = env('MAX_USER_GENRE_COUNT');
-        $minGenreCount = env('MIN_USER_GENRE_COUNT');
+        $maxGenreCount = config('app.settings.app_max_genre_count');
+        $minGenreCount = config('app.settings.app_min_genre_count');
         $user = $this->route('user');
         $rules = [
             'first_name'       => ['required', 'string', 'max:191'],
@@ -62,6 +61,16 @@ class UserRequest extends FormRequest {
         return $rules;
     }
 
+     public function withValidator($validator)
+     {
+          $validator->after(function ($validator) {
+               if (!$validator->failed()) {
+                    $validatedData = $this->validated();
+                    $validatedData['role'] = $validatedData['role'] ?? UserRole::SUPER_ADMIN;
+                    $this->replace($validatedData);
+               }
+          });
+     }
     public function messages(): array
     {
         return [
