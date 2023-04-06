@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\ArtistController;
+use App\Http\Controllers\Front\ClubController;
 use App\Http\Controllers\Front\AuthController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
@@ -37,6 +38,9 @@ Route::group(['middleware' => ['auth', 'verified']], function()
      {
           Route::get('/home', [FrontController::class, 'home'])->name('front.home');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
+         Route::get('/club/{club_id}', [ClubController::class, 'clubDetail'])->name('front.club.detail');
+         Route::get('/event/{event_id}', [ArtistController::class, 'eventDetail'])->name('front.event.detail');
+
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
 
      });
