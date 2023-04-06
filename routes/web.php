@@ -31,13 +31,16 @@ Route::group(['middleware' => ['auth', 'verified']], function()
      Route::get('/email-verified', [FrontController::class, 'emailVerified']);
      Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
      Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
-     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
 
      Route::group(['middleware' => ['genre']], function()
      {
-          Route::get('/home', [FrontController::class, 'home'])->name('front.home');
+          // Artist route
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
+          Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
+
+          Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
+          Route::get('/home', [FrontController::class, 'home'])->name('front.home');
 
      });
 
@@ -48,7 +51,6 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
 {
      Route::group(['prefix' => 'dashboard'], function()
      {
-          //        Route::get('/invitations/{event_id}/{user_id}/accept', [\App\Http\Controllers\Front\InvitationController::class, 'accept'])->name('invitations.accept');
           Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
           Route::post('/events/{event}/invite-artist', [EventController::class, 'inviteArtist'])->name('events.inviteArtist');
 

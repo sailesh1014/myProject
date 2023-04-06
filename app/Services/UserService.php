@@ -75,12 +75,11 @@ class UserService {
     public function updateUser(array $input, User $user): void
     {
         DB::transaction(function () use ($input, $user) {
-            $input['role'] = $input['role'] ?? UserRole::SUPER_ADMIN;
             $role = $this->roleService->getRoleByKey($input['role']);
             $input['role_id'] = $role->id;
             $this->userRepository->update($input, $user);
 
-            if (isset($input['genres']) && ! in_array($input['role'], UserRole::ADMIN_LIST))
+            if (isset($input['genres']) && isset($input['role']) && !in_array($input['role'], UserRole::ADMIN_LIST))
             {
                 $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
                 $this->genreService->assignGenreToUser($genreIds, $user);

@@ -39,9 +39,11 @@
 
      <!-- Site Stylesheet -->
 
-     <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css">
+{{--      <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css"> --}}
+     <link href="{{asset('assets/plugin/filepond/filepond.min.css')}}" rel="stylesheet" type="text/css" />
      <link rel="stylesheet" href="{{asset('assets/front/assets/css/app.css')}}" type="text/css">
-{{--      <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css"> --}}
+
+     {{--      <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css"> --}}
 
 
 
