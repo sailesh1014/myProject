@@ -13,43 +13,43 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-pink" id="edit-profile-title">Edit Profile</h5>
+                <h5 class="modal-title text-pink" id="edit-profile-title">Edit Club Profile</h5>
             </div>
             <div class="modal-body">
-
-
-                <form enctype="multipart/form-data" id="edit-profile-form" action="{{route('front.artist.edit', \Illuminate\Support\Facades\Crypt::encrypt($artist->id))}}">
+{{--          @dd(\Illuminate\Support\Facades\Crypt::encrypt($club->id));--}}
+                <form enctype="multipart/form-data" id="edit-profile-form" action="{{route('front.club.edit', \Illuminate\Support\Facades\Crypt::encrypt($club->id))}}">
                     @method('put')
                     @csrf
                     <div class="form-group">
-                        <label class="" for="first_name">First Name</label>
-                        <input name="first_name" type="text" class="form-control" id="first_name" value="{{$artist->first_name}}">
-                        <span class="invalid-feedback hidden" id="first_name_error"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="" for="last_name">Last Name</label>
-                        <input name="last_name" type="text" class="form-control" id="last_name" value="{{$artist->last_name}}">
-                        <span class="invalid-feedback hidden" id="last_name_error"></span>
 
+                        <label class="" for="name">Club Name</label>
+                        <input name="name" type="text" class="form-control" id="name" value="{{$club->name}}">
+                        <span class="invalid-feedback hidden" id="name_error"></span>
                     </div>
                     <div class="form-group">
-                        <label class="" for="user_name">Username</label>
-                        <input name="user_name" type="text" class="form-control" id="user_name" value="{{$artist->user_name}}">
-                        <span class="invalid-feedback hidden" id="user_name_error"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label class="" for="phone">Phone</label>
-                        <input name="phone" type="text" class="form-control" id="phone" value="{{$artist->phone}}">
-                        <span class="invalid-feedback hidden" id="phone_error"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label class="" for="address">address</label>
-                        <input name="address" type="text" class="form-control" id="address" value="{{$artist->address}}">
+                        <label class="" for="address">Address</label>
+                        <input name="address" type="text" class="form-control" id="address" value="{{$club->address}}">
                         <span class="invalid-feedback hidden" id="address_error"></span>
 
                     </div>
+                    <div class="form-group">
+                        <label class="" for="description">Description</label>
+                        <input name="description" type="text" class="form-control" id="description" value="{{$club->description}}">
+                        <span class="invalid-feedback hidden" id="description_error"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="" for="established_date">Established Date</label>
+                        <input name="established_date" type="date" class="form-control" id="established_date" value="{{$club->established_date}}">
+                        <span class="invalid-feedback hidden" id="established_date_error"></span>
+
+                    </div>
+{{--                    <div class="form-group">--}}
+{{--                        <label class="" for="address">address</label>--}}
+{{--                        <input name="address" type="text" class="form-control" id="address" value="{{$artist->address}}">--}}
+{{--                        <span class="invalid-feedback hidden" id="address_error"></span>--}}
+
+{{--                    </div>--}}
                     <div class="form-group">
                         <div class="fv-row mb-2">
                             <label class="" for="intro_video">Intro Video</label>
@@ -125,9 +125,9 @@
 
 
             const videoElement = document.querySelector('.filepond.intro_video');
-            const current_video = @json($artist->intro_video);
+            const current_video = @json($club->intro_video);
             const videoSource = current_video ? [{source: `${assetPath}/${current_video}`}] : "";
-             FilePond.create(videoElement, {
+            FilePond.create(videoElement, {
                 files:  videoSource,
                 acceptedFileTypes: ['video/mp4','video/mkv'],
                 maxFileSize: '30MB',
@@ -140,7 +140,7 @@
 
             // File Pond For Thumbnail
             const thumbnailElement = document.querySelector('.filepond.thumbnail');
-            const current_image = @json($artist->thumbnail);
+            const current_image = @json($club->thumbnail);
             const imageSource = current_image ? [{source: `${assetPath}/${current_image}`}] : "";
             FilePond.create(thumbnailElement, {
                 files:  imageSource,
@@ -155,7 +155,7 @@
             submitButton.on('click', function (e) {
                 e.preventDefault();
                 const isError = $('.filepond.intro_video').filepond('getFiles').filter(file => file.status !== 2).length !== 0
-                &&  $('.filepond.thumbnail').filepond('getFiles').filter(file => file.status !== 2).length !== 0;
+                    &&  $('.filepond.thumbnail').filepond('getFiles').filter(file => file.status !== 2).length !== 0;
                 if (isError) {
                     toastError('Image/video upload error');
                     return;

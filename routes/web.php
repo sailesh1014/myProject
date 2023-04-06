@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 
 
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
-
+         Route::put('/club/{id}/edit', [ClubController::class, 'editClub'])->name('front.club.edit');
           Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
 
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
