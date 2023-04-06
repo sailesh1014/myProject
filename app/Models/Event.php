@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
@@ -13,7 +14,14 @@ class Event extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
     protected $date = ['created_at', 'updated_at', 'event_date'];
+
+    // Local Scope
+     public function scopePublished($query)
+     {
+          return $query->where('status', 'published');
+     }
 
     public function eventMedia(): HasMany
     {
@@ -24,5 +32,20 @@ class Event extends Model
     {
         return $this->belongsTo(Club::class);
     }
+
+    public function invitations(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'invitation_user')->withPivot('status', 'type');
+    }
+
+//    public function input(array $array): array
+//    {
+//        return array_filter($array, function ($key) {
+//            return $key === 'event';
+//        }, ARRAY_FILTER_USE_KEY);
+//    }
+
+
+
 
 }

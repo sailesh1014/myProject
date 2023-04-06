@@ -76,19 +76,7 @@
                                 Status
                             </th>
                             <td>
-                                <?php
-                                switch ($event->status)
-                                {
-                                    case \App\Constants\EventStatus::PUBLISHED:
-                                        echo info_pill($event->status);
-                                        break;
-                                    case \App\Constants\EventStatus::DRAFT:
-                                        echo danger_pill($event->status);
-                                        break;
-                                    case \App\Constants\EventStatus::FINISHED:
-                                        echo success_pill($event->status);
-                                }
-                                ?>
+                                {!!  \App\Constants\EventStatus::PUBLISHED ? info_pill($event->status) : danger_pill($event->status) !!}
                             </td>
                         </tr>
                         <tr>
@@ -164,7 +152,7 @@
                             <td>
                                 <!--begin::Overlay-->
                                 <a class="d-block overlay w-[180px] h-[180px]" data-fslightbox="thumbnail"
-                                   href="{{asset('storage/uploads/'.$event->thumbnail)}}">
+                                   href="{{asset('/storage/uploads/'.$event->thumbnail)}}">
                                     <!--begin::Image-->
                                     <div
                                         class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
@@ -227,20 +215,49 @@
     <!--end::Post-->
     <!--begin::modal-->
     <div class="modal fade" id="inviteArtistModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Artist List</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                        <div>
+                <?php
+                    $alreadyInvitedArtistIds = $alreadyInvitedArtists->pluck('id')->toArray();
 
-                        </div>
+                ?>
+                <div class="modal-body">
+
+                    <form class="" action="{{route('events.inviteArtist', $event->id)}}" method="post" id="artistInvitationForm">
+                        @csrf
+                        <ul class="flex flex-column gap-2">
+                        @forelse($favourableArtists as $artist)
+                                <li class="flex justify-between gap-2">
+                                        <div>
+                                            <label for="input_{{$artist->id}}" class="text-primary"> {{$artist->user_name}}</label>
+                                            <span>({{$artist->first_name." ".$artist->last_name}})</span>
+                                        </div>
+                                    @if(!in_array($artist->id, $alreadyInvitedArtistIds))
+                                        <input type="checkbox" value="{{$artist->id}}" name="artist[]" class="cursor-pointer selected-artist" id="input_{{$artist->id}}"/>
+                                    @else
+                                       <span class="badge badge-info">Invited</span>
+                                    @endif
+                                </li>
+                        @empty
+                            <strong>List Empty</strong>
+                        @endforelse
+                        </ul>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-primary font-weight-bold" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-bs-dismiss="modal" id="modalCloseBtn">Close</button>
+                    <button id="invitationSubmitBtn" form="artistInvitationForm" type="submit" class="btn btn-primary" data-kt-indicator="off">
+                        <span class="indicator-label">
+                            Send Invitation
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -251,9 +268,49 @@
     @include('dashboard.events._shared')
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#myModal').on('shown.bs.modal', function () {
-                $('#myInput').trigger('focus')
+            const submitButton = $('#invitationSubmitBtn');
+            $('#artistInvitationForm').submit(function (e){
+                e.preventDefault();
+                const data = $(this).serialize();
+                $.ajax({
+                    "url": $(this).attr('action'),
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": data,
+                    beforeSend: function () {
+                        submitButton.attr("data-kt-indicator", "on");
+                    },
+                    success: function (resp) {
+                        toastSuccess(resp.message);
+                        $('#modalCloseBtn').click();
+                        location.reload();
+
+                    },
+                    error: function (xhr) {
+                        const message = xhr.responseJSON?.message !== "" ? xhr.responseJSON?.message : "Something went wrong!!!";
+                        toastError(message);
+                    },
+                    complete: function (xhr){
+                        submitButton.attr("data-kt-indicator", "off");
+                    }
+                })
+            });
+            const invitationModal = document.getElementById('inviteArtistModal')
+            invitationModal.addEventListener('shown.bs.modal', function () {
+               if($('input.selected-artist:checked').length > 0){
+                   submitButton.attr('disabled', false);
+               }else{
+                   submitButton.attr('disabled', true);
+               }
             })
+
+            $('input.selected-artist').on('change', function(){
+                if($('input.selected-artist:checked').length > 0){
+                    submitButton.attr('disabled', false);
+                }else{
+                    submitButton.attr('disabled', true);
+                }
+            });
         });
     </script>
 @endpush

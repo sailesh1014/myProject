@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Role;
+use App\Constants\PreferenceType;
+use App\Constants\UserRole;
+use App\Models\Genre;
 use App\Models\User;
 use App\Services\RoleService;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,15 +19,8 @@ class UserFactory extends Factory {
     public function definition(): array
     {
         $roleService = resolve(RoleService::class);
-        $role = $roleService->findRoleOrCreate(
-            [
-                'key' => 'basicUser',
-            ],
-            [
-                'label'       => 'basic User',
-                'description' => 'Just Some Dummy Role',
-            ]
-        );
+        $roles = $roleService->getRoleByKey([UserRole::ORGANIZER, UserRole::ARTIST, UserRole::BASIC_USER])->pluck('key', 'id')->toArray();
+        $selectedRole = $this->faker->randomElement(array_keys($roles));
 
         return [
             'first_name'        => $this->faker->firstName(),
@@ -34,12 +29,12 @@ class UserFactory extends Factory {
             'email'             => $this->faker->unique()->safeEmail(),
             'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'gender'            => 'male',
-            'preference'        => null,
+            'preference'        => $roles[$selectedRole] === UserRole::ARTIST ? $this->faker->randomElement(array_keys(PreferenceType::LIST)) : null,
             'dob'               => now(),
             'address'           => 'Nepal',
             'phone'             => '9812345678',
             'email_verified_at' => now(),
-            'role_id'           => $role->id,
+            'role_id'           => $selectedRole,
             'remember_token'    => Str::random(10),
         ];
     }

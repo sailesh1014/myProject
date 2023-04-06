@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Constants\UserRole;
+use App\Services\RoleService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,6 +44,12 @@ class User extends Authenticatable implements MustVerifyEmail {
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function scopeArtist($query){
+         $roleService = resolve(RoleService::class);
+         $artist_role_id = $roleService->getRoleByKey(UserRole::ARTIST)->id;
+         $query->where('role_id', $artist_role_id);
+    }
     public function getFullName(): string
     {
         return "{$this->first_name} {$this->last_name}";
@@ -80,6 +88,13 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $role === UserRole::ARTIST;
     }
 
+    public function isBasicUser(): bool
+    {
+        $role = $this->role->key;
+
+        return $role === UserRole::BASIC_USER;
+    }
+
     /* Relationship */
 
     public function genres(): BelongsToMany
@@ -92,9 +107,15 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $this->belongsTo(Role::class);
     }
 
-    public function club(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function club(): HasOne
     {
         return $this->hasOne(Club::class);
+    }
+
+
+    public function invitations(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'invitation_user')->withPivot('status', 'type');;
     }
 
 }

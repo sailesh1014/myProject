@@ -28,6 +28,10 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
                 'e.event_date',
                 'e.created_at',
             );
+
+        if(auth()->user()->isOrganizer()){
+            $query->where('club_id', auth()->user()->club->id);
+        }
         $query->where(function($q) use($meta){
             $q->orWhere('e.title', 'like', $meta['search'] . '%')
                 ->orWhere('e.event_date', 'like', $meta['search'] . '%')
@@ -35,5 +39,10 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
                 ->orWhere('e.created_at', 'like', $meta['search'] . '%');
         });
         return $this->offsetAndSort($query, $meta);
+    }
+
+    public function getEventByKey(string|array $status)
+    {
+        return is_array($status) ? $this->model->whereIn('status', $status)->get() :$this->model->where('status', $status)->first();
     }
 }

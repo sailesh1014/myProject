@@ -7,15 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FrontGenreRequest;
 use App\Services\GenreService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class GenreController extends Controller {
 
     public function __construct(protected GenreService $genreService) {}
 
-    public function index(): view
+    public function index(): RedirectResponse|View
     {
         $genres = $this->genreService->allGenre();
-
+        if(auth()->user()->genres->count() > 0){
+            return redirect()->back();
+        }
         return view('front.select-genre', compact('genres'));
     }
 
