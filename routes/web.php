@@ -8,6 +8,8 @@ use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\ArtistController;
+use App\Http\Controllers\Front\EventController as FontEventController;
+
 use App\Http\Controllers\Front\AuthController;
 use App\Http\Controllers\Front\GenreController as FrontGenreController;
 use App\Http\Controllers\Front\IndexController as FrontController;
@@ -37,7 +39,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           // Artist route
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
-
+         Route::get('/event', [FontEventController::class, 'index'])->name('front.event.detail');
           Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
           Route::get('/home', [FrontController::class, 'home'])->name('front.home');
