@@ -28,9 +28,7 @@ class SettingController extends Controller {
     {
         $input = $request->only([...Setting::SETTINGS_FIELD]);
         $this->settingService->updateSettings($input);
-
         return redirect()->back()->with('toast.success', 'Setting Successfully Updated !!');
-
     }
 
 }
