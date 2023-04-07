@@ -100,12 +100,12 @@
                         toastr.warning("Reloading the page")
                         setTimeout(function (){
                             location.reload();
-                        },4000)
+                        },2000)
                     },
                     error: function (xhr){
                         if(xhr.status === 422){
-                            showAjaxErrorsOnForms(xhr.errors);
-                            toastError(xhr.message);
+                            showAjaxErrorsOnForms(xhr.responseJSON.errors);
+                            toastError(xhr.responseJSON.message);
                         }else{
                             toastError("Invalid response from the server !!! ");
 
@@ -129,7 +129,7 @@
             const videoSource = current_video ? [{source: `${assetPath}/${current_video}`}] : "";
              FilePond.create(videoElement, {
                 files:  videoSource,
-                acceptedFileTypes: ['video/mp4','video/mkv'],
+                acceptedFileTypes: ['video/mp4','video/mkv','video/quicktime'],
                 maxFileSize: '30MB',
                 allowImageValidateSize: true,
                 maxFiles: 1,
@@ -144,7 +144,7 @@
             const imageSource = current_image ? [{source: `${assetPath}/${current_image}`}] : "";
             FilePond.create(thumbnailElement, {
                 files:  imageSource,
-                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg',],
+                acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
                 maxFileSize: '5',
                 allowImageValidateSize: true,
                 maxFiles: 1,

@@ -47,4 +47,4 @@
 <!-- include FilePond jQuery adapter -->
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <script src="{{asset('assets/front/assets/js/app.js')}}"></script>
-@vite('resources/js/front/app.js')
+{{--@vite('resources/js/front/app.js')--}}

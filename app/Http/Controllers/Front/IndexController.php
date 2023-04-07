@@ -46,14 +46,6 @@ class IndexController extends Controller {
 
     public function home(): View
     {
-        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
-            ->pluck('id');
-        $events = Event::whereIn('id', $eventIdArr)
-            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
-            ->take(3)
-            ->get();
-
-
          $currentUserId = auth()->id();
          $currentDateTime = Carbon::now();
          $data['recommended_events'] = Event::join('clubs', 'events.club_id', '=', 'clubs.id')
@@ -90,7 +82,7 @@ class IndexController extends Controller {
 
          // will be empty if user has no selected genres.
          if($data['recommended_artists']->isEmpty()){
-              $data['recommended_artists'] = User::where('users.role_id', $artistRoleId)->inRandomOrder()
+              $data['recommended_artists'] = User::artist()->inRandomOrder()
                    ->take(6)
                    ->orderBy('first_name')
                    ->get();
@@ -102,7 +94,7 @@ class IndexController extends Controller {
               ->orderBy('event_date')
               ->limit(3)
               ->get();
-         return view('front.home.index',compact('events'))->with($data);
+         return view('front.home.index')->with($data);
     }
 
 

@@ -42,7 +42,8 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           // Artist route
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
-         Route::get('/event', [FontEventController::class, 'index'])->name('front.event.detail');
+          Route::put('/artist/rate', [ArtistController::class, 'rateArtist'])->name('front.artist.rate');
+          Route::get('/event', [FontEventController::class, 'index'])->name('front.event.detail');
 
 
          Route::get('/club/{club_id}', [ClubController::class, 'clubDetail'])->name('front.club.detail');

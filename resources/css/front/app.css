@@ -1,0 +1,88 @@
+.stars {
+    cursor: pointer;
+    margin-left: 30px;
+}
+.star {
+    color: #7f8ecd !important;
+}
+.single-star-box {
+    margin-left: -5px;
+    padding: 5px;
+    font-size: 25px;
+    position: relative;
+    cursor: pointer;
+}
+.single-star-box input[type="radio"] {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,0%);
+    pointer-events: none;
+}
+.star-over::after {
+    font-weight: 900;
+    font-size: 22px;
+    content: "\f005";
+    display: inline-block;
+    color: #91a6ff;
+    z-index: 1;
+    position: absolute;
+    top: 8px;
+    left: 7px;
+}
+
+/*.single-star-box:nth-child(1) .face::after {*/
+/*    content: "\f119"; !* ☹ *!*/
+/*}*/
+/*.single-star-box:nth-child(2) .face::after {*/
+/*    content: "\f11a"; !* *!*/
+/*}*/
+/*.single-star-box:nth-child(3) .face::after {*/
+/*    content: "\f118"; !* *!*/
+/*}*/
+/*.single-star-box:nth-child(4) .face::after {*/
+/*    content: "\f580"; !* *!*/
+/*}*/
+/*.single-star-box:nth-child(5) .face::after {*/
+/*    content: "\f59a"; !* *!*/
+/*}*/
+/*.face {*/
+/*    opacity: 0;*/
+/*    position: absolute;*/
+/*    width: 35px;*/
+/*    height: 45px;*/
+/*    background: #0a49a7;*/
+/*    border-radius: 5px;*/
+/*    top: -70px;*/
+/*    line-height: 45px;*/
+/*    left: 0px;*/
+/*    transition: 0.2s;*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*.face::before {*/
+/*    font-family: 'Font Awesome 5 Free';*/
+/*    font-weight: 900;*/
+/*    content: "\f0dd";*/
+/*    display: inline-block;*/
+/*    color: #0a49a7;*/
+/*    z-index: 1;*/
+/*    position: absolute;*/
+/*    left: 9px;*/
+/*    bottom: -20px;*/
+/*}*/
+/*.face::after {*/
+/*    font-family: 'Font Awesome 5 Free';*/
+/*    font-weight: 900;*/
+/*    display: inline-block;*/
+/*    color: #fff;*/
+/*    z-index: 1;*/
+/*    position: absolute;*/
+/*    left: 5px;*/
+/*    top: -1px;*/
+/*}*/
+
+/*.single-star-box:hover .face {*/
+/*    opacity: 1;*/
+/*}*/

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use mysql_xdevapi\Exception;
 
 class ArtistController extends Controller
 {
@@ -47,7 +48,27 @@ class ArtistController extends Controller
             $artist_id = Crypt::decrypt($id);
             $artist = User::findOrFail($artist_id);
             $data = $request->only('first_name', 'last_name', 'address', 'user_name', 'phone', 'role', 'thumbnail', 'intro_video');
+            $data['role'] = auth()->user()->role->key;
             $this->userService->updateUser($data,$artist);
             return response()->json(['message' => "Artist updated successfully"]);
+     }
+
+     public function rateArtist(Request $request) : JsonResponse
+     {
+          if(!$request->ajax()){
+               abort(404);
+          }
+          $request->validate(['rating' => ['required','in:1,2,3,4,5'], 'artist_id' =>['required', 'string']]);
+          $artist_id = $request->input('artist_id');
+          try
+          {
+               $artist_id = Crypt::decrypt($artist_id);
+          }catch(\Exception $e){
+               throw new Exception('Invalid Argument');
+          }
+          $artist = User::findOrFail($artist_id);
+          $rating = $request->input('rating');
+          $this->userService->rateArtist($artist,$rating);
+          return response()->json(['message' => "Artist rated successfully"]);
      }
 }

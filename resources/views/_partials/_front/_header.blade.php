@@ -50,7 +50,7 @@
                         <a href="{{route('front.home')}}">Home</a>
                     </li>
                 </ul>
-                @if(auth()->check() && !auth()->user()->isBasicUser())
+                @if(auth()->check() && (!auth()->user()->isBasicUser() && !auth()->user()->isArtist()) )
                 <a href="{{route('dashboard.index')}}" class="head-btn">Dashboard</a>
                 @endif
             </div>
