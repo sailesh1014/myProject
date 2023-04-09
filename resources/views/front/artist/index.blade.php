@@ -239,27 +239,22 @@
                         <h3 class="artist-name">It’s {{ucwords($artist->first_name)}} {{ucwords($artist->last_name)}}
                             ,</h3>
                             <div class="star-box">
-                                <div class="stars">
-                                    <label class="single-star-box" for="star-1">
-                                        <input type="radio" id="star-1" name="rating" value="1">
-                                        <i class="fa fa-star-o star one-star"></i>
-                                    </label>
-                                    <label class="single-star-box" for="star-2">
-                                        <input type="radio" id="star-2" name="rating" value="2">
-                                        <i class="fa fa-star-o star two-star"></i>
-                                    </label>
-                                    <label class="single-star-box" for="star-3">
-                                        <input type="radio" id="star-3" name="rating" value="3">
-                                        <i class="fa fa-star-o star three-star"></i>
-                                    </label>
-                                    <label class="single-star-box" for="star-4">
-                                        <input type="radio" id="star-4" name="rating" value="4">
-                                        <i class="fa fa-star-o star four-star"></i>
-                                    </label>
-                                    <label class="single-star-box" for="star-5">
-                                        <input type="radio" id="star-5" name="rating" value="5">
-                                        <i class="fa fa-star-o star five-star"></i>
-                                    </label>
+                                <div class="stars d-flex">
+                                    <div class="single-star-box" data-value="1">
+                                        <i class="fa {{$rating >= 1 ? "fa-star" : "fa-star-o" }} star"></i>
+                                    </div>
+                                    <div class="single-star-box" data-value="2">
+                                        <i class="fa {{$rating >= 2 ? "fa-star" : "fa-star-o" }} star"></i>
+                                    </div>
+                                    <div class="single-star-box" data-value="3">
+                                        <i class="fa {{$rating >= 3 ? "fa-star" : "fa-star-o" }} star"></i>
+                                    </div>
+                                    <div class="single-star-box" data-value="4">
+                                        <i class="fa {{$rating >= 4 ? "fa-star" : "fa-star-o" }} star"></i>
+                                    </div>
+                                    <div class="single-star-box" data-value="5">
+                                        <i class="fa {{$rating >= 5 ? "fa-star" : "fa-star-o" }} star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <!-- partial -->
@@ -388,8 +383,9 @@
                         : ($(videoEl).prop('muted', true),  $(".volume-full").hide(), $('.volume-mute').show());
             })
         });
-
-        //Rating
+    </script>
+    @if(auth()->user()->id !== $artist->id )
+    <script>
             $(document).on({
                 mouseover: function(event) {
                     $(this).find('.star').addClass('star-over');
@@ -402,23 +398,25 @@
             }, '.single-star-box');
 
             $('.single-star-box').on('click', function() {
-                console.log("Nepal")
                 $(this).nextAll().find('.star').removeClass('fa-star').addClass('fa-star-o');
                 $(this).find('.star').removeClass('fa-star-o star-over').addClass('fa-star')
                 $(this).prevAll().find('.star').removeClass('fa-star-o star-over').addClass('fa fa-star');
-                const rating = $('input[name="rating"]:checked').val();
-                {{--$.ajax({--}}
-                {{--    url: '{{route('front.artist.rate')}}',--}}
-                {{--    type: "PUT",--}}
-                {{--    headers: {--}}
-                {{--        "X-CSRF-TOKEN": "{{csrf_token()}}"--}}
-                {{--    },--}}
-                {{--    data: {--}}
-                {{--        "artist_id": "{{\Illuminate\Support\Facades\Crypt::encrypt($artist->id)}}",--}}
-                {{--        "rating": rating,--}}
-                {{--    }--}}
-                {{--})--}}
+                $.ajax({
+                    url: '{{route('front.artist.rate')}}',
+                    type: "PUT",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{csrf_token()}}"
+                    },
+                    data: {
+                        "artist_id": "{{\Illuminate\Support\Facades\Crypt::encrypt($artist->id)}}",
+                        "rating": $(this).attr('data-value'),
+                    },
+                    error: function (){
+                        toastr.error("Something went wrong!!!");
+                    }
+                })
             });
     </script>
+    @endif
 @endpush
 

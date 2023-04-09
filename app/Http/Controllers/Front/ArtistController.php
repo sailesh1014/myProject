@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use MongoDB\Driver\Query;
 use mysql_xdevapi\Exception;
 
 class ArtistController extends Controller
@@ -40,7 +41,8 @@ class ArtistController extends Controller
           $isAlreadyInvited = DB::table('invitation_user')->where('user_id', $artist->id)->where('event_id', $authUserEvent?->id)->first();
           $hasMadePayment = $authUserEvent ? Payment::where('user_id', $artist->id)->where('event_id', $authUserEvent->id)->first() : null;
 
-          return view('front.artist.index', compact('artist', 'authUserEvent', 'isAlreadyInvited', 'hasMadePayment'));
+          $rating = ceil($artist->ratings->avg('value'));
+          return view('front.artist.index', compact('artist', 'authUserEvent', 'isAlreadyInvited', 'hasMadePayment', 'rating'));
      }
 
      public function editArtist($id, ArtistRequest $request) : JsonResponse
@@ -69,6 +71,15 @@ class ArtistController extends Controller
           $artist = User::findOrFail($artist_id);
           $rating = $request->input('rating');
           $this->userService->rateArtist($artist,$rating);
+          $rating = ceil($artist->ratings->avg('value'));
           return response()->json(['message' => "Artist rated successfully"]);
+     }
+
+     public function searchArtist(Request $request){
+          $query = $request->input('name');
+          if(!$query){
+               return redirect()->back()->with(['toast.error' => 'Artist name cannot be empty']);
+          }
+          $Users = User::where('name', 'like', "%$query")->orWhere('');
      }
 }

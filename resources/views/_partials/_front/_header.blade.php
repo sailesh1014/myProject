@@ -3,6 +3,35 @@
         max-height: 105px;
         max-width: 230px;
     }
+    .search-artist{
+        border-radius: 32px;
+        padding: 0 25px 0 10px;
+        font-size: 12px;
+        outline: none;
+        border: 0;
+    }
+    .search-form{
+        position: relative;
+    }
+    .search-form label{
+        margin-bottom: 0;
+    }
+    .search-form-submit{
+        position: absolute;
+        background: transparent;
+        border: 0;
+        border-top-right-radius: 32px;
+        border-bottom-right-radius: 32px;
+        right: 0;
+        outline: 0;
+        cursor: pointer;
+    }
+    .search-form-submit:focus{
+        outline: none;
+    }
+    .search-icon{
+        color: #e83e8c;
+    }
 </style>
 <header class="header">
     <div class="top-header">
@@ -16,6 +45,16 @@
 
             <ul class="user-login float-right">
                 <li><a href="{{route('front.home')}}">{{config('app.name')}}</a></li>
+                <li>
+                    <form class="search-form" type="get" action="{{route('front.artist.search')}}">
+                        <label>
+                            <input class="search-artist" type="text" name="name" placeholder="Search Artist"/>
+                        </label>
+                        <button type="submit" class="search-form-submit">
+                             <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </li>
             @guest
                 <li><a href="{{route('register')}}">Sign Up</a></li>
                 <li><a href="{{route('login')}}">Sign In</a></li>

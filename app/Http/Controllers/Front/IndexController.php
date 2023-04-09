@@ -26,7 +26,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
@@ -110,7 +109,6 @@ class IndexController extends Controller {
             ->get();
 
         $data['recommended_clubs'] = $upcomingClubs;
-//        dd($data);
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')

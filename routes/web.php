@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
      Route::group(['middleware' => ['genre']], function()
      {
           // Artist route
+          Route::get('/artist/search', [ArtistController::class, 'searchArtist'])->name('front.artist.search');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
           Route::put('/artist/rate', [ArtistController::class, 'rateArtist'])->name('front.artist.rate');
