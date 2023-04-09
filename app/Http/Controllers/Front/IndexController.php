@@ -7,6 +7,7 @@ use App\Constants\EventStatus;
 
 use App\Constants\PreferenceType;
 use App\Constants\UserRole;
+use App\Models\Club;
 use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
@@ -25,7 +26,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
@@ -46,12 +46,17 @@ class IndexController extends Controller {
 
     public function home(): View
     {
-        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
-            ->pluck('id');
-        $events = Event::whereIn('id', $eventIdArr)
-            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
-            ->take(3)
-            ->get();
+
+//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
+//            ->pluck('id');
+//        $events = Event::whereIn('id', $eventIdArr)
+//            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
+//            ->take(3)
+//            ->get();
+//
+//        $clubId = Club::pluck('id')
+//            ->take(3);
+//        $clubs = $clubId->toArray();
 
 
          $currentUserId = auth()->id();
@@ -90,19 +95,29 @@ class IndexController extends Controller {
 
          // will be empty if user has no selected genres.
          if($data['recommended_artists']->isEmpty()){
-              $data['recommended_artists'] = User::where('users.role_id', $artistRoleId)->inRandomOrder()
+              $data['recommended_artists'] = User::artist()->inRandomOrder()
                    ->take(6)
                    ->orderBy('first_name')
                    ->get();
          }
 
+        $upcomingClubs = Club::whereHas('events', function ($query) {
+            $query->where('event_date', '>', now());
+        })
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
 
+        $data['recommended_clubs'] = $upcomingClubs;
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')
               ->limit(3)
               ->get();
-         return view('front.home.index',compact('events'))->with($data);
+
+         return view('front.home.index')->with($data);
+//         return view('front.home.index',compact('events',))->with($data);
+
     }
 
 

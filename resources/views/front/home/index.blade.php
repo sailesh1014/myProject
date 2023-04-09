@@ -40,11 +40,17 @@
     @endif
     <!-- /#recommended-events -->
 
+    <!--=  RECOMMENDED CLUBS =-->
+
+
+{{--        @include('front.home._segments.recommended_clubs', ['clubs' => $recommended_clubs])--}}
+
+    <!-- /#recommended-clubs -->
+
     <!--===========================-->
     <!--=  RECOMMENDED Artist =-->
     <!--===========================-->
     @include('front.home._segments.recommended_artist', ['artists' => $recommended_artists])
     <!-- /#recommended-artist -->
-
 
 @endsection

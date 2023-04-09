@@ -7,6 +7,7 @@ use App\Constants\UserRole;
 use App\Helpers\AppHelper;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Rating;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +20,15 @@ class UserService {
     private GenreService            $genreService;
     private ClubService             $clubService;
 
+    private MediaService $mediaService;
+
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->roleService = resolve(RoleService::class);
         $this->genreService = resolve(GenreService::class);
         $this->clubService = resolve(ClubService::class);
+         $this->mediaService = new MediaService();
     }
 
     public function paginateWithQuery(array $input): array
@@ -75,12 +79,37 @@ class UserService {
     public function updateUser(array $input, User $user): void
     {
         DB::transaction(function () use ($input, $user) {
-            $input['role'] = $input['role'] ?? UserRole::SUPER_ADMIN;
             $role = $this->roleService->getRoleByKey($input['role']);
             $input['role_id'] = $role->id;
+
+            // currently only for artist
+            if(!empty($input['thumbnail'])){
+               $current_thumbnail = basename($user->thumbnail ?? "");
+               $new_thumbnail = $input['thumbnail']->getClientOriginalName();
+               if($current_thumbnail !== $new_thumbnail){
+                    @unlink(public_path('storage/uploads/' . $user->thumbnail));
+                 $input['thumbnail'] = $this->mediaService->uploadFile($input['thumbnail']);
+               }else{
+                    $input['thumbnail'] = $user->thumbnail;
+               }
+            }
+
+             // Only for artist
+             if(!empty($input['intro_video'])){
+                  $current_video = basename($user->intro_video ?? "");
+                  $new_video = $input['intro_video']->getClientOriginalName();
+                  if($current_video !== $new_video){
+                       @unlink(public_path('storage/uploads/' . $user->intro_video));
+                       $input['intro_video'] = $this->mediaService->uploadFile($input['intro_video']);
+                  }else{
+                       $input['intro_video'] = $user->intro_video;
+                  }
+             }
+
             $this->userRepository->update($input, $user);
 
-            if (isset($input['genres']) && ! in_array($input['role'], UserRole::ADMIN_LIST))
+
+            if (isset($input['genres']) && isset($input['role']) && !in_array($input['role'], UserRole::ADMIN_LIST))
             {
                 $genreIds = $this->genreService->getGenreByName($input['genres'])->pluck('id');
                 $this->genreService->assignGenreToUser($genreIds, $user);
@@ -123,5 +152,12 @@ class UserService {
         abort_if(auth()->user()->id === $user->id, 401, 'This action is unauthorized.');
         $this->userRepository->delete($user);
     }
+
+     public function rateArtist($artist, $val): void
+     {
+          $conditionArr = ['from' => auth()->user()->id, 'to'=> $artist->id];
+          $updateArr = ['value' => $val];
+          Rating::updateOrCreate($conditionArr, $updateArr);
+     }
 
 }

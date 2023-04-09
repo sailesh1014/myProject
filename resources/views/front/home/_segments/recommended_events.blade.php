@@ -42,7 +42,7 @@
                                                  data-count-day="{{\Carbon\Carbon::parse($event->event_date)->diffInDays(now())}}">
                                             </div>
                                             <div class="ticket">
-                                                <a href="#" class="tic-btn tic-btn-bg">See Details</a>
+                                                <a href="/event" class="tic-btn tic-btn-bg">See Details</a>
                                             </div>
                                         </div>
                                     </div>

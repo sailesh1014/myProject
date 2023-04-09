@@ -31,6 +31,8 @@ class User extends Authenticatable implements MustVerifyEmail {
         'preference',
         'role_id',
         'password',
+         'intro_video',
+         'thumbnail'
     ];
 
     protected $hidden = [
@@ -115,7 +117,11 @@ class User extends Authenticatable implements MustVerifyEmail {
 
     public function invitations(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class, 'invitation_user')->withPivot('status', 'type');;
+        return $this->belongsToMany(Event::class, 'invitation_user')->withPivot('status', 'type');
     }
+
+     public function ratings(){
+          return $this->hasMany(Rating::class, 'to', 'id');
+     }
 
 }

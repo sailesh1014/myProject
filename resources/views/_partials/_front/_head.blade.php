@@ -3,7 +3,7 @@
      <meta charset="utf-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>Home — Milando - Music Portal HTML Templat</title>
+     <title>{{config('app.name')}}</title>
 
 
     <!-- Fav Icon -->
@@ -29,7 +29,6 @@
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/magnific-popup/magnific-popup.css')}}" type="text/css">
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/jquery-ui/css/jquery-ui.css')}}" type="text/css">
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/slick-carousel/css/slick.css')}}" type="text/css">
-{{--      <link rel="stylesheet" href="{{asset('assets/front/dependencies/colornip/css/colornip.min.css')}}" type="text/css"> --}}
      <link rel="stylesheet" href="{{asset('assets/front/dependencies/css-loader/css/css-loader.css')}}" type="text/css">
 
      <!--Common Plugins CSS -->
@@ -37,13 +36,9 @@
      <link rel="stylesheet" href="{{asset('assets/plugin/sweetAlert/sweet-alert.min.css') }}"  type="text/css"/>
 
 
-     <!-- Site Stylesheet -->
-
-     <link rel="stylesheet" href="{{asset('assets/front/assets/css/woocommerce.css')}}" type="text/css">
+     <link href="{{asset('assets/plugin/filepond/filepond.min.css')}}" rel="stylesheet" type="text/css" />
      <link rel="stylesheet" href="{{asset('assets/front/assets/css/app.css')}}" type="text/css">
-{{--      <link id="theme" rel="stylesheet" href="{{asset('assets/front/assets/css/theme-color/theme-default.css')}}" type="text/css"> --}}
-
-
+     @vite('resources/css/front/app.css')
 
 
  </head>
