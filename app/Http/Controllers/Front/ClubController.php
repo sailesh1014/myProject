@@ -23,7 +23,13 @@ class ClubController extends Controller
     }
     public function clubDetail($id): view
     {
-        $id = 3;
+//dd($id);
+        try
+        {
+            $id = Crypt::decrypt($id);
+        }catch(\Exception $e){
+            abort(404);
+        }
    $club = Club::where('id',$id)->first();
 //   dd($club);
 //        try

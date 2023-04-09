@@ -7,6 +7,7 @@ use App\Constants\EventStatus;
 
 use App\Constants\PreferenceType;
 use App\Constants\UserRole;
+use App\Models\Club;
 use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
@@ -46,6 +47,19 @@ class IndexController extends Controller {
 
     public function home(): View
     {
+
+//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
+//            ->pluck('id');
+//        $events = Event::whereIn('id', $eventIdArr)
+//            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
+//            ->take(3)
+//            ->get();
+//
+//        $clubId = Club::pluck('id')
+//            ->take(3);
+//        $clubs = $clubId->toArray();
+
+
          $currentUserId = auth()->id();
          $currentDateTime = Carbon::now();
          $data['recommended_events'] = Event::join('clubs', 'events.club_id', '=', 'clubs.id')
@@ -88,13 +102,24 @@ class IndexController extends Controller {
                    ->get();
          }
 
+        $upcomingClubs = Club::whereHas('events', function ($query) {
+            $query->where('event_date', '>', now());
+        })
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
 
+        $data['recommended_clubs'] = $upcomingClubs;
+//        dd($data);
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')
               ->limit(3)
               ->get();
+
          return view('front.home.index')->with($data);
+//         return view('front.home.index',compact('events',))->with($data);
+
     }
 
 
