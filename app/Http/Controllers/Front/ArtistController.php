@@ -17,9 +17,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use MongoDB\Driver\Query;
-use mysql_xdevapi\Exception;
 
 class ArtistController extends Controller
 {
@@ -80,6 +77,12 @@ class ArtistController extends Controller
           if(!$query){
                return redirect()->back()->with(['toast.error' => 'Artist name cannot be empty']);
           }
-          $Users = User::where('name', 'like', "%$query")->orWhere('');
+          $artists = User::artist()->where('user_name', 'like', "$query%")
+               ->orWhere('last_name', 'like', "$query%")
+               ->orWhere('last_name', 'like', "$query%")
+               ->get();
+
+          return view('front.artist.search',  compact('artists' ,'query'));
+
      }
 }

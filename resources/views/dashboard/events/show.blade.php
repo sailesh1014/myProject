@@ -234,7 +234,7 @@
                                 <li class="flex justify-between gap-2">
                                         <div>
                                             <label for="input_{{$artist->id}}" class="text-primary"> {{$artist->user_name}}</label>
-                                            <span>({{$artist->first_name." ".$artist->last_name}})</span>
+                                            <a target="_blank" href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt($artist->id))}}">({{$artist->first_name." ".$artist->last_name}})</a>
                                         </div>
                                     @if(!in_array($artist->id, $alreadyInvitedArtistIds))
                                         <input type="checkbox" value="{{$artist->id}}" name="artist[]" class="cursor-pointer selected-artist" id="input_{{$artist->id}}"/>

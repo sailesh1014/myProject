@@ -413,6 +413,9 @@
                     },
                     error: function (){
                         toastr.error("Something went wrong!!!");
+                    },
+                    success: function (){
+                        toastr.success("Artist rated successfully");
                     }
                 })
             });

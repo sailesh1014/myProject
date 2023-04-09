@@ -11,7 +11,8 @@
                             </div>
                             <div class="album_details_wrap">
                                 <div class="album-info">
-                                    <h4 class="album-title">{{$artist->username}}</h4>
+                                    <h4 class="album-title">{{$artist->user_name}}</h4>
+                                    <h5 class="album-title">{{$artist->first_name}} {{$artist->last_name}}</h5>
                                     <a href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt($artist->id))}}" class="tim-btn tim-btn-bgt">View</a>
                                 </div>
                             </div>
