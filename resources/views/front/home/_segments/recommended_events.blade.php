@@ -42,7 +42,7 @@
                                                  data-count-day="{{\Carbon\Carbon::parse($event->event_date)->diffInDays(now())}}">
                                             </div>
                                             <div class="ticket">
-                                                <a href="/event" class="tic-btn tic-btn-bg">See Details</a>
+                                                <a href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($event->id))}}" class="tic-btn tic-btn-bg">See Details</a>
                                             </div>
                                         </div>
                                     </div>

@@ -3,7 +3,15 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EventRequest;
+use App\Http\Requests\Front\ClubRequest;
+use App\Models\Club;
+use App\Models\Event;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -12,10 +20,50 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id): view
     {
-return view ('front.event.index');
+
+
+        try
+        {
+            $id = Crypt::decrypt($id);
+        }catch(\Exception $e){
+            abort(404);
+        }
+        $event = Event::where('id',$id)->first();
+
+//        $authUserEvent = Event::published()->where('club_id',$id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
+
+        return view ('front.event.index',compact('event'));
     }
+    public function editEvent($id, EventRequest $request) : JsonResponse
+    {
+        $event_id = Crypt::decrypt($id);
+        $event = Event::findOrFail($event_id);
+
+
+        // Store the new image file
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $directory = 'uploads/events';
+            $filename = $thumbnail->getClientOriginalName();
+            $imagePath = Storage::disk('public')->putFileAs($directory, $thumbnail, $filename);
+
+            $event->thumbnail = basename($imagePath);
+        }
+
+        // Update the club data
+        $event->title = $request->input('title');
+        $event->excerpt = $request->input('excerpt');
+        $event->description = $request->input('description');
+        $event->fee = $request->input('fee');
+
+        // Save the updated club data
+        $event->save();
+
+        return response()->json(['message' => "Event updated successfully"]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

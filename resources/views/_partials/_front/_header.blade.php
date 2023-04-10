@@ -3,6 +3,37 @@
         max-height: 105px;
         max-width: 230px;
     }
+
+
+    #cart-popup {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 300px;
+        background-color: white;
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    /* Show the pop-up window when the cart icon is clicked */
+    #cart-icon:hover + #cart-popup,
+    #cart-popup:hover {
+        display: block;
+    }
+
+    /* Hide the pop-up window when the mouse leaves the pop-up window */
+    #cart-popup:hover {
+        display: block;
+    }
+
+    /* Style the close button */
+    #cart-popup span {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
 </style>
 <header class="header">
     <div class="top-header">
@@ -45,7 +76,21 @@
                 </a>
             </div>
             <div class="nav float-right">
+
+
+                <!-- HTML code for the cart icon -->
+
+
                 <ul id="main-header-menu">
+                    <i class="fa fa-shopping-cart " style="font-size: 24px; color: white;" id="cart-icon"></i>
+
+                    <!-- HTML code for the pop-up window -->
+                    <div id="cart-popup" style="background: #e43a90">
+                        <h2>Notification</h2>
+                        <ul>
+                            <!-- List of items in the cart -->
+                        </ul>
+                    </div>
                     <li class="menu-item-has-children active">
                         <a href="{{route('front.home')}}">Home</a>
                     </li>
@@ -125,3 +170,24 @@
         </ul>
     </nav>
 </div>
+@push('scripts')
+{{--    // JavaScript code to show/hide the pop-up window--}}
+<script>
+    var cartIcon = document.getElementById("cart-icon");
+    var cartPopup = document.getElementById("cart-popup");
+
+    cartIcon.addEventListener("click", function() {
+    cartPopup.style.display = "inline";
+    });
+
+{{--    // JavaScript code to close the pop-up window--}}
+    var closeBtn = document.createElement("span");
+    closeBtn.innerHTML = "&times;";
+    cartPopup.appendChild(closeBtn);
+
+    closeBtn.addEventListener("click", function() {
+    cartPopup.style.display = "none";
+    });
+</script>
+
+@endpush
