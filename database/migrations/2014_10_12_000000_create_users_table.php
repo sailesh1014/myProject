@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('charge_amount')->nullable()->default('100')->comment('Only for artist');
             $table->string('intro_video')->nullable()->comment('only for artist or organizer');
              $table->string('thumbnail')->nullable()->comment('only for artist or organizer');
              $table->set('preference', array_keys(\App\Constants\PreferenceType::LIST))->nullable()->comment('If the artist prefer solo/band');

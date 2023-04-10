@@ -37,8 +37,10 @@ Route::group(['middleware' => ['auth', 'verified']], function()
      Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
      Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
 
+
      Route::group(['middleware' => ['genre']], function()
      {
+          Route::post('/notifications/mark', [FrontController::class, 'markNotifications'])->name('front.notification.mark');
           // Artist route
           Route::get('/artist/search', [ArtistController::class, 'searchArtist'])->name('front.artist.search');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');

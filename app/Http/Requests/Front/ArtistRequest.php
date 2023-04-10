@@ -45,6 +45,7 @@ class ArtistRequest extends FormRequest
                'user_name'   => ['required', 'string', 'max:191', Rule::unique(User::class)->ignore($artist_id)],
                'address'     => ['required', 'string', 'max:191'],
                'phone'       => ['nullable', 'numeric', 'digits:10'],
+               'charge_amount'     => ['required', 'numeric'],
                'thumbnail'   => ['required', 'mimes:jepg,png,jpg', 'max:5120'],
                'intro_video' => ['required', 'max:30720', 'mimes:mp4,mkv,quicktime,mov']
           ];

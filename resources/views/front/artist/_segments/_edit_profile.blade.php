@@ -52,6 +52,13 @@
                     </div>
                     <div class="form-group">
                         <div class="fv-row mb-2">
+                            <label class="" for="charge_amount">Charge</label>
+                            <input name="charge_amount" type="text" class="form-control" id="charge_amount" value="{{$artist->charge_amount}}">
+                            <span class="invalid-feedback hidden" id="charge_amount_error" role="alert"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="fv-row mb-2">
                             <label class="" for="intro_video">Intro Video</label>
                             <input type="file" class="filepond intro_video" name="intro_video" id="intro_video">
                             <span class="invalid-feedback hidden" id="intro_video_error" role="alert"></span>

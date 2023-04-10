@@ -32,6 +32,18 @@
     .search-icon{
         color: #e83e8c;
     }
+    .text-pink{
+        color: #e83e8c;
+    }
+    .user-login li.cart-count .cart-overview .cart-item .product-details .product-remove {
+        right: -10px;
+        top: 0;
+    }
+    .user-login li.cart-count .cart-overview .cart-actions .checkout{
+        font-size: 12px !important;
+        padding: 5px 12px !important;
+        text-transform: none;
+    }
 </style>
 <header class="header">
     <div class="top-header">
@@ -45,6 +57,46 @@
 
             <ul class="user-login float-right">
                 <li><a href="{{route('front.home')}}">{{config('app.name')}}</a></li>
+                @auth
+                <li class="cart-count">
+                    <a href="#">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                        <span class="badge" id="notification-count">{{$NOTIFICATIONS->count()}}</span>
+                    </a>
+                    <ul class="custom-content cart-overview notification-container">
+                        @forelse($NOTIFICATIONS as $notification)
+                            <?php
+                                 $data = $notification->data;
+                                 $thumbnail = $data['event_thumbnail'] != "" ? asset('storage/uploads/'.$data['event_thumbnail']) : asset('assets/front/images/event_placeholder.jpeg');
+                                 ?>
+                            <li class="cart-item clearfix single-notification-div">
+                                <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-thumbnail">
+                                    <img src="{{$thumbnail}}" alt="">
+                                </a>
+                                <div class="product-details">
+                                    <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-title">{{$data['message']}}</a>
+                                    <span class="product-quantity">{{ucwords($data['event_title'])}} ({{\App\Helpers\AppHelper::formatDate($data['event_date'])}})</span>
+                                    <a href="#" data-id="{{$notification->id}}" class="product-remove tim-cross-out mark-as-read"></a>
+                                </div>
+                            </li>
+                            @if($loop->last)
+                            <li class="cart-actions">
+                                <a href="javascript:void(0)" id="mark-all" class="checkout button pill small">
+                                    <span class="icon-check"></span>
+                                    Mark All As Read
+                                </a>
+                            </li>
+                            @endif
+                        @empty
+                            <li class="cart-item clearfix">
+                                <div class="product-details">
+                                    <span class="product-quantity text-pink">No New Notifications</span>
+                                </div>
+                            </li>
+                        @endforelse
+                    </ul>
+                </li>
+                @endauth
                 <li>
                     <form class="search-form" type="get" action="{{route('front.artist.search')}}">
                         <label>
@@ -88,6 +140,11 @@
                     <li class="menu-item-has-children active">
                         <a href="{{route('front.home')}}">Home</a>
                     </li>
+                    @if(auth()->user()->isArtist())
+                        <li class="menu-item-has-children active">
+                            <a href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id))}}">Profile</a>
+                        </li>
+                    @endif
                 </ul>
                 @if(auth()->check() && (!auth()->user()->isBasicUser() && !auth()->user()->isArtist()) )
                 <a href="{{route('dashboard.index')}}" class="head-btn">Dashboard</a>
@@ -164,3 +221,51 @@
         </ul>
     </nav>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function (){
+            function sendMarkRequest(id=null){
+                return $.ajax("{{route('front.notification.mark')}}", {
+                    method:  "POST",
+                    data: {
+                        "_token" : "{{csrf_token()}}",
+                        id,
+                    }
+                });
+            }
+            const  emptyNotificationHtml  = `<li class="cart-item clearfix">
+                        <div class="product-details">
+                            <span class="product-quantity text-pink">No New Notifications</span>
+                        </div>
+                    </li>`;
+
+            let current_count =  parseInt($('#notification-count').text());
+            $('.mark-as-read').on('click', function(e){
+                e.preventDefault();
+                let request = sendMarkRequest($(this).data('id'));
+                request.done(()=>{
+                    let new_count = current_count - 1;
+                    current_count = new_count;
+                    $('#notification-count').text(new_count);
+                    $(this).closest('li.single-notification-div').slideUp(400, function (){
+                        $(this).remove();
+                        if(new_count === 0){
+                            $('.notification-container').html(emptyNotificationHtml)
+                        }
+                    });
+
+                });
+            });
+
+            $('#mark-all').on('click', function(){
+                let request = sendMarkRequest();
+                request.done(()=>{
+                    $('#notification-count').text('0');
+
+                    $('div.alert').remove();
+                    $('.notification-container').html(emptyNotificationHtml)
+                });
+            });
+        });
+    </script>
+@endpush
