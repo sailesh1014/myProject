@@ -43,7 +43,6 @@
                 </div>
             </div>
         </div>
-
     </section>
     @include('front.welcome._segments._top_rated_artist')
 @endsection

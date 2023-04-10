@@ -182,7 +182,7 @@
             <!--begin::Select2-->
             <select class="form-select mb-2" data-hide-search="true" data-placeholder="Select an option"
                     name="preference">
-                <option value="">Choose Club</option>
+                <option value="">Choose Artist Preference</option>
                 @foreach(\App\Constants\PreferenceType::LIST as $key => $name)
                     <?php
                     $selected = old('preference', $event->preference) == $key ? 'selected' : '';

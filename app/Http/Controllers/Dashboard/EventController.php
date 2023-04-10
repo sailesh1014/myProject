@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Constants\EventStatus;
 use App\Constants\InvitationStatus;
 use App\Constants\InvitationType;
 use App\Constants\PreferenceType;
@@ -12,6 +11,7 @@ use App\Http\Requests\EventRequest;
 use App\Mail\ArtistInvitationMail;
 use App\Models\Event;
 use App\Models\User;
+use App\Notifications\ArtistInvitation;
 use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
@@ -19,8 +19,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 
 class EventController extends Controller {
@@ -134,7 +134,9 @@ class EventController extends Controller {
          foreach ($users as $user) {
               $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
               $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
-              Mail::to("s@gmail.com")->send(new ArtistInvitationMail($event,$user));
+              Mail::to("sanjeevvsanjeev1@gmail.com")->send(new ArtistInvitationMail($event,$user));
+              Notification::send($user, new ArtistInvitation($event));
+
          }
         return response()->json(['message' => 'Invitation sent successfully']);
     }

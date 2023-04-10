@@ -2,6 +2,7 @@ import.meta.glob([
     '../../img/front/**',
 ]);
 
+
 const  showAjaxErrorsOnForms = (errObj) => {
     console.log(errObj);
     $(".invalid-feedback").css("display", "block");
@@ -21,4 +22,6 @@ const  showAjaxErrorsOnForms = (errObj) => {
         $("#" + _key + "_error").html(err_txt);
     });
 }
+
+
 window.showAjaxErrorsOnForms = showAjaxErrorsOnForms;

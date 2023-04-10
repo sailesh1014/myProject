@@ -24,9 +24,9 @@ use App\Models\User;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
@@ -47,16 +47,17 @@ class IndexController extends Controller {
 
     public function home(): View
     {
-        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
-            ->pluck('id');
-        $events = Event::whereIn('id', $eventIdArr)
-            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
-            ->take(3)
-            ->get();
 
-        $clubId = Club::pluck('id')
-            ->take(3);
-        $clubs = $clubId->toArray();
+//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
+//            ->pluck('id');
+//        $events = Event::whereIn('id', $eventIdArr)
+//            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
+//            ->take(3)
+//            ->get();
+//
+//        $clubId = Club::pluck('id')
+//            ->take(3);
+//        $clubs = $clubId->toArray();
 
 
          $currentUserId = auth()->id();
@@ -95,7 +96,7 @@ class IndexController extends Controller {
 
          // will be empty if user has no selected genres.
          if($data['recommended_artists']->isEmpty()){
-              $data['recommended_artists'] = User::where('users.role_id', $artistRoleId)->inRandomOrder()
+              $data['recommended_artists'] = User::artist()->inRandomOrder()
                    ->take(6)
                    ->orderBy('first_name')
                    ->get();
@@ -109,16 +110,27 @@ class IndexController extends Controller {
             ->get();
 
         $data['recommended_clubs'] = $upcomingClubs;
-//        dd($data);
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')
               ->limit(3)
               ->get();
-         return view('front.home.index',compact('events',))->with($data);
+
+         return view('front.home.index')->with($data);
+//         return view('front.home.index',compact('events',))->with($data);
 
     }
 
+     public function markNotifications(Request $request): \Illuminate\Http\Response
+     {
+          \auth()->user()
+               ->unreadNotifications
+               ->when($request->input('id'), function ($query) use ($request){
+                    return $query->where('id', $request->input('id'));
+               })
+               ->markAsRead();
+          return response()->noContent();
+     }
 
     public function emailVerified(): view
     {

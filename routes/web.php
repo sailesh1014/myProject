@@ -37,16 +37,24 @@ Route::group(['middleware' => ['auth', 'verified']], function()
      Route::get('/select-genre', [FrontGenreController::class, 'index'])->name('front.select-genre');
      Route::post('/select-genre', [FrontGenreController::class, 'store'])->name('front.store-genre');
 
+
      Route::group(['middleware' => ['genre']], function()
      {
+          Route::post('/notifications/mark', [FrontController::class, 'markNotifications'])->name('front.notification.mark');
           // Artist route
+          Route::get('/artist/search', [ArtistController::class, 'searchArtist'])->name('front.artist.search');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
+
          Route::get('/event/{event_id}', [FontEventController::class, 'index'])->name('front.event.detail');
+
+          Route::put('/artist/rate', [ArtistController::class, 'rateArtist'])->name('front.artist.rate');
+          Route::get('/event', [FontEventController::class, 'index'])->name('front.event.detail');
+
 
 
          Route::get('/club/{club_id}', [ClubController::class, 'clubDetail'])->name('front.club.detail');
-//         Route::get('/event/{event_id}', [ArtistController::class, 'eventDetail'])->name('front.event.detail');
+
 
 
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
