@@ -6,6 +6,7 @@
             object-position: center;
             width: 100%;
             min-height: 540px;
+            max-height: 560px;
         }
 
         .hire-btn {
@@ -177,6 +178,9 @@
             height: 24px;
             width: 24px;
         }
+        #artistVideo{
+            width: 100%;
+        }
     </style>
     @if($artist->intro_video)
         <section id="banner-one" class="max-h-full relative header-video">
@@ -284,6 +288,8 @@
                                     </span>
                                 @endif
                             </p>
+
+                            <h4 class="band-name"><span>Charge :</span> $ {{$artist->charge_amount}}</h4>
                             <h3>Preference</h3>
                             <p>{{ucwords($artist->preference ?? "Band/Solo")}}</p>
                             @if(isset($authUserEvent))

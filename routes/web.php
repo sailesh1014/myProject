@@ -9,7 +9,7 @@ use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Front\ArtistController;
 
-use App\Http\Controllers\Front\EventController as FontEventController;
+use App\Http\Controllers\Front\EventController as FrontEventController;
 
 use App\Http\Controllers\Front\ClubController;
 
@@ -46,10 +46,11 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
 
-         Route::get('/event/{event_id}', [FontEventController::class, 'index'])->name('front.event.detail');
+         Route::get('/event/{event_id}', [FrontEventController::class, 'index'])->name('front.event.detail');
+         Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');
 
           Route::put('/artist/rate', [ArtistController::class, 'rateArtist'])->name('front.artist.rate');
-          Route::get('/event', [FontEventController::class, 'index'])->name('front.event.detail');
+//          Route::get('/event/{id}', [FrontEventController::class, 'index'])->name('front.event.detail');
 
 
 
@@ -59,7 +60,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
          Route::put('/club/{id}/edit', [ClubController::class, 'editClub'])->name('front.club.edit');
-         Route::put('/event/{id}/edit', [FontEventController::class, 'editEvent'])->name('front.event.edit');
+         Route::put('/event/{id}/edit', [FrontEventController::class, 'editEvent'])->name('front.event.edit');
 
           Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
 

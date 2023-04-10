@@ -23,7 +23,6 @@ class EventController extends Controller
     public function index($id): view
     {
 
-
         try
         {
             $id = Crypt::decrypt($id);

@@ -136,6 +136,9 @@ class IndexController extends Controller {
     {
         return view('auth.email-verified');
     }
-
+    public function contact(): View
+    {
+        return view('front.contact.contact');
+    }
 
 }

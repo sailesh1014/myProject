@@ -69,6 +69,7 @@
                                  $data = $notification->data;
                                  $thumbnail = $data['event_thumbnail'] != "" ? asset('storage/uploads/'.$data['event_thumbnail']) : asset('assets/front/images/event_placeholder.jpeg');
                                  ?>
+
                             <li class="cart-item clearfix single-notification-div">
                                 <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-thumbnail">
                                     <img src="{{$thumbnail}}" alt="">
@@ -136,21 +137,7 @@
                 </a>
             </div>
             <div class="nav float-right">
-
-
-                <!-- HTML code for the cart icon -->
-
-
                 <ul id="main-header-menu">
-                    <i class="fa fa-shopping-cart " style="font-size: 24px; color: white;" id="cart-icon"></i>
-
-                    <!-- HTML code for the pop-up window -->
-                    <div id="cart-popup" style="background: #e43a90">
-                        <h2>Notification</h2>
-                        <ul>
-                            <!-- List of items in the cart -->
-                        </ul>
-                    </div>
                     <li class="menu-item-has-children active">
                         <a href="{{route('front.home')}}">Home</a>
                     </li>
@@ -159,10 +146,14 @@
                             <a href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id))}}">Profile</a>
                         </li>
                     @endif
+                    <li class="menu-item-has-children active">
+                        <a href="{{route('front.contact')}}">Contact</a>
+                    </li>
                 </ul>
                 @if(auth()->check() && (!auth()->user()->isBasicUser() && !auth()->user()->isArtist()) )
                 <a href="{{route('dashboard.index')}}" class="head-btn">Dashboard</a>
                 @endif
+
             </div>
             <!-- /.nav -->
         </div>
@@ -233,6 +224,7 @@
                 <a href="{{route('front.home')}}">Home</a>
             </li>
         </ul>
+
     </nav>
 </div>
 @push('scripts')
