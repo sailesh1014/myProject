@@ -27,17 +27,17 @@ class EventRequest extends FormRequest {
             'excerpt'     => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'thumbnail'   => ['required_without:thumbnail_hidden_value', 'mimes:jepg,png,jpg', 'max:5120'],
-            'event_date'  => ['required', 'date_format:Y-m-d H:i', 'after_or_equal:tomorrow'],
+            'event_date'  => ['nullable', 'date_format:Y-m-d H:i', 'after_or_equal:tomorrow'],
             'fee'         => ['required', 'numeric'],
-            'status'      => ['required', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
-            'preference'  => ['required', 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
+            'status'      => ['nullable', 'string', 'in:' . EventStatus::DRAFT . ',' . EventStatus::PUBLISHED],
+            'preference'  => ['nullable', 'string', 'in:' . implode(',', array_keys(PreferenceType::LIST))],
             'media' => [
-                'required',
+                'nullable',
                 'array',
             ],
             'media.*' => [
                 'nullable',
-                'required',
+
                 function ($attribute, $value, $fail) use ($allowed_video_types, $allowed_image_types) {
                     $allowed_types = array_merge($allowed_video_types, $allowed_image_types);
 

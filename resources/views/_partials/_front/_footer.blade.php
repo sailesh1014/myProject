@@ -1,9 +1,17 @@
+<style>
+    .footer-thumbnail{
+        height: 80px;
+        width: 115px;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
 <footer id="footer">
     <div class="tim-container">
         <div class="footer-inner">
             <div class="row">
                 <div class="col-xl-4 col-lg-6 col-sm-6">
-                    <div class="footer-about">
+                    <div class="footer-about" style="margin-top: 20px">
                         <a href="{{route('front.home')}}" class="footer-logo">
                             <img src='{{asset("storage/settings/".config('app.settings.app_logo'))}}' alt="Site Logo" class="front-logo">
                         </a>
@@ -38,58 +46,23 @@
 
                 <div class="col-xl-4 col-lg-6 col-sm-6">
                     <div class="footer-blog-inner">
-                        <h3 class="footer-title">Our Latest Post</h3>
-                        <div class="footer-blog">
-
-                            <div class="widget-latest-post">
-                                <a href="#" class="fea-image">
-                                    <img src="{{asset('assets/front/media/blog/f1.jpg')}}" alt="Thumb">
-                                </a>
-
-                                <div class="content">
-                                    <h3><a href="#">Musicial Audio Songs doit amet<br> concateur un</a> </h3>
-                                    <a href="#" class="meta">Feb 15,2018</a>
+                        <h3 class="footer-title">Our Events</h3>
+                        @foreach($EVENTS as $event)
+                            <div class="footer-blog">
+                                <div class="widget-latest-post">
+                                    <?php
+                                          $thumbnail = $event->thumbnail ? asset('storage/uploads/'.$event->thumbnail) : asset('assets/front/images/event_placeholder.jpeg');
+                                      ?>
+                                    <a href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($event->id))}}" class="fea-image footer-thumbnail">
+                                        <img src="{{$thumbnail}}" alt="Thumb">
+                                    </a>
+                                    <div class="content">
+                                        <h3><a href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($event->id))}}">{{\Illuminate\Support\Str::limit($event->excerpt, 40,"...")}}<br>{{ucwords($event->title)}}</a> </h3>
+                                        <a href="javascript:void(0)" class="meta">{{\App\Helpers\AppHelper::formatDate($event->event_date)}}</a>
+                                    </div>
                                 </div>
-
                             </div>
-                            <!-- /.widget-latest-post -->
-                        </div>
-                        <!-- /.footer-blog -->
-
-                        <div class="footer-blog">
-
-                            <div class="widget-latest-post">
-                                <a href="#" class="fea-image">
-                                    <img src="{{asset('assets/front/media/blog/f2.jpg')}}" alt="Thumb">
-                                    <i class="fa fa-play-circle"></i>
-                                </a>
-
-                                <div class="content">
-                                    <h3><a href="#">Musicial Audio Songs doit amet<br> concateur un</a> </h3>
-                                    <a href="#" class="meta">Feb 15,2018</a>
-                                </div>
-
-                            </div>
-                            <!-- /.widget-latest-post -->
-                        </div>
-                        <!-- /.footer-blog -->
-
-                        <div class="footer-blog">
-
-                            <div class="widget-latest-post">
-                                <a href="#" class="fea-image">
-                                    <img src="{{asset('assets/front/media/blog/f3.jpg')}}" alt="Thumb">
-                                </a>
-
-                                <div class="content">
-                                    <h3><a href="#">Musicial Audio Songs doit amet<br> concateur un</a> </h3>
-                                    <a href="#" class="meta">Feb 15,2018</a>
-                                </div>
-
-                            </div>
-                            <!-- /.widget-latest-post -->
-                        </div>
-                        <!-- /.footer-blog -->
+                        @endforeach
                     </div>
                     <!-- /.footer-blog-inner -->
                 </div>
@@ -97,15 +70,11 @@
 
                 <div class="col-xl-4 col-lg-6 col-sm-6">
                     <div class="footer-tags">
-                        <h3 class="footer-title">Our Latest Post</h3>
+                        <h3 class="footer-title">Our Artists</h3>
                         <div class="tagcloud">
-                            <a href="#">Rockstar</a>
-                            <a href="#">Creative</a>
-                            <a href="#">Design</a>
-                            <a href="#">Responsive</a>
-                            <a href="#">Max Studio</a>
-                            <a href="#">Life</a>
-
+                            @foreach($ARTISTS as $artist)
+                                <a href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt($artist->id))}}">{{ucwords($artist->user_name)}}</a>
+                            @endforeach
                         </div>
                         <!-- /.tagcloud -->
                     </div>

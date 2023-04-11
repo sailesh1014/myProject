@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail {
         'preference',
         'role_id',
         'password',
+         'charge_amount',
          'intro_video',
          'thumbnail'
     ];

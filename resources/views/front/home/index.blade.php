@@ -43,7 +43,7 @@
     <!--=  RECOMMENDED CLUBS =-->
 
 
-{{--        @include('front.home._segments.recommended_clubs', ['clubs' => $recommended_clubs])--}}
+        @include('front.home._segments.recommended_clubs', ['clubs' => $recommended_clubs])
 
     <!-- /#recommended-clubs -->
 

@@ -14,13 +14,13 @@
 <script src="{{asset('assets/front/dependencies/imagesloaded/imagesloaded.pkgd.min.js')}}"></script>
 <script src="{{asset('assets/front/dependencies/slick-carousel/js/slick.min.js')}}"></script>
 <script src="{{asset('assets/front/assets/js/headroom.js')}}"></script>
-<script src="{{asset('assets/front/assets/js/soundmanager2.js')}}"></script>
-<script src="{{asset('assets/front/assets/js/mp3-player-button.js')}}"></script>
-<script src="{{asset('assets/front/assets/js/smoke.js')}}"></script>
+{{-- <script src="{{asset('assets/front/assets/js/soundmanager2.js')}}"></script> --}}
+{{-- <script src="{{asset('assets/front/assets/js/mp3-player-button.js')}}"></script> --}}
+{{-- <script src="{{asset('assets/front/assets/js/smoke.js')}}"></script> --}}
 <script src="{{asset('assets/front/dependencies/FitText.js/js/jquery.fittext.js')}}"></script>
-<script src="{{asset('assets/front/dependencies/gmap3/js/gmap3.min.js')}}"></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>
-<script src="{{asset('assets/front/dependencies/tilt.js/js/tilt.jquery.js')}}"></script>
+{{-- <script src="{{asset('assets/front/dependencies/gmap3/js/gmap3.min.js')}}"></script> --}}
+{{-- <script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script> --}}
+{{-- <script src="{{asset('assets/front/dependencies/tilt.js/js/tilt.jquery.js')}}"></script> --}}
 <script src="{{asset('assets/front/assets/js/parallax.min.js')}}"></script>
 <!-- Player -->
 
@@ -47,4 +47,4 @@
 <!-- include FilePond jQuery adapter -->
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <script src="{{asset('assets/front/assets/js/app.js')}}"></script>
-{{--@vite('resources/js/front/app.js')--}}
+@vite('resources/js/front/app.js')

@@ -23,7 +23,7 @@ class ClubController extends Controller
     }
     public function clubDetail($id): view
     {
-//dd($id);
+
         try
         {
             $id = Crypt::decrypt($id);
@@ -31,17 +31,9 @@ class ClubController extends Controller
             abort(404);
         }
    $club = Club::where('id',$id)->first();
-//   dd($club);
-//        try
-//        {
-//            $id = Crypt::decrypt($id);
-//        }catch(\Exception $e){
-//            abort(404);
-//        }
-//        $club = Club::where('id',$id)->findOrFail();
-//        $authUserEvent = Event::published()->where('club_id', auth()->user()->club?->id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
+
         $authUserEvent = Event::published()->where('club_id',$id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
-//dd($authUserEvent);
+
         return view('front.club.index',compact('club','authUserEvent'));
     }
 
@@ -49,7 +41,6 @@ class ClubController extends Controller
     {
         $club_id = Crypt::decrypt($id);
         $club = Club::findOrFail($club_id);
-
 
 
         // Store the new image file

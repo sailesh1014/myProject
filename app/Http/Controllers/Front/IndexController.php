@@ -24,6 +24,7 @@ use App\Models\User;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,11 +121,24 @@ class IndexController extends Controller {
 
     }
 
+     public function markNotifications(Request $request): \Illuminate\Http\Response
+     {
+          \auth()->user()
+               ->unreadNotifications
+               ->when($request->input('id'), function ($query) use ($request){
+                    return $query->where('id', $request->input('id'));
+               })
+               ->markAsRead();
+          return response()->noContent();
+     }
 
     public function emailVerified(): view
     {
         return view('auth.email-verified');
     }
-
+    public function contact(): View
+    {
+        return view('front.contact.contact');
+    }
 
 }

@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Event;
+use App\Models\User;
 use App\Services\AuthService;
 use App\Services\SettingService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,9 +24,22 @@ class AppServiceProvider extends ServiceProvider {
     {
         Model::preventLazyLoading(! $this->app->isProduction());
         Schema::defaultStringLength(191);
-        $this->app->singleton(AuthService::class, function ($app) {
-            return new AuthService();
-        });
+//        $this->app->singleton(AuthService::class, function ($app) {
+//            return new AuthService();
+//        });
+
+         view()->composer('*',function($view) {
+              $notifications = collect([]);
+              $artists = collect([]);
+              if(Auth::check()){
+               $notifications = \auth()->user()->unreadNotifications()->get();
+               $artists = User::artist()->where('id', '<>', \auth()->user()->id)->limit(7)->get();
+              }
+              $events = Event::published()->inRandomOrder()->limit(4)->get();
+              $view->with('NOTIFICATIONS', $notifications);
+              $view->with('EVENTS', $events);
+              $view->with('ARTISTS', $artists);
+         });
 
         if (Schema::hasTable('settings'))
         {

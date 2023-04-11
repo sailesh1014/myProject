@@ -334,15 +334,15 @@ var THEMEIM = THEMEIM || {};
       });
 	  
 	 // Stop all previous Player when current player active
-	$(document).ready(function () {
-		$('.jp-audio .jp-play').on('click', function (e) {
-			soundManager.stopAll();
-		});
-		
-		$('.sm2_button').on('click', function (e) {
-			$.jPlayer.pause();
-		});
-	})
+	// $(document).ready(function () {
+		// $('.jp-audio .jp-play').on('click', function (e) {
+		// 	soundManager.stopAll();
+		// });
+		//
+		// $('.sm2_button').on('click', function (e) {
+		// 	$.jPlayer.pause();
+		// });
+	// })
 
 
 
@@ -530,24 +530,24 @@ var THEMEIM = THEMEIM || {};
       });
 
 
-      soundManager.setup({
-
-      });
+      // soundManager.setup({
+      //
+      // });
 
       /* Plalist Active */
 
-      $(document).on('click', '.sm2_button', function(e) {
-        e && e.preventDefault();
-        var $this = $(e.target);
-        if (!$this.is('a')) $this = $this.closest('a');
-
-        $('.sm2_button').not($this).removeClass('active');
-        $('.sm2_button').parent('li').not($this.parent('li')).removeClass('active');
-
-        $this.toggleClass('active');
-        $this.parent('li').toggleClass('active');
-
-      });
+      // $(document).on('click', '.sm2_button', function(e) {
+      //   e && e.preventDefault();
+      //   var $this = $(e.target);
+      //   if (!$this.is('a')) $this = $this.closest('a');
+      //
+      //   $('.sm2_button').not($this).removeClass('active');
+      //   $('.sm2_button').parent('li').not($this.parent('li')).removeClass('active');
+      //
+      //   $this.toggleClass('active');
+      //   $this.parent('li').toggleClass('active');
+      //
+      // });
 
       // $(".content-three h2").fitText(1.2, {
       // 	minFontSize: '20px',

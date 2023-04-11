@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Constants\EventStatus;
-use App\Constants\InvitationStatus;
-use App\Constants\InvitationType;
-use App\Constants\UserRole;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\ArtistRequest;
 use App\Models\Event;
@@ -46,7 +43,7 @@ class ArtistController extends Controller
      {
             $artist_id = Crypt::decrypt($id);
             $artist = User::findOrFail($artist_id);
-            $data = $request->only('first_name', 'last_name', 'address', 'user_name', 'phone', 'role', 'thumbnail', 'intro_video');
+            $data = $request->only('first_name', 'last_name', 'address', 'user_name', 'phone', 'role', 'thumbnail', 'intro_video', 'charge_amount');
             $data['role'] = auth()->user()->role->key;
             $this->userService->updateUser($data,$artist);
             return response()->json(['message' => "Artist updated successfully"]);
@@ -68,7 +65,6 @@ class ArtistController extends Controller
           $artist = User::findOrFail($artist_id);
           $rating = $request->input('rating');
           $this->userService->rateArtist($artist,$rating);
-          $rating = ceil($artist->ratings->avg('value'));
           return response()->json(['message' => "Artist rated successfully"]);
      }
 
@@ -77,9 +73,9 @@ class ArtistController extends Controller
           if(!$query){
                return redirect()->back()->with(['toast.error' => 'Artist name cannot be empty']);
           }
-          $artists = User::artist()->where('user_name', 'like', "$query%")
-               ->orWhere('last_name', 'like', "$query%")
-               ->orWhere('last_name', 'like', "$query%")
+          $artists = User::artist()->where('user_name', 'like', "%$query%")
+               ->orWhere('first_name', 'like', "%$query%")
+               ->orWhere('last_name', 'like', "%$query%")
                ->get();
 
           return view('front.artist.search',  compact('artists' ,'query'));
