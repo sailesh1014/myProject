@@ -174,6 +174,10 @@
             cursor: pointer;
         }
 
+        .hidden{
+            display: none;
+        }
+
         .play-pause-btn {
             height: 24px;
             width: 24px;
@@ -275,8 +279,7 @@
                             <p>
                                 Hi! I am {{ucwords($artist->first_name)}} {{ucwords($artist->last_name)}} also known
                                 as {{ucwords($artist->user_name)}}. If you want to hire me,
-                                you can ping me at {{$artist->email}}. You can also meet me
-                                at {{ucwords($artist->address)}} or call me at {{$artist->phone}}
+                                you can ping me at {{$artist->email}}. You can contact me at {{$artist->phone}}
                                 @if(auth()->user()->id === $artist->id)
                                     <span type="button" class="edit-profile" data-toggle="modal"
                                           data-target="#edit-profile">
@@ -288,6 +291,7 @@
                                     </span>
                                 @endif
                             </p>
+                            <h4 class="band-name"><span>Address :</span> $ {{$artist->address}}</h4>
 
                             <h4 class="band-name"><span>Charge :</span> $ {{$artist->charge_amount}}</h4>
                             <h3>Preference</h3>
@@ -408,13 +412,13 @@
                 $(this).find('.star').removeClass('fa-star-o star-over').addClass('fa-star')
                 $(this).prevAll().find('.star').removeClass('fa-star-o star-over').addClass('fa fa-star');
                 $.ajax({
-                    url: '{{route('front.artist.rate')}}',
+                    url: '{{route('front.user.rate')}}',
                     type: "PUT",
                     headers: {
                         "X-CSRF-TOKEN": "{{csrf_token()}}"
                     },
                     data: {
-                        "artist_id": "{{\Illuminate\Support\Facades\Crypt::encrypt($artist->id)}}",
+                        "user_id": "{{\Illuminate\Support\Facades\Crypt::encrypt($artist->id)}}",
                         "rating": $(this).attr('data-value'),
                     },
                     error: function (){

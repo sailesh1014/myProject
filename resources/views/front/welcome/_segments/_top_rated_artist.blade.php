@@ -1,6 +1,10 @@
+@if(!$top_rated_artists->isEmpty())
 <section id="album">
     <div class="tim-container d-flex justify-content-center">
         <div class="col-xl-10">
+            <div class="section-title title-three text-center">
+                    <h2>Top Rated<span> Artist</span></h2>
+            </div>
             <div class="tim-isotope tim-isotope-1 wow fadeInUp" data-wow-delay="0.8s">
                 <ul class="tim-filter-items tim-album-items grid">
                     <li class="grid-sizer"></li>
@@ -24,3 +28,4 @@
     </div>
     <!-- /.tim-container -->
 </section>
+@endif

@@ -6,24 +6,35 @@
 
     <!--begin::Authentication - Sign-in -->
     <div
-        class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed"
-        style="background-image: url({{Vite::asset('resources/img/auth/progress-hd.png')}})">
+        class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
+{{--         style="background-image: url({{Vite::asset('resources/img/auth/progress-hd.png')}})"> --}}
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-            <!--begin::Logo-->
-            <a href="{{route('front.index')}}" class="mb-12 max-w-[150px]">
-                <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[130px] img-fluid object-cover object-center"/>
-            </a>
-            <!--end::Logo-->
             <!--begin::Wrapper-->
-            <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+            <style>
+                @media (min-width: 992px) {
+                    .w-half{
+                        width: 565px;
+                    }
+                }
+            </style>
+            <div class="w-half bg-white rounded shadow-sm xp-10 xp-lg-15 mx-auto" style="border: 1px dotted #000;padding: 20px;
+    height: 700px;">
                 @if (session('status'))
                     <div class="alert alert-success text-center" role="alert">
                         {{ session('status') }}
                     </div>
                 @endif
+                    <!--begin::Logo-->
+                    <a href="{{route('front.index')}}" class="mb-12 max-w-[150px]">
+                        <img alt="Logo" src="{{asset('storage/settings/'.config('app.settings.app_logo'))}}" class="h-[150px] img-fluid object-cover object-center mx-auto"/>
+                    </a>
+                    <!--end::Logo-->
                 <!--begin::Form-->
-                <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" method="POST"
+                <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" method="POST"  style="height: 520px; background: {{"url('/assets/front/images/k.jpg')"}}; background-position: center; background-size: cover;
+                padding: 10px 60px;    display: flex;
+    flex-direction: column;
+    justify-content: center;"
                       action="{{route('login')}}">
                     @csrf
                     <!--begin::Heading-->

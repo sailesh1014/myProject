@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
-use App\Http\Requests\Front\ClubRequest;
+use App\Http\Requests\Front\OrganizerRequest;
 use App\Models\Club;
 use App\Models\Event;
 use Illuminate\Http\JsonResponse;
@@ -22,16 +22,13 @@ class EventController extends Controller
      */
     public function index($id): view
     {
-
         try
         {
             $id = Crypt::decrypt($id);
         }catch(\Exception $e){
             abort(404);
         }
-        $event = Event::where('id',$id)->first();
-
-//        $authUserEvent = Event::published()->where('club_id',$id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
+        $event = Event::findOrFail($id);
 
         return view ('front.event.index',compact('event'));
     }

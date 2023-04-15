@@ -38,16 +38,15 @@ class ArtistRequest extends FormRequest
           {
                throw new \Exception("Invalid action");
           }
-          $allowed_video_types = ['mp4', 'mkv'];
           return [
-               'first_name'  => ['required', 'string', 'max:191'],
-               'last_name'   => ['required', 'string', 'max:191'],
-               'user_name'   => ['required', 'string', 'max:191', Rule::unique(User::class)->ignore($artist_id)],
-               'address'     => ['required', 'string', 'max:191'],
-               'phone'       => ['nullable', 'numeric', 'digits:10'],
+               'first_name'        => ['required', 'string', 'max:191'],
+               'last_name'         => ['required', 'string', 'max:191'],
+               'user_name'         => ['required', 'string', 'max:191', Rule::unique(User::class)->ignore($artist_id)],
+               'address'           => ['required', 'string', 'max:191'],
+               'phone'             => ['nullable', 'numeric', 'digits:10'],
                'charge_amount'     => ['required', 'numeric'],
-               'thumbnail'   => ['required', 'mimes:jepg,png,jpg', 'max:5120'],
-               'intro_video' => ['required', 'max:30720', 'mimes:mp4,mkv,quicktime,mov']
+               'thumbnail'         => ['required', 'mimes:jepg,png,jpg', 'max:5120'],
+               'intro_video'       => ['required', 'max:30720', 'mimes:mp4,mkv,quicktime,mov'],
           ];
      }
 

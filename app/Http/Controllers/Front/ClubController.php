@@ -1,14 +1,16 @@
 <?php
+declare( strict_types = 1 );
 
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Front\ClubRequest;
+use App\Http\Requests\Front\OrganizerRequest;
 use App\Models\Club;
 use App\Models\Event;
 use App\Services\ClubService;
 use App\Models\User;
 
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,52 +19,38 @@ use Illuminate\Support\Facades\Storage;
 
 class ClubController extends Controller
 {
-    //
-    public function __construct(protected ClubService $clubService){
 
-    }
-    public function clubDetail($id): view
-    {
+     public function __construct(protected ClubService $clubService, protected UserService $userService){}
 
-        try
-        {
-            $id = Crypt::decrypt($id);
-        }catch(\Exception $e){
-            abort(404);
-        }
-   $club = Club::where('id',$id)->first();
+     public function clubDetail($id) : view
+     {
+          try
+          {
+               $id = Crypt::decrypt($id);
+          }
+          catch( \Exception $e )
+          {
+               abort(404);
+          }
+          $club = Club::where('id', $id)->first();
 
-        $authUserEvent = Event::published()->where('club_id',$id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
+          $rating = ceil($club->user->ratings->avg('value') ?? 0);
+          $clubEvents = $club->events->where('events.events.date', '>', now());
+          return view('front.club.index', compact('club', 'rating', 'clubEvents'));
+     }
 
-        return view('front.club.index',compact('club','authUserEvent'));
-    }
+     public function editClub($id, OrganizerRequest $request) : JsonResponse
+     {
+          $club_id = Crypt::decrypt($id);
+          $club = Club::findOrFail($club_id);
+          $organizer = $club->user;
 
-    public function editclub($id, ClubRequest $request) : JsonResponse
-    {
-        $club_id = Crypt::decrypt($id);
-        $club = Club::findOrFail($club_id);
+          $organizerData = $request->only('club_name', 'club_address', 'description', 'first_name', 'last_name', 'phone', 'intro_video', 'thumbnail');
+          $organizerData['role'] = auth()->user()->role->key;
 
+          $this->userService->updateUser($organizerData, $organizer);
 
-        // Store the new image file
-        if ($request->hasFile('thumbnail')) {
-            $thumbnail = $request->file('thumbnail');
-            $directory = 'uploads/clubs';
-            $filename = $thumbnail->getClientOriginalName();
-            $imagePath = Storage::disk('public')->putFileAs($directory, $thumbnail, $filename);
-
-            $club->thumbnail = basename($imagePath);
-        }
-
-        // Update the club data
-        $club->name = $request->input('name');
-        $club->address = $request->input('address');
-        $club->description = $request->input('description');
-        $club->established_date = $request->input('established_date');
-
-        // Save the updated club data
-        $club->save();
-
-        return response()->json(['message' => "Club updated successfully"]);
-    }
+          return response()->json(['message' => "Club updated successfully"]);
+     }
 
 }
