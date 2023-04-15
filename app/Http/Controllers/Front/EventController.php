@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
-use App\Http\Requests\Front\ClubRequest;
+use App\Http\Requests\Front\OrganizerRequest;
 use App\Models\Club;
 use App\Models\Event;
 use Illuminate\Http\JsonResponse;

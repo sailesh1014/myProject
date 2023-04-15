@@ -15,6 +15,11 @@ class ClubService {
         return $this->clubRepository->store($input);
     }
 
+     public function updateClub(array $input,$modelObj){
+          return $this->clubRepository->update($input, $modelObj);
+
+     }
+
     public function updateOrCreate(array $conditionArr, array $input,){
         return $this->clubRepository->updateOrCreate($conditionArr, $input);
 

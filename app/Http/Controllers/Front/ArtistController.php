@@ -49,24 +49,6 @@ class ArtistController extends Controller
             return response()->json(['message' => "Artist updated successfully"]);
      }
 
-     public function rateArtist(Request $request) : JsonResponse
-     {
-          if(!$request->ajax()){
-               abort(404);
-          }
-          $request->validate(['rating' => ['required','in:1,2,3,4,5'], 'artist_id' =>['required', 'string']]);
-          $artist_id = $request->input('artist_id');
-          try
-          {
-               $artist_id = Crypt::decrypt($artist_id);
-          }catch(\Exception $e){
-               throw new Exception('Invalid Argument');
-          }
-          $artist = User::findOrFail($artist_id);
-          $rating = $request->input('rating');
-          $this->userService->rateArtist($artist,$rating);
-          return response()->json(['message' => "Artist rated successfully"]);
-     }
 
      public function searchArtist(Request $request){
           $query = $request->input('name');

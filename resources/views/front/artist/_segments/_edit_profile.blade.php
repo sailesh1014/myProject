@@ -118,9 +118,6 @@
 
                         }
                         submitButton.text(submitBtnText);
-                    },
-                    complete: function (){
-
                     }
                 });
             });

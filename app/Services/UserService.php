@@ -153,9 +153,9 @@ class UserService {
         $this->userRepository->delete($user);
     }
 
-     public function rateArtist($artist, $val): void
+     public function rateUser($user, $val): void
      {
-          $conditionArr = ['from' => auth()->user()->id, 'to'=> $artist->id];
+          $conditionArr = ['from' => auth()->user()->id, 'to'=> $user->id];
           $updateArr = ['value' => $val];
           Rating::updateOrCreate($conditionArr, $updateArr);
      }

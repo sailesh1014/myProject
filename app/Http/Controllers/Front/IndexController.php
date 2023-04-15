@@ -20,17 +20,18 @@ use App\Models\Rating;
 use App\Models\User;
 
 
-
-
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
-    public function __construct(protected EventService $eventService, protected RoleService $roleService, protected ClubService $clubService) {}
+    public function __construct(protected EventService $eventService, protected RoleService $roleService, protected ClubService $clubService, protected UserService $userService) {}
 
 
     public function index(): RedirectResponse|View
@@ -109,7 +110,8 @@ class IndexController extends Controller {
             ->limit(3)
             ->get();
 
-        $data['recommended_clubs'] = $upcomingClubs;
+
+         $data['recommended_clubs'] = $upcomingClubs;
          $data['upcoming_events'] =  Event::published()
               ->where('event_date', '>', now())
               ->orderBy('event_date')
@@ -140,5 +142,24 @@ class IndexController extends Controller {
     {
         return view('front.contact.contact');
     }
+
+     public function rateUser(Request $request) : JsonResponse
+     {
+          if(!$request->ajax()){
+               abort(404);
+          }
+          $request->validate(['rating' => ['required','in:1,2,3,4,5'], 'user_id' =>['required', 'string']]);
+          $user_id = $request->input('user_id');
+          try
+          {
+               $user_id = Crypt::decrypt($user_id);
+          }catch(\Exception $e){
+               throw new Exception('Invalid Argument');
+          }
+          $artist = User::findOrFail($user_id);
+          $rating = $request->input('rating');
+          $this->userService->rateUser($artist,$rating);
+          return response()->json(['message' => "Artist rated successfully"]);
+     }
 
 }
