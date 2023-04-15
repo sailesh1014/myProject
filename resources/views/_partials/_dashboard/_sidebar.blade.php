@@ -124,10 +124,29 @@
                 <!-- User Menu Ends -->
             @endCan
 
-            @if(auth()->user()->isSuperAdmin())
+            @if(auth()->user()->isAdmin())
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Admin Options</span>
+                    </div>
+                </div>
+                <!-- Settings Menu Starts -->
+                <div class="menu-item">
+                    <a class="menu-link {{current_page('feedback') ? 'active' : '' }}"
+                       href="{{route('feedbacks.index')}}">
+                    <span class="menu-icon">
+                        <i class="fas fa-cogs"></i>
+                    </span>
+                        <span class="menu-title">Feedback</span>
+                    </a>
+                </div>
+                <!-- Settings Menu Ends -->
+            @endif
+
+            @if(auth()->user()->isSuperAdmin())
+                <div class="menu-item">
+                    <div class="menu-content pt-8 pb-2">
+                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Super Admin Options</span>
                     </div>
                 </div>
 

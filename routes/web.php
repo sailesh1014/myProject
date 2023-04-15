@@ -2,6 +2,7 @@
 declare( strict_types = 1 );
 
 use App\Http\Controllers\Dashboard\EventController;
+use App\Http\Controllers\Dashboard\FeedbackController;
 use App\Http\Controllers\Dashboard\GenreController;
 use App\Http\Controllers\Dashboard\IndexController as DashboardController;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -45,25 +46,15 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           Route::get('/artist/search', [ArtistController::class, 'searchArtist'])->name('front.artist.search');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
-
+          Route::post('/front/feedback', [FrontController::class, 'feedback'])->name('front.feedback');
          Route::get('/event/{event_id}', [FrontEventController::class, 'index'])->name('front.event.detail');
          Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');
-
           Route::put('/user/rate', [FrontController::class, 'rateUser'])->name('front.user.rate');
-//          Route::get('/event/{id}', [FrontEventController::class, 'index'])->name('front.event.detail');
-
-
-
          Route::get('/club/{club_id}', [ClubController::class, 'clubDetail'])->name('front.club.detail');
-
-
-
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
          Route::put('/organizer/{id}/edit', [ClubController::class, 'editClub'])->name('front.club.edit');
          Route::put('/event/{id}/edit', [FrontEventController::class, 'editEvent'])->name('front.event.edit');
-
           Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
-
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
           Route::get('/home', [FrontController::class, 'home'])->name('front.home');
 
@@ -85,6 +76,7 @@ Route::group(['middleware' => ['auth', 'verified', 'genre', 'canAccessDashboard'
           Route::group(['middleware' => 'isAdmin'], function()
           {
                Route::resource('genres', GenreController::class);
+               Route::resource('feedbacks', FeedbackController::class)->only(['index', 'delete']);
                Route::resource('roles', RoleController::class);
                Route::resource('settings', SettingController::class)->only(['index', 'store']);
                Route::resource('users', UserController::class);

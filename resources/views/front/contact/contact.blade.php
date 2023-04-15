@@ -1,24 +1,20 @@
 @extends('layouts.front')
 @section('content')
-    <section class="page-header" data-bg-image="{{asset('assets/media/background/7.jpg')}}">
+    <style>
+        .w-full{
+            width: 100%;
+        }
+    </style>
+    <section class="page-header" data-bg-image="{{asset('assets/front/images/contact.jpeg')}}">
         <div class="tim-container">
             <div class="page-header-title text-center">
                 <h3>Get with us</h3>
                 <h2>Contact</h2>
             </div>
-
-            <div class="breadcrumbs">
-                <a href="#">Home</a>
-                <span>/</span>
-                <span>Contact</span>
-            </div>
-
         </div>
         <!-- /.tim-container -->
     </section>
     <!-- /#page-header -->
-
-
 
     <section class="contact-info">
         <div class="container-fluid no-pad">
@@ -30,8 +26,8 @@
                             <div class="center-wrap">
                                 <i class="fa fa-at" aria-hidden="true"></i>
                                 <h3>Email Us</h3>
-                                <p>Mail:<a href="mailto:name@email.com">info@yoursite.com</a></p>
-                                <a href="mailto:name@email.com">info@yoursite.com</a>
+                                <p>Mail: <a href="mailto:{{config('app.settings.admin_email')}}">{{config('app.settings.admin_email')}}</a></p>
+                                <span>{{config('app.name')}}</span>
                             </div>
 
                         </div>
@@ -41,8 +37,8 @@
                         <div class="office-location sin-cont-info d-flex align-items-center">
                             <div class="center-wrap">
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                <h3>office location</h3>
-                                <p>Address: WE54, New York Queens, NY 12121.</p>
+                                <h3>Our location</h3>
+                                <p>Address: {{config('app.settings.app_address')}}</p>
                             </div>
                         </div>
                     </div>
@@ -52,8 +48,8 @@
                             <div class="center-wrap">
                                 <i class="fa fa-phone" aria-hidden="true"></i>
                                 <h3>call Us</h3>
-                                <p>Phone: <a href="tel:158-659-8546">158-659-8546</a></p>
-                                <a href="tel:158-659-8546">158-659-8546</a>
+                                <p>Phone: <a href="tel:{{config('app.settings.app_phone')}}">{{config('app.settings.app_phone')}}</a></p>
+                                <span>{{config('app.name')}}</span>
                             </div>
                         </div>
                     </div>
@@ -68,7 +64,6 @@
     <!-- /.contact-info -->
 
 
-
     <!-- Contact bottom area Start -->
     <section class="contuct-bottom section-padding">
         <div class="container">
@@ -78,22 +73,25 @@
                         <h4>CONTACT US</h4>
                         <div class="per-social">
                             <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                                <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                                <li><a href="{{config('app.settings.facebook_url')}}"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="{{config('app.settings.twitter_url')}}"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="{{config('app.settings.instagram_url')}}"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
-                        <p>Dummy text of the printing and typesetting industry. Lorem Ipsum has been the </p>
-                        <div class="con-page-form">
-                            <textarea name="message" placeholder="Message"></textarea>
-                            <input type="text" placeholder="Name *" class="mar-r">
-                            <input type="text" placeholder="Email *">
-                            <input value="Submit" type="submit">
+                        <p class="mb-0">Please, Send us your feedback.</p>
+                        <div class="row w-full con-page-form">
+                            <div class="col col-md-12">
+                                <form action="{{route('front.feedback')}}" method="POST">
+                                    @csrf
+                                    <textarea name="feedback" class="mb-0 form-control form-control-solid  @error('feedback') is-invalid @enderror" placeholder="Your Message"></textarea>
+                                    @error('feedback')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <input value="Submit" type="submit">
+                                </form>
+                            </div>
                         </div>
                     </div>
 

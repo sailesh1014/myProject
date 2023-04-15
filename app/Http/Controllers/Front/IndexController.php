@@ -8,6 +8,7 @@ use App\Constants\EventStatus;
 use App\Constants\PreferenceType;
 use App\Constants\UserRole;
 use App\Models\Club;
+use App\Models\Feedback;
 use App\Services\ClubService;
 use App\Services\EventService;
 use App\Services\RoleService;
@@ -160,6 +161,12 @@ class IndexController extends Controller {
           $rating = $request->input('rating');
           $this->userService->rateUser($artist,$rating);
           return response()->json(['message' => "Artist rated successfully"]);
+     }
+
+     public function feedBack(Request $request){
+          $request->validate(['feedback' => ['required', 'string', 'max:255']]);
+          Feedback::create(['user_id' => \auth()->user()->id, 'message' => $request->input('feedback')]);
+          return redirect()->route('front.home')->with(['toast.success' => 'Feedback saved successfully']);
      }
 
 }

@@ -34,9 +34,9 @@ class ClubController extends Controller
           }
           $club = Club::where('id', $id)->first();
 
-//          $authUserEvent = Event::published()->where('club_id', $id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
           $rating = ceil($club->user->ratings->avg('value') ?? 0);
-          return view('front.club.index', compact('club', 'rating'));
+          $clubEvents = $club->events->where('events.events.date', '>', now());
+          return view('front.club.index', compact('club', 'rating', 'clubEvents'));
      }
 
      public function editClub($id, OrganizerRequest $request) : JsonResponse

@@ -145,6 +145,10 @@
                         <li class="menu-item-has-children active">
                             <a href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id))}}">Profile</a>
                         </li>
+                    @elseif(auth()->user()->isOrganizer())
+                        <li class="menu-item-has-children active">
+                            <a href="{{route('front.club.detail', \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->club->id))}}">Club Profile</a>
+                        </li>
                     @endif
                     <li class="menu-item-has-children active">
                         <a href="{{route('front.contact')}}">Contact</a>

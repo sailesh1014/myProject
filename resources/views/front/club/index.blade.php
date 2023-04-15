@@ -231,6 +231,11 @@
         </div>
         <!-- /.tim-container -->
     </section>
+
+    @if(!$clubEvents->isEmpty())
+        @include('front.home._segments.recommended_events', ['recommended_events' => $clubEvents, 'title' => "Our Upcoming Events"])
+    @endif
+
     @if(auth()->user()->id === $club->user->id)
         @include('front.club._segments._edit_profile', ['club' => $club])
     @endif

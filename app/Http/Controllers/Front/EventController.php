@@ -22,16 +22,13 @@ class EventController extends Controller
      */
     public function index($id): view
     {
-
         try
         {
             $id = Crypt::decrypt($id);
         }catch(\Exception $e){
             abort(404);
         }
-        $event = Event::where('id',$id)->first();
-
-//        $authUserEvent = Event::published()->where('club_id',$id)->where('event_date', '>', now())->orderBy('event_date', 'desc')->first() ?? null;
+        $event = Event::findOrFail($id);
 
         return view ('front.event.index',compact('event'));
     }

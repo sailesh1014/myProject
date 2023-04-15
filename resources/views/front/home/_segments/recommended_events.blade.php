@@ -6,8 +6,12 @@
 <section id="upcoming-concerts-three" class="section-padding pb-75">
     <div class="tim-container">
         <div class="section-title title-three text-center">
+            @if(isset($title))
+                <h2>{{ucwords($title)}}</h2>
+            @else
             <h2>Recommended <span>Events</span></h2>
             <p>Recommended Upcoming events based on your selected genres</p>
+            @endif
         </div>
         <!-- /.section-title -->
 

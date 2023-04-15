@@ -19,7 +19,7 @@
                             <p data-animate="fadeInUp" data-delay="0.9s">
                                 {{ucfirst($event->excerpt)}}
                             </p>
-                            <a href="#" class="tim-btn" data-animate="fadeInLeft" data-delay="0.9s">
+                            <a href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($event->id))}}" class="tim-btn" data-animate="fadeInLeft" data-delay="0.9s">
                                 Read More
                             </a>
                         </div>
@@ -36,7 +36,7 @@
     <!--=  RECOMMENDED EVENTS =-->
     <!--===========================-->
     @if(!$recommended_events->isEmpty())
-        @include('front.home._segments.recommended_events', ['events' => $recommended_events])
+        @include('front.home._segments.recommended_events', ['recommended_events' => $recommended_events])
     @endif
     <!-- /#recommended-events -->
 
