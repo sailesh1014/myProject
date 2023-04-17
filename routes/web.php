@@ -44,8 +44,10 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           Route::post('/notifications/mark', [FrontController::class, 'markNotifications'])->name('front.notification.mark');
           // Artist route
           Route::get('/artist/search', [ArtistController::class, 'searchArtist'])->name('front.artist.search');
+          Route::post('/artist/event/{id}/apply', [ArtistController::class, 'applyEvent'])->name('artist.event.apply');
           Route::get('/artist/{artist_id}', [ArtistController::class, 'artistDetail'])->name('front.artist.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
+
           Route::post('/front/feedback', [FrontController::class, 'feedback'])->name('front.feedback');
          Route::get('/event/{event_id}', [FrontEventController::class, 'index'])->name('front.event.detail');
          Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');

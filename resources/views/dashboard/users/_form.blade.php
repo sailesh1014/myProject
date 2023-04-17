@@ -284,8 +284,6 @@
                 <div data-val="{{$genre->name}}"
                      class="single-genre {{in_array($genre->name,$oldGenre) ? 'active'  : ''}}  {{!in_array($genre->name,$oldGenre) && count($oldGenre) == env('MAX_USER_GENRE_COUNT') ? 'disabled' : ''}}"
                      title="{{$genre->excerpt}}">
-                    <img src="{{Vite::asset('resources/img/front/church.png')}}" class="h-[30px] w-[30px]"
-                         alt="{{$genre->name}}">
                     <span
                         class="inline-block text-gray-800 fw-bold fs-6 lh-1 pointer-events-none overflow-hidden overflow-ellipsis w-full text-center">{{ucwords($genre->name)}}</span>
                     @if(in_array($genre->name,$oldGenre))

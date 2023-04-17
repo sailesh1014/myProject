@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 
+use App\Constants\InvitationStatus;
+use App\Constants\InvitationType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\ArtistRequest;
 use App\Models\Event;
@@ -61,6 +63,25 @@ class ArtistController extends Controller
                ->get();
 
           return view('front.artist.search',  compact('artists' ,'query'));
+     }
 
+     public function applyEvent($id, Request $request){
+        abort_if(auth()->user()->isArtist(),401);
+          $event = Event::with('invitations')->findOrFail($id);
+          $artist = auth()->user();
+          $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
+          if(in_array($artist->id, $alreadyInvitedArtistForEvent)){
+               return response()->json(['message' => 'Already Requested For Invitation'],422);
+          }
+          $data[$id] = ['status' => InvitationStatus::PENDING, 'type' => InvitationType::REQUESTED];
+          $artist->invitations()->attach($data);
+//          foreach ($users as $user) {
+//               $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
+//               $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
+//               Mail::to($user)->send(new ArtistInvitationMail($event,$user));
+//               Notification::send($user, new ArtistInvitation($event));
+//
+//          }
+          return response()->json(['message' => 'Request Successfully']);
      }
 }

@@ -35,32 +35,6 @@
             outline: none;
         }
 
-        .khalti-btn {
-            height: 35px;
-            border: 2px solid #56328c;
-            border-radius: 25px;
-            font-size: 20px;
-            color: #fff;
-            padding: 0 30px;
-            text-transform: uppercase;
-            box-sizing: border-box;
-            display: block;
-            line-height: 30px;
-            background: transparent;
-            transition: .25s;
-            cursor: pointer;
-            font-family: "Changa", sans-serif;
-        }
-
-        .khalti-btn:hover {
-            background: #56328c;
-            color: #fff;
-            border-color: #56328c;
-        }
-
-        .khalti-btn:focus {
-            outline: none;
-        }
 
         .gap-1 {
             gap: 10px;
@@ -101,7 +75,7 @@
             color: #e43a90;
             transition: all 0.3s;
         }
-        .edit-icon:hover{
+        .edit-profile:hover{
             color: #fff;
         }
         .mt-50 {
@@ -149,6 +123,9 @@
                         <h4 class="band-name"><span>Address: </span>{{ $event->club->address }}</h4>
                         <h4 class="band-name"><span>Event Date: </span>{{ \Illuminate\Support\Carbon::parse($event->event_date)->format('d M, Y') }}</h4>
                         <h4 class="band-name"><span>Event Time: </span>{{ \Illuminate\Support\Carbon::parse($event->event_date)->format('H A') }}</h4>
+                        <button type="button" class="hire-btn">
+                            Apply
+                        </button>
                     </div>
                     <!-- /.artist-details -->
                 </div>
@@ -162,3 +139,46 @@
         @include('front.event._segments._edit_profile', ['event' => $event])
 {{--    @endif--}}
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', 'button.hire-btn', function () {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are going to apply for {{ucwords($event->title)}} event",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e43a90',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Apply!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let btnText = $(".hire-btn").text();
+                        const that = $(".hire-btn");
+                        $.ajax({
+                            "url": "{{route('artist.event.apply', $event->id)}}",
+                            "dataType": "json",
+                            "type": "POST",
+                            "headers": {"X-CSRF-TOKEN": "{{csrf_token()}}"},
+                            beforeSend: function () {
+                                that.text("Loading...");
+                                that.attr('disabled', true);
+                            },
+                            success: function (resp) {
+                                toastSuccess(resp.message);
+                                that.text("Applied");
+                            },
+                            error: function (xhr) {
+                                that.text(btnText.trim());
+                                that.attr('disabled', false);
+                                const message = xhr.responseJSON?.message !== "" ? xhr.responseJSON?.message : "Something went wrong!!!";
+                                toastError(message);
+                            }
+                        })
+                    }
+                })
+
+            });
+        });
+    </script>
+@endpush
