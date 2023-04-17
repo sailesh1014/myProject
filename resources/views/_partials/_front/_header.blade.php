@@ -65,28 +65,63 @@
                     </a>
                     <ul class="custom-content cart-overview notification-container">
                         @forelse($NOTIFICATIONS as $notification)
-                            <?php
-                                 $data = $notification->data;
-                                 $thumbnail = $data['event_thumbnail'] != "" ? asset('storage/uploads/'.$data['event_thumbnail']) : asset('assets/front/images/event_placeholder.jpeg');
-                                 ?>
+                             @if($notification->type == "App\Notifications\InvitationAction")
+                                        <?php
+                                        $data = $notification->data;
+                                        ?>
 
+                                <li class="cart-item clearfix single-notification-div">
+                                    <div class="product-details">
+                                        <span class="product-quantity text-pink">{{$data['message']}}</span>
+                                        <a href="#" data-id="{{$notification->id}}" class="product-remove tim-cross-out mark-as-read"></a>
+                                    </div>
+                                </li>
+                             @elseif($notification->type == "App\Notifications\InvitationRequest")
+                                   <?php
+                                   $data = $notification->data;
+                                   $thumbnail = $data['artist_thumbnail'] != "" ? asset('storage/uploads/'.$data['artist_thumbnail']) : asset('assets/front/images/artist_placeholder.jpeg');
+                                   ?>
                             <li class="cart-item clearfix single-notification-div">
-                                <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-thumbnail">
+                                <a target="_blank" href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['artist_id']))}}" class="product-thumbnail">
                                     <img src="{{$thumbnail}}" alt="">
                                 </a>
                                 <div class="product-details">
-                                    <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-title">{{$data['message']}}</a>
-                                    <span class="product-quantity">{{ucwords($data['event_title'])}} ({{\App\Helpers\AppHelper::formatDate($data['event_date'])}})</span>
+                                    <a target="_blank" href="{{route('front.artist.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['artist_id']))}}" class="product-title">{{$data['message']}}</a>
+                                    <div class="flex">
+                                        <span class="product-quantity">{{ucwords($data['event_title'])}} </span>
+                                        <a href="javascript:void(0)" data-url="{{$data['accept_url']}}" data-notification-id="{{$notification->id}}" class="btn btn-sm invitation-action-btn text-primary">Accept</a>
+                                        <a href="javascript:void(0)" data-url="{{$data['reject_url']}}" data-notification-id="{{$notification->id}}" class="btn btn-sm invitation-action-btn text-danger">Reject</a>
+                                    </div>
                                     <a href="#" data-id="{{$notification->id}}" class="product-remove tim-cross-out mark-as-read"></a>
                                 </div>
                             </li>
-                            @if($loop->last)
-                            <li class="cart-actions">
-                                <a href="javascript:void(0)" id="mark-all" class="checkout button pill small">
-                                    <span class="icon-check"></span>
-                                    Mark All As Read
-                                </a>
-                            </li>
+                            @else
+                                <?php
+                                $data = $notification->data;
+                                $thumbnail = $data['event_thumbnail'] != "" ? asset('storage/uploads/'.$data['event_thumbnail']) : asset('assets/front/images/event_placeholder.jpeg');
+                                ?>
+                                <li class="cart-item clearfix single-notification-div">
+                                    <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-thumbnail">
+                                        <img src="{{$thumbnail}}" alt="">
+                                    </a>
+                                    <div class="product-details">
+                                        <a target="_blank" href="{{route('front.event.detail', \Illuminate\Support\Facades\Crypt::encrypt($data['event_id']))}}" class="product-title">{{$data['message']}}</a>
+                                        <span class="product-quantity">{{ucwords($data['event_title'])}} ({{\App\Helpers\AppHelper::formatDate($data['event_date'])}})</span>
+                                         <div class="flex">
+                                             <a href="javascript:void(0)" data-url="{{$data['accept_url']}}" data-notification-id="{{$notification->id}}" class="btn btn-sm invitation-action-btn text-primary">Accept</a>
+                                             <a href="javascript:void(0)" data-url="{{$data['reject_url']}}" data-notification-id="{{$notification->id}}" class="btn btn-sm invitation-action-btn text-danger">Reject</a>
+                                         </div>
+                                        <a href="#" data-id="{{$notification->id}}" class="product-remove tim-cross-out mark-as-read"></a>
+                                    </div>
+                                </li>
+                                @if($loop->last)
+                                    <li class="cart-actions">
+                                        <a href="javascript:void(0)" id="mark-all" class="checkout button pill small">
+                                            <span class="icon-check"></span>
+                                            Mark All As Read
+                                        </a>
+                                    </li>
+                                @endif
                             @endif
                         @empty
                             <li class="cart-item clearfix">
@@ -276,6 +311,16 @@
                     $('.notification-container').html(emptyNotificationHtml)
                 });
             });
+
+            $('.invitation-action-btn').on('click', function (){
+                let that = $(this);
+                $.ajax({
+                    'url':$(this).attr('data-url'),
+                    success: function (){
+                        that.closest('.single-notification-div').find('.mark-as-read').trigger('click');
+                    }
+                })
+            })
         });
     </script>
 @endpush

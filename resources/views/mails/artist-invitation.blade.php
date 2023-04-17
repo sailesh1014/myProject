@@ -18,8 +18,8 @@
 <p style="margin-bottom: 20px;">We hope you can join us for this exciting event.</p>
 
 <div style="text-align: center; padding: 20px;">
-    <a href="{{ $user->acceptUrl }}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 20px;">Accept</a>
-    <a href="{{ $user->rejectUrl }}" style="background-color: #f44336; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reject</a>
+    <a href="{{ $event->accept_url }}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 20px;">Accept</a>
+    <a href="{{ $event->reject_url }}" style="background-color: #f44336; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reject</a>
 </div>
 
     <p style="font-weight: 700; padding: 10px;">Please note that the link will expire in 3 days.</p>

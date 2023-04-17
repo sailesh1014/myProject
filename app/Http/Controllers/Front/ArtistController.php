@@ -10,12 +10,15 @@ use App\Http\Requests\Front\ArtistRequest;
 use App\Models\Event;
 use App\Models\Payment;
 use App\Models\User;
+use App\Notifications\InvitationRequest;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 
 class ArtistController extends Controller
 {
@@ -66,22 +69,21 @@ class ArtistController extends Controller
      }
 
      public function applyEvent($id, Request $request){
-        abort_if(auth()->user()->isArtist(),401);
-          $event = Event::with('invitations')->findOrFail($id);
+        abort_if(!auth()->user()->isArtist(),401);
+          $event = Event::findOrFail($id);
           $artist = auth()->user();
-          $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();
-          if(in_array($artist->id, $alreadyInvitedArtistForEvent)){
-               return response()->json(['message' => 'Already Requested For Invitation'],422);
+          $isAlreadyInvited =  auth()->user()->invitations->where('id', $event->id)->first();
+          if($isAlreadyInvited){
+               $data = \Illuminate\Support\Facades\DB::table('invitation_user')->where('user_id', auth()->user()->id)
+                    ->where('event_id', $event->id)->first();
+               return response()->json(['message' => "Already Applied. Status $data->stauts"],422);
           }
           $data[$id] = ['status' => InvitationStatus::PENDING, 'type' => InvitationType::REQUESTED];
           $artist->invitations()->attach($data);
-//          foreach ($users as $user) {
-//               $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
-//               $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
-//               Mail::to($user)->send(new ArtistInvitationMail($event,$user));
-//               Notification::send($user, new ArtistInvitation($event));
-//
-//          }
+          $event->accept_url =  URL::signedRoute('invitation.artist.action', ['event_id' => $event->id, 'user_id' =>$id, 'action' => 'accepted']);
+          $event->reject_url = URL::signedRoute('invitation.artist.action',['event_id' => $event->id, 'user_id' => $id, 'action' => 'rejected']);
+          Notification::send($event->club->user, new InvitationRequest($artist,$event));
+
           return response()->json(['message' => 'Request Successfully']);
      }
 }

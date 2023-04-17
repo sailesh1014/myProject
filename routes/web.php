@@ -49,17 +49,15 @@ Route::group(['middleware' => ['auth', 'verified']], function()
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
 
           Route::post('/front/feedback', [FrontController::class, 'feedback'])->name('front.feedback');
-         Route::get('/event/{event_id}', [FrontEventController::class, 'index'])->name('front.event.detail');
-         Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');
+          Route::get('/event/{event_id}', [FrontEventController::class, 'index'])->name('front.event.detail');
+          Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');
           Route::put('/user/rate', [FrontController::class, 'rateUser'])->name('front.user.rate');
          Route::get('/club/{club_id}', [ClubController::class, 'clubDetail'])->name('front.club.detail');
           Route::put('/artist/{id}/edit', [ArtistController::class, 'editArtist'])->name('front.artist.edit');
          Route::put('/organizer/{id}/edit', [ClubController::class, 'editClub'])->name('front.club.edit');
-         Route::put('/event/{id}/edit', [FrontEventController::class, 'editEvent'])->name('front.event.edit');
           Route::post('/checkout', [PaymentController::class, 'checkout'])->name('front.checkout.verify');
           Route::get('/invitations/{event_id}/{user_id}/{action}', [InvitationController::class, 'invitationAction'])->name('invitation.artist.action')->middleware('signed');
           Route::get('/home', [FrontController::class, 'home'])->name('front.home');
-
      });
 
 });

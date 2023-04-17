@@ -28,6 +28,8 @@ class ArtistInvitation extends Notification
              'message'   => "New invitation from ".ucwords($this->event->club->name),
              'event_title' => $this->event->title,
              'event_date' => $this->event->event_date,
+             'accept_url'       => $this->event->accept_url,
+             'reject_url'       => $this->event->reject_url
         ];
     }
 }

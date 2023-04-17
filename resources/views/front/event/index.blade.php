@@ -123,9 +123,17 @@
                         <h4 class="band-name"><span>Address: </span>{{ $event->club->address }}</h4>
                         <h4 class="band-name"><span>Event Date: </span>{{ \Illuminate\Support\Carbon::parse($event->event_date)->format('d M, Y') }}</h4>
                         <h4 class="band-name"><span>Event Time: </span>{{ \Illuminate\Support\Carbon::parse($event->event_date)->format('H A') }}</h4>
-                        <button type="button" class="hire-btn">
-                            Apply
+                        @if($event->event_date > now() && auth()->user()->isArtist())
+                            <?php
+                                $isAlreadyApplied =  auth()->user()->invitations->where('id', $event->id)->first();
+                                $data = $isAlreadyApplied ? \Illuminate\Support\Facades\DB::table('invitation_user')->where('user_id', auth()->user()->id)
+                                     ->where('event_id', $event->id)->first() : null;
+                                   $status = $data ? "Request ". ucwords($data->status) : "Apply";
+                            ?>
+                        <button type="button" class="hire-btn" {{$isAlreadyApplied ? 'disabled' : ''}}>
+                            {{$status}}
                         </button>
+                        @endif
                     </div>
                     <!-- /.artist-details -->
                 </div>
@@ -166,7 +174,7 @@
                             },
                             success: function (resp) {
                                 toastSuccess(resp.message);
-                                that.text("Applied");
+                                that.text("Request Pending");
                             },
                             error: function (xhr) {
                                 that.text(btnText.trim());

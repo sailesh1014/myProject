@@ -132,11 +132,10 @@ class EventController extends Controller {
         // TODO:: Queue mail.
          $users = User::whereIn('id', $toInviteArtist)->get();
          foreach ($users as $user) {
-              $user->acceptUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
-              $user->rejectUrl = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
+              $event->accept_url = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'accepted']);
+              $event->reject_url = URL::temporarySignedRoute('invitation.artist.action', now()->addDays(3), ['event_id' => $event->id, 'user_id' => $user->id, 'action' => 'rejected']);
               Mail::to($user)->send(new ArtistInvitationMail($event,$user));
               Notification::send($user, new ArtistInvitation($event));
-
          }
         return response()->json(['message' => 'Invitation sent successfully']);
     }
