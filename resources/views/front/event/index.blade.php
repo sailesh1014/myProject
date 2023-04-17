@@ -143,9 +143,6 @@
         </div>
         <!-- /.tim-container -->
     </section>
-{{--    @if(auth()->user()->id !== $event->id)--}}
-        @include('front.event._segments._edit_profile', ['event' => $event])
-{{--    @endif--}}
 @endsection
 @push('scripts')
     <script>
