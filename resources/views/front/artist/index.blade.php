@@ -374,7 +374,8 @@
                 });
             </script>
         @elseif($isAlreadyInvited->status === \App\Constants\InvitationStatus::ACCEPTED && !isset($hasMadePayment))
-            @include('front.artist._segments._khalti_scripts', ['button_id' => 'payment-btn', 'artist_id' => $artist->id, 'event_id' => $authUserEvent->id])
+            @include('front.artist._segments._khalti_scripts', ['button_id' => 'payment-btn', 'artist_id' => $artist->id, 'event_id' => $authUserEvent->id,
+                         'total' => $artist->charge_amount ?? "100"])
         @endif
     @endif
     <script>

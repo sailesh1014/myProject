@@ -1,12 +1,13 @@
 <?php
 $khaltiPubKey = config('services.khalti.public_key');
-$cost  = env("TEMP_COST");
+$cost  = $total;
 ?>
 <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 <script>
     let khaltiPubKey = @json($khaltiPubKey);
     let buttonId = "{{$button_id}}"
     let btn = document.getElementById(buttonId);
+    let total = "{{$cost}}"
     let config = {
         "publicKey": khaltiPubKey,
         "productIdentity": "{{config('app.name')}}",
@@ -56,7 +57,7 @@ $cost  = env("TEMP_COST");
     let checkout = new KhaltiCheckout(config);
     if (btn) {
         btn.onclick = function () {
-            checkout.show({amount: 10 * 100});
+            checkout.show({amount: total * 100});
         }
     }
 </script>
