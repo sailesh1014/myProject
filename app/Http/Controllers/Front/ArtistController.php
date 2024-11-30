@@ -80,8 +80,8 @@ class ArtistController extends Controller
           }
           $data[$id] = ['status' => InvitationStatus::PENDING, 'type' => InvitationType::REQUESTED];
           $artist->invitations()->attach($data);
-          $event->accept_url =  URL::signedRoute('invitation.artist.action', ['event_id' => $event->id, 'user_id' =>$id, 'action' => 'accepted']);
-          $event->reject_url = URL::signedRoute('invitation.artist.action',['event_id' => $event->id, 'user_id' => $id, 'action' => 'rejected']);
+          $event->accept_url =  URL::signedRoute('invitation.artist.action', ['event_id' => $event->id, 'user_id' =>$artist->id, 'action' => 'accepted']);
+          $event->reject_url = URL::signedRoute('invitation.artist.action',['event_id' => $event->id, 'user_id' => $artist->id, 'action' => 'rejected']);
           Notification::send($event->club->user, new InvitationRequest($artist,$event));
 
           return response()->json(['message' => 'Request Successfully']);

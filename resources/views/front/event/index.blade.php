@@ -92,7 +92,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-full-width">
                     <div class="club-image"><?php
-                                            $thumbnail = $event->thumbnail ? asset('storage/uploads/events/'.$event->thumbnail) : asset('assets/front/images/artist_placeholder.jpeg')
+                                            $thumbnail = $event->thumbnail ? asset('storage/uploads/'.$event->thumbnail) : asset('assets/front/images/artist_placeholder.jpeg')
                                             ?>
                         <img class="club-thumbnail" src="{{$thumbnail}}" alt="club">
                     </div>
@@ -108,7 +108,7 @@
                         <div class="details">
                             <h3>About Event</h3>
                             <p>
-                                {{$event->description}}
+                                {!!$event->description !!}
                                 @if(auth()->user()->isOrganizer() && $event->club->user->id === auth()->user()->id)
                                     <a target="_blank" href="{{route('events.edit', $event->id)}}" class="edit-profile">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-2 h-2">

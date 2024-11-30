@@ -37,6 +37,7 @@ class IndexController extends Controller {
 
     public function index(): RedirectResponse|View
     {
+
         if(Auth::check()){
             return  redirect(get_user_home_page());
         }
@@ -50,16 +51,6 @@ class IndexController extends Controller {
     public function home(): View
     {
 
-//        $eventIdArr = $this->eventService->getEventByKey(EventStatus::PUBLISHED)
-//            ->pluck('id');
-//        $events = Event::whereIn('id', $eventIdArr)
-//            ->where('event_date', '>', \Carbon\Carbon::now()->toDateString())
-//            ->take(3)
-//            ->get();
-//
-//        $clubId = Club::pluck('id')
-//            ->take(3);
-//        $clubs = $clubId->toArray();
 
 
          $currentUserId = auth()->id();

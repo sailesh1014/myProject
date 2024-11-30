@@ -118,6 +118,7 @@ class EventController extends Controller {
         $request->validate([
             'artist' => ['required', 'array', 'min:1'],
         ], ['artist.required' => 'At least one artist should be selected.']);
+        
         $event->load('invitations');
         $artists = $request->input('artist');
         $alreadyInvitedArtistForEvent = $event->invitations->pluck('id')->toArray();

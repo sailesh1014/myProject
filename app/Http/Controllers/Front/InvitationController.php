@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\User;
 use App\Notifications\InvitationAction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class InvitationController extends Controller
 {
      public function invitationAction($event_id, $user_id, $action, Request $request) : Response|RedirectResponse
      {
+     
           $event = Event::findOrFail($event_id);
           $event->invitations()->updateExistingPivot($user_id, ['status' => $action]);
 
@@ -22,8 +24,10 @@ class InvitationController extends Controller
                $message = "Invitation $action by ". auth()->user()->user_name. " for event ". ucwords($event->title);
           }else{
                $message = "Invitation $action for ". ucwords($event->title). " organized by ". ucwords($event->club->name);
-               $notificationUser = $user_id;
+               $notificationUser = User::findorFail($user_id);
+          
           }
+     
           Notification::send($notificationUser, new InvitationAction($message));
           if($request->ajax()){
                return response()->noContent();
